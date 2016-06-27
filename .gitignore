@@ -1,0 +1,12 @@
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Distributable file
+rtilogparser
+
+# Debug
+unmatched.txt
+
+# Coverage
+.coverage
