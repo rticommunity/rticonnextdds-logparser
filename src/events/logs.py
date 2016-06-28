@@ -125,12 +125,15 @@ def get_regex_list():
                   r"local 0x(\w+) in (reliable|best effort) writer service"])
 
     # Bad usage of the API
-    regex.append([events.on_register_unkeyed_sample,
+    regex.append([events.on_register_unkeyed_instance,
                   r"DDS_DataWriter_register_instance_untypedI:" +
                   r"registering unkeyed instance"])
     regex.append([events.on_get_unkeyed_key,
                   r"DDS_Data(Writer|Reader)_get_key_value_untypedI:" +
                   r"get key for unkeyed type"])
+    regex.append([events.on_unregister_unkeyed_instance,
+                  r"DDS_DataWriter_unregister_instance_untyped_generalI:" +
+                  r"unregistering unkeyed instance"])
 
     # General information
     regex.append([events.on_library_version,

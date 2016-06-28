@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 from __future__ import absolute_import
-from logger import log_cfg, log_process, log_event, log_error
+from logger import log_cfg, log_process, log_event, log_error, log_warning
 from utils import parse_guid, hex2ip, get_locator, get_oid, get_participant
 from utils import obfuscate
 from utils import set_local_address
@@ -177,13 +177,17 @@ def on_match_entity(entity2, kind):
 # -- Bad usage of the API                                                  -- #
 # --------------------------------------------------------------------------- #
 # pylint: disable=W0613
-def on_register_unkeyed_sample(match, state):
-    log_error("[LP-4] Try to register sample type with no key field.", state)
+def on_register_unkeyed_instance(match, state):
+    log_warning("[LP-4] Try to register instance with no key field.", state)
 
 
 # pylint: disable=W0613
 def on_get_unkeyed_key(match, state):
     log_error("[LP-5] Try to get key from unkeyed type.", state)
+
+
+def on_unregister_unkeyed_instance(match, state):
+    log_warning("[LP-6] Try to unregister instance with no key field.", state)
 
 
 # --------------------------------------------------------------------------- #

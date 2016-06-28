@@ -4,7 +4,7 @@ This document contains a detailed description of the messages from the Log Parse
 ## Warnings
 
 ### LP-1: Large Sequence Number difference in GAP
-This warning denotes a potential known bug (RTI Issue ID `CORE-7411`). It was fixed for RTI Connext versions 5.1.0.53 and 5.2.3. The warnings shows when the DataReader receives a GAP messages with a sequence number difference bigger than 2^31.
+This warning denotes a potential known bug (RTI Issue ID `CORE-7411`). It was fixed for RTI Connext DDS 5.2.3. The warnings shows when the DataReader receives a GAP messages with a sequence number difference bigger than 2^31.
 
 *Release's Notes Information:*
 
@@ -16,6 +16,12 @@ DataWriter Running for Long Time**
 >This issue only occurred if the DataReader received a sample with a RTPS Sequence Number (SN) that was at least 2^31 times larger than the RTPS SN of the last received sample. In other words, the DataWriter must have generated a GAP message containing 2^31 or more samples.
 >
 >The computation of the distance between two sequence numbers could have overflowed and returned an invalid value that led to invalid memory access.This problem has been resolved so the overflow is handled properly and communication is not affected.
+
+### LP-4: Try to register instance with no key field
+The warning happens when the user tries to register an instance with an unkeyed type. Triggered by functions: `register_instance`, `register_instance_w_timestamp` and `register_instance_w_params`.
+
+### LP-6: Try to unregister instance with no key field
+The warning happens when the user tries to unregister an instance with an unkeyed type. Triggered by functions: `unregister_instance`, `unregister_instance_w_timestamp` and `unregister_instance_w_params`.
 
 
 ## Errors
@@ -29,10 +35,7 @@ The error happens when the user tries to create a second topic with a name alrea
 >The application is not allowed to create two DDSTopic objects with the same `topic_name` attached to the same DDSDomainParticipant. If the application attempts this, this method will fail and return a NULL topic. 
 
 ### LP-3: Cannot write unregistered instance
-The error happens when the user tries to write a sample with an instance handle that is no longer registered in the DataWriter. This may happen trying to write a sample after it has been unregistered or by using an invalid instance handle.
-
-### LP-4: Try to register sample with no key field
-The error happens when the user tries to register a sample with an unkeyed type.
+The error happens when the user tries to write a sample with an instance handle that is no longer registered in the DataWriter. This may happen trying to write a sample after it has been unregistered or by using an invalid instance handle. Triggered by functions: `write`, `write_w_timestamp` and `write_w_params`.
 
 ### LP-5: Try to get key from unkeyed type
-The error happens when the user tries to get the key from a sample with an unkeyed type.
+The error happens when the user tries to get the key from a sample with an unkeyed type. Triggered by functions: `get_key_value`.
