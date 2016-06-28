@@ -197,6 +197,21 @@ def on_fail_serialize(match, state):
     log_error("[LP-8] Cannot serialize sample", state)
 
 
+def on_drop_unregister_no_ack_instance(match, state):
+    log_warning("[LP-9] Cannot drop unregistered instance, missing ACKs",
+                state, 1)
+
+
+def on_writer_exceed_max_entries(match, state):
+    log_warning("[LP-10] DataWriter exceeded resource limits",
+                state)
+
+
+def on_reader_exceed_max_entries(match, state):
+    log_warning("[LP-11] DataReader exceeded resource limits",
+                state)
+
+
 # --------------------------------------------------------------------------- #
 # -- Read entity                                                           -- #
 # --------------------------------------------------------------------------- #

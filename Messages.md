@@ -23,6 +23,15 @@ The warning happens when the user tries to register an instance with an unkeyed 
 ### LP-6: Try to unregister instance with no key field
 The warning happens when the user tries to unregister an instance with an unkeyed type. Triggered by functions: `unregister_instance`, `unregister_instance_w_timestamp` and `unregister_instance_w_params`.
 
+### LP-9: Cannot drop unregistered instance, missing ACKs
+The DataWriter cannot drop an unregistered instance because the entity is still waiting for some DataReader to confirm the reception. This usually means that the DataWriter queues are full and it cannot release space for new samples because the DataReaders haven't confirmed yet the previous samples.
+
+### LP-10: DataWriter exceeded resource limits
+The DataWriter reached its maximum number of entries. The sample cannot be added and the write operation will fail.
+
+### LP-11: DataReader exceeded resource limits
+The DataReader reached its maximum number of entries. The received sample cannot be added to the entity queue and it will be rejected.
+
 
 ## Errors
 

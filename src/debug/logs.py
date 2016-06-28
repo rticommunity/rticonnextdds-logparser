@@ -104,6 +104,18 @@ def get_regex_list():
                   r"PRESWriterHistoryDriver_addWrite:!add_sample"])
     regex.append([debug.on_ignored_message,
                   r"PRESPsWriter_writeInternal:!collator addWrite"])
+    regex.append([debug.on_ignored_message,
+                  r"WriterHistoryMemoryPlugin_addSampleToWH:!add keyed entry"])
+    regex.append([debug.on_ignored_message,
+                  r"WriterHistoryMemoryPlugin_addSample:writer history full"])
+    regex.append([debug.on_ignored_message,
+                  r"PRESWriterHistoryDriver_addWrite:!instance history full"])
+    regex.append([debug.on_ignored_message,
+                  r"PRESCstReaderCollator_addCollatorEntryToPolled:" +
+                  r"!add keyed entry"])
+    regex.append([debug.on_ignored_message,
+                  r"PRESCstReaderCollator_commitRemoteWriterQueue:" +
+                  r"!add to polled"])
 
     regex.append([debug.on_ignored_message, r"^send failed: $"])
     regex.append([debug.on_ignored_message, r"^\s*locator:\s*$"])

@@ -94,6 +94,13 @@ def get_regex_list():
                   r"WriterHistoryMemoryPlugin_addSample:instance not found"])
     regex.append([network.on_fail_serialize,
                   r"PRESWriterHistoryDriver_initializeSample:!serialize"])
+    regex.append([network.on_drop_unregister_no_ack_instance,
+                  r"WriterHistoryMemoryPlugin_dropFullyAcked" +
+                  r"UnregisteredInstance:unregistered instances " +
+                  r"not fully acked"])
+    regex.append([network.on_writer_exceed_max_entries,
+                  r"WriterHistoryMemoryPlugin_addEntryToInstance:" +
+                  r"exceeded max entries"])
 
     # Messages from read entity.
     regex.append([network.on_receive_data,
@@ -128,5 +135,8 @@ def get_regex_list():
                   r"COMMENDSrReaderService_sendAckNacks:\[\d+,\d+\] reader " +
                   r"oid 0x(\w+) sent NACK of bitmap lead\(([\d,]+)\), " +
                   r"bitcount\((\d+)\), epoch\((\d+)\) to writer 0x([\w\.]+)"])
+    regex.append([network.on_reader_exceed_max_entries,
+                  r"PRESCstReaderCollator_addEntryToInstance:" +
+                  r"exceeded max entriesPerInstance"])
 
     return regex
