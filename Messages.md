@@ -39,3 +39,9 @@ The error happens when the user tries to write a sample with an instance handle 
 
 ### LP-5: Try to get key from unkeyed type
 The error happens when the user tries to get the key from a sample with an unkeyed type. Triggered by functions: `get_key_value`.
+
+### LP-7: Cannot delete topic before its ContentFilteredTopics
+The error happens when the user tries to delete a topic but this topic has ContentFilteredTopic still. Triggered by `delete_topic`. To fix the issue delete first the ContentFilteredTopics with `delete_contentfilteredtopic`.
+
+### LP-8: Cannot serialize sample
+Error returned from the serialize function of the type plugin. This usually means that the sample data does not fit in the defined type. For instance, it may happen trying to send sequences larger than specified. More information: https://community.rti.com/kb/are-unbounded-sequences-really-unbounded

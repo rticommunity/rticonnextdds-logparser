@@ -106,6 +106,12 @@ def on_duplicate_topic_name_error(match, state):
               state)
 
 
+def on_delete_topic_before_cft(match, state):
+    num_cft = match[0]
+    log_error("[LP-7] Cannot delete topic before its %s ContentFilteredTopics"
+              % num_cft, state)
+
+
 # --------------------------------------------------------------------------- #
 # -- Discover remote or local entities                                     -- #
 # --------------------------------------------------------------------------- #

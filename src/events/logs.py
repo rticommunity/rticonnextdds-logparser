@@ -72,6 +72,9 @@ def get_regex_list():
     regex.append([events.on_duplicate_topic_name_error,
                   r"PRESParticipant_createTopic:name '([\w:/]+)' " +
                   r"is not unique"])
+    regex.append([events.on_delete_topic_before_cft,
+                  r"PRESParticipant_destroyOneTopicWithCursor:" +
+                  r"has (\d+) endpoints on topic"])
 
     # Discover remote or local entities
     regex.append([events.on_discover_participant,

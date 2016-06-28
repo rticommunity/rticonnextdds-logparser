@@ -28,6 +28,8 @@ def get_regex_list():
 
     # Blacklist - Messages that we want to ignore.
     regex.append([debug.on_ignored_message,
+                  r"^\s*$"])
+    regex.append([debug.on_ignored_message,
                   r"RTIEventJobDispatcher_scheduleJob:agent:\w+ job:\w+ " +
                   r"scheduled at priority \d+"])
     regex.append([debug.on_ignored_message,
@@ -79,10 +81,29 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"DISCPluginManager_onAfterLocalEndpointEnabled:at " +
                   r"\{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DDS_Topic_createI:!create presentation topic"])
+    regex.append([debug.on_ignored_message,
+                  r"DDS_DomainParticipant_create_topic_disabledI:" +
+                  r"!create topic"])
+    regex.append([debug.on_ignored_message,
+                  r"DDSTopic_impl::createI:!create topic"])
 
     regex.append([debug.on_ignored_message,
                   r"PRESPsService_onWriterResendEvent:writer resend event: " +
                   r"\(([\w,]+)\)"])
+    regex.append([debug.on_ignored_message,
+                  r"WriterHistoryMemoryPlugin_addEntryToSessions:" +
+                  r"!initialize sample"])
+    regex.append([debug.on_ignored_message,
+                  r"WriterHistoryMemoryPlugin_getEntry:" +
+                  r"!add virtual sample to sessions"])
+    regex.append([debug.on_ignored_message,
+                  r"WriterHistoryMemoryPlugin_addSample:!get entry"])
+    regex.append([debug.on_ignored_message,
+                  r"PRESWriterHistoryDriver_addWrite:!add_sample"])
+    regex.append([debug.on_ignored_message,
+                  r"PRESPsWriter_writeInternal:!collator addWrite"])
 
     regex.append([debug.on_ignored_message, r"^send failed: $"])
     regex.append([debug.on_ignored_message, r"^\s*locator:\s*$"])

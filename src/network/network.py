@@ -193,6 +193,10 @@ def on_instance_not_found(match, state):
     log_error("[LP-3] Cannot write unregistered instance.", state)
 
 
+def on_fail_serialize(match, state):
+    log_error("[LP-8] Cannot serialize sample", state)
+
+
 # --------------------------------------------------------------------------- #
 # -- Read entity                                                           -- #
 # --------------------------------------------------------------------------- #

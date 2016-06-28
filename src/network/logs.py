@@ -92,6 +92,8 @@ def get_regex_list():
                   r" epoch\((\d+)\), isPureNack\((\d+)\)"])
     regex.append([network.on_instance_not_found,
                   r"WriterHistoryMemoryPlugin_addSample:instance not found"])
+    regex.append([network.on_fail_serialize,
+                  r"PRESWriterHistoryDriver_initializeSample:!serialize"])
 
     # Messages from read entity.
     regex.append([network.on_receive_data,
