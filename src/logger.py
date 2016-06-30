@@ -39,33 +39,35 @@ COLORS = {'HEADER': '\033[95m', 'BLUE': '\033[94m', 'OK': '\033[92m',
 
 def log(msg, level, state, color=None):
     """Log the given message."""
-    if state['verbosity'] >= level:
-        # Add the clock if so
-        if not state['no_timestamp']:
-            if 'clocks' in state:
-                clock = " %s " % state['clocks'][1].isoformat()
-            else:
-                clock = "".ljust(28)
-            msg = clock + "|" + msg
+    if state['verbosity'] < level:
+        return
 
-        # Add the current line if so
-        if state['show_lines']:
-            msg = " %05d/%04d |%s" % (
-                state['log_line'], state['current_line'], msg)
+    # Add the clock if so
+    if not state['no_timestamp']:
+        if 'clocks' in state:
+            clock = " %s " % state['clocks'][1].isoformat()
+        else:
+            clock = "".ljust(28)
+        msg = clock + "|" + msg
 
-        if 'onlyIf' in state and not state['onlyIf'].search(msg):
-            return
+    # Add the current line if so
+    if state['show_lines']:
+        msg = " %05d/%04d |%s" % (
+            state['log_line'], state['current_line'], msg)
 
-        # Highlight the message if so
-        if 'highlight' in state and state['highlight'].search(msg):
-            color = (color or "") + COLORS['BOLD']
+    if 'onlyIf' in state and not state['onlyIf'].search(msg):
+        return
 
-        # Apply color if specified
-        if color and not state['no_colors']:
-            msg = color + msg + COLORS['ENDC']
+    # Highlight the message if so
+    if 'highlight' in state and state['highlight'].search(msg):
+        color = (color or "") + COLORS['BOLD']
 
-        # Write the message
-        print(msg)
+    # Apply color if specified
+    if color and not state['no_colors']:
+        msg = color + msg + COLORS['ENDC']
+
+    # Write the message
+    print(msg)
 
 
 def log_recv(addr, entity, text, state, level=0):
@@ -105,6 +107,9 @@ def log_event(text, state, level=0):
 
 def log_warning(text, state, level=0):
     """Log a warning message."""
+    if state['verbosity'] < level:
+        return
+
     state['warnings'].add(text)
     if state['inline']:
         text = "%s|%s|%s| *Warning: %s*" % (
@@ -114,6 +119,9 @@ def log_warning(text, state, level=0):
 
 def log_error(text, state, level=0):
     """Log an error."""
+    if state['verbosity'] < level:
+        return
+
     state['errors'].add(text)
     if state['inline']:
         text = "%s|%s|%s| **Error: %s**" % (
