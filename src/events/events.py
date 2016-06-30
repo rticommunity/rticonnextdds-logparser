@@ -64,7 +64,7 @@ def on_delete_participant(match, state):
 def on_create_topic(match, state):
     topic = obfuscate(match[0], state) if state['obfuscate'] else match[0]
     typ = obfuscate(match[1], state) if state['obfuscate'] else match[1]
-    log_event("Created topic, name: %s type: %s" %
+    log_event("Created topic, name: '%s', type: '%s'" %
               (topic, typ), state)
 
 

@@ -48,29 +48,29 @@ def get_regex_list():
                   r"participant: domain=(\d+), index=(\d+)"])
     regex.append([events.on_create_topic,
                   r"DDS_DomainParticipant_create_topic_disabledI:" +
-                  r"(?:RTI0x\w+:)?created topic: topic=([\w/]+), " +
-                  r"type=([\w/]+)"])
+                  r"(?:RTI0x\w+:)?created topic: topic=(.+), " +
+                  r"type=(.+)"])
     regex.append([events.on_create_cft,
                   r"DDS_DomainParticipant_create_contentfilteredtopic_" +
-                  r"with_filter:(?:RTI0x\w+:)?created topic: topic=([\w:/]+)" +
+                  r"with_filter:(?:RTI0x\w+:)?created topic: topic=(.+)" +
                   r", type="])
     regex.append([events.on_delete_topic,
                   r"DDS_DomainParticipant_delete_topic:deleted topic: " +
-                  r"topic=([\w/]+), type=([\w:/]+)"])
+                  r"topic=(.+), type=(.+)"])
     regex.append([events.on_create_writer,
                   r"DDS_Publisher_create_datawriter_disabledI:(?:RTI0x\w+:)?" +
-                  r"created writer: topic=([\w:/]+)"])
+                  r"created writer: topic=(.+)"])
     regex.append([events.on_create_reader,
                   r"DDS_Subscriber_create_datareader_disabledI:" +
-                  r"(?:RTI0x\w+:)?created reader: topic=([\w:/]+)"])
+                  r"(?:RTI0x\w+:)?created reader: topic=(.+)"])
     regex.append([events.on_delete_writer,
                   r"DDS_Publisher_delete_datawriter:(?:RTI0x\w+:)?" +
-                  r"deleted writer: topic=([\w:/]+)"])
+                  r"deleted writer: topic=(.+)"])
     regex.append([events.on_delete_reader,
                   r"DDS_Subscriber_delete_datareader:(?:RTI0x\w+:)?" +
-                  r"deleted reader: topic=([\w:/]+)"])
+                  r"deleted reader: topic=(.+)"])
     regex.append([events.on_duplicate_topic_name_error,
-                  r"PRESParticipant_createTopic:name '([\w:/]+)' " +
+                  r"PRESParticipant_createTopic:name '(.+)' " +
                   r"is not unique"])
     regex.append([events.on_delete_topic_before_cft,
                   r"PRESParticipant_destroyOneTopicWithCursor:" +
