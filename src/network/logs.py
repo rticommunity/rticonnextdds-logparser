@@ -155,5 +155,10 @@ def get_regex_list():
     regex.append([network.on_reader_exceed_max_entries,
                   r"PRESCstReaderCollator_addEntryToInstance:" +
                   r"exceeded max entriesPerInstance"])
+    regex.append([network.on_write_max_blocking_time_expired,
+                  r"PRESPsWriter_writeInternal:max blocking time expired"])
+    regex.append([network.on_sample_received_from_deleted_writer,
+                  r"COMMENDBeReaderService_onSubmessage:" +
+                  r"!get ber remoteWriter"])
 
     return regex

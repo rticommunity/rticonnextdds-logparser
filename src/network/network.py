@@ -231,6 +231,10 @@ def on_reader_exceed_max_entries(match, state):
                 state)
 
 
+def on_write_max_blocking_time_expired(match, state):
+    log_error("[LP-13] Write maximum blocking time expired", state)
+
+
 # --------------------------------------------------------------------------- #
 # -- Read entity                                                           -- #
 # --------------------------------------------------------------------------- #
@@ -307,3 +311,8 @@ def on_send_nack(match, state):
     log_send(writer_addr, reader_oid,
              "Sent NACK to writer %s for %d count %d" %
              (writer_oid, lead, bitcount), state, verb)
+
+
+def on_sample_received_from_deleted_writer(match, state):
+    log_warning("Sample received from an already gone remote DataWriter.",
+                state, 1)

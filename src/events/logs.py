@@ -108,6 +108,9 @@ def get_regex_list():
                   r"DISCPluginManager_onAfterLocalEndpointEnabled:" +
                   r"(?:RTI0x\w+:)?announcing new local subscription: " +
                   r"0X(\w+),0X(\w+),0X(\w+),0X(\w+)"])
+    regex.append([events.on_participant_ignore_itself,
+                  r"PRESPsService_destroyLocalEndpointWithCursor:" +
+                  r"!remove remote endpoint"])
 
     # Match remote or local entities.
     regex.append([events.on_match_entity("reader", "remote"),

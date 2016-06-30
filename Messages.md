@@ -57,3 +57,6 @@ The error happens when the user tries to delete a topic but this topic has Conte
 
 ### LP-8: Cannot serialize sample
 Error returned from the serialize function of the type plugin. This usually means that the sample data does not fit in the defined type. For instance, it may happen trying to send sequences larger than specified. More information: https://community.rti.com/kb/are-unbounded-sequences-really-unbounded
+
+### LP-13: Write maximum blocking time expired
+Error returned from the DataWriter write function when the maximum blocking time expires. This means that the reliable DataWriter has not been able to store the sample in its queues because they are full. Usually it means that the DataReader is not able to receive the samples at this rate or the network is losing many samples. The maximum blocking time can be adjust via QoS.

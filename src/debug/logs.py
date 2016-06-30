@@ -88,6 +88,12 @@ def get_regex_list():
                   r"!create topic"])
     regex.append([debug.on_ignored_message,
                   r"DDSTopic_impl::createI:!create topic"])
+    regex.append([debug.on_ignored_message,
+                  r"PRESParticipant_destroyAllEntities:" +
+                  r"!delete flow controller"])
+    regex.append([debug.on_ignored_message,
+                  r"DDS_DomainParticipant_delete_contained_entities:" +
+                  r"!delete contained entitie"])
 
     regex.append([debug.on_ignored_message,
                   r"PRESPsService_onWriterResendEvent:writer resend event: " +
@@ -110,6 +116,8 @@ def get_regex_list():
                   r"WriterHistoryMemoryPlugin_addSample:writer history full"])
     regex.append([debug.on_ignored_message,
                   r"PRESWriterHistoryDriver_addWrite:!instance history full"])
+    regex.append([debug.on_ignored_message,
+                  r"PRESWriterHistoryDriver_addWrite:!instance not found"])
     regex.append([debug.on_ignored_message,
                   r"PRESCstReaderCollator_addCollatorEntryToPolled:" +
                   r"!add keyed entry"])

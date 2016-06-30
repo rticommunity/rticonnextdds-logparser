@@ -164,6 +164,10 @@ def on_announce_local_subscription(match, state):
     log_process(local_addr, "", "Announcing new reader %s" % sub_oid, state)
 
 
+def on_participant_ignore_itself(match, state):
+    log_process("", "", "Participant is ignoring itself", state)
+
+
 # --------------------------------------------------------------------------- #
 # -- Match remote or local entities                                        -- #
 # --------------------------------------------------------------------------- #
