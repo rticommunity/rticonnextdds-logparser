@@ -119,6 +119,8 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"PRESWriterHistoryDriver_addWrite:!instance not found"])
     regex.append([debug.on_ignored_message,
+                  r"PRESPsWriter_writeInternal:!collator write no instance"])
+    regex.append([debug.on_ignored_message,
                   r"PRESCstReaderCollator_addCollatorEntryToPolled:" +
                   r"!add keyed entry"])
     regex.append([debug.on_ignored_message,

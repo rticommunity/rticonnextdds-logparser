@@ -109,6 +109,9 @@ def get_regex_list():
                   r" epoch\((\d+)\), isPureNack\((\d+)\)"])
     regex.append([network.on_instance_not_found,
                   r"WriterHistoryMemoryPlugin_addSample:instance not found"])
+    regex.append([network.on_send_from_deleted_writer,
+                  r"PRESPsWriter_writeInternal:" +
+                  r"pres psWriter already destroyed"])
     regex.append([network.on_fail_serialize,
                   r"PRESWriterHistoryDriver_initializeSample:!serialize"])
     regex.append([network.on_drop_unregister_no_ack_instance,

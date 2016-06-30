@@ -75,6 +75,9 @@ def get_regex_list():
     regex.append([events.on_delete_topic_before_cft,
                   r"PRESParticipant_destroyOneTopicWithCursor:" +
                   r"has (\d+) endpoints on topic"])
+    regex.append([events.on_fail_delete_flowcontrollers,
+                  r"PRESParticipant_destroyOneFlowControllerWithCursor:" +
+                  r"has (\d+) writers on flowcontroller"])
 
     # Discover remote or local entities
     regex.append([events.on_discover_participant,
@@ -111,6 +114,10 @@ def get_regex_list():
     regex.append([events.on_participant_ignore_itself,
                   r"PRESPsService_destroyLocalEndpointWithCursor:" +
                   r"!remove remote endpoint"])
+    regex.append([events.on_lose_discovery_samples,
+                  r"DISCSimpleEndpointDiscoveryPlugin_" +
+                  r"(subscription|publication)OnSampleLost: (\w+); " +
+                  r"total (\w+), delta (\w+)"])
 
     # Match remote or local entities.
     regex.append([events.on_match_entity("reader", "remote"),

@@ -112,6 +112,12 @@ def on_delete_topic_before_cft(match, state):
               % num_cft, state)
 
 
+def on_fail_delete_flowcontrollers(match, state):
+    num_flowcontrol = match[0]
+    log_error("[LP-15] Cannot delete %s FlowControllers" % (num_flowcontrol) +
+              "from delete_contained_entities", state)
+
+
 # --------------------------------------------------------------------------- #
 # -- Discover remote or local entities                                     -- #
 # --------------------------------------------------------------------------- #
@@ -166,6 +172,15 @@ def on_announce_local_subscription(match, state):
 
 def on_participant_ignore_itself(match, state):
     log_process("", "", "Participant is ignoring itself", state)
+
+
+def on_lose_discovery_samples(match, state):
+    entity_type = match[0]
+    entity_oid = get_oid(match[1])
+    total = match[2]
+    delta = match[3]
+    log_warning("%s discovery samples lost for %s %s (%s in total)" %
+                (delta, entity_type, entity_oid, total), state)
 
 
 # --------------------------------------------------------------------------- #

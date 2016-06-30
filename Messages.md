@@ -60,3 +60,17 @@ Error returned from the serialize function of the type plugin. This usually mean
 
 ### LP-13: Write maximum blocking time expired
 Error returned from the DataWriter write function when the maximum blocking time expires. This means that the reliable DataWriter has not been able to store the sample in its queues because they are full. Usually it means that the DataReader is not able to receive the samples at this rate or the network is losing many samples. The maximum blocking time can be adjust via QoS.
+
+### LP-14: Cannot write because DataWriter has been deleted
+This error will happen when trying to write a sample from a deleted DataWriter.
+
+### LP-15: 
+This error denotes a potential known bug (RTI Issue ID `CORE-6511`). It was fixed for RTI Connext DDS 5.2.0. The error shows when `delete_contained_entities` fails because it cannot delete the FlowControllers for the Publisher and/or Subscriber. The workaround would be to delete manually the FlowControllers before calling `delete_contained_entities`.
+
+*Release's Notes Information:*
+
+> **Custom Flow Controller on Built-in Discovery DataWriters caused Participant Deletion to Fail**
+>
+> Installing a custom flow controller on the built-in discovery DataWriters by setting the flow_controller_name of the publication_writer_publish_mode and/or subscription_writer_publish_mode fields in the DiscoveryConfigQosPolicy caused the call to DDS_DomainParticipant_delete_contained_entities() to fail. The flow controllers could not be deleted because the built-in DataWriters had not been deleted yet.
+
+>All flow controllers are now deleted after the built-in DataWriters are deleted, allowing participant destruction to complete successfully.
