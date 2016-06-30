@@ -48,6 +48,23 @@ def get_regex_list():
     regex.append([network.on_error_unreachable_network,
                   r"NDDS_Transport_UDPv4_send:OS sendmsg\(\) failure, " +
                   r"error 0X65: Network is unreachable"])
+    regex.append([network.on_error_no_transport_available,
+                  r"RTINetioSender_addDestination:no transport for " +
+                  r"destination request (.+)"])
+
+    # Messages from the participant entity
+    regex.append([network.on_unregister_not_asserted_entity("Participant"),
+                  r"DISCEndpointDiscoveryPlugin_unregisterParticipant" +
+                  r"RemoteEndpoints:remote endpoint not previously asserted " +
+                  r"by plugin: 0X(\w+),0X(\w+),0X(\w+),(\w+)"])
+    regex.append([network.on_unregister_not_asserted_entity("DataWriter"),
+                  r"DISCEndpointDiscoveryPlugin_unregisterRemoteWriter:" +
+                  r"remote endpoint not previously asserted by plugin: " +
+                  r"0X(\w+),0X(\w+),0X(\w+),0X(\w+)"])
+    regex.append([network.on_unregister_not_asserted_entity("DataReader"),
+                  r"DISCEndpointDiscoveryPlugin_unregisterRemoteReader:" +
+                  r"remote endpoint not previously asserted by plugin: " +
+                  r"0X(\w+),0X(\w+),0X(\w+),0X(\w+)"])
 
     # Messages from write entity.
     regex.append([network.on_schedule_data,

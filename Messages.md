@@ -32,6 +32,9 @@ The DataWriter reached its maximum number of entries. The sample cannot be added
 ### LP-11: DataReader exceeded resource limits
 The DataReader reached its maximum number of entries. The received sample cannot be added to the entity queue and it will be rejected.
 
+### LP-12: No transport available to reach locator
+The participant hasn't any transport available to communicate with the given locator. This usually means that the participant has some transport disable and a remote host is announcing itself in these transports. This warning is expected for instance after disabling ShareMemory only in one application.
+
 
 ## Errors
 
@@ -44,7 +47,7 @@ The error happens when the user tries to create a second topic with a name alrea
 >The application is not allowed to create two DDSTopic objects with the same `topic_name` attached to the same DDSDomainParticipant. If the application attempts this, this method will fail and return a NULL topic. 
 
 ### LP-3: Cannot write unregistered instance
-The error happens when the user tries to write a sample with an instance handle that is no longer registered in the DataWriter. This may happen trying to write a sample after it has been unregistered or by using an invalid instance handle. Triggered by functions: `write`, `write_w_timestamp` and `write_w_params`.
+The error happens when the user tries to write a sample with an instance handle that is not registered in the DataWriter. Common situations are: to try to write a sample after it has been unregistered, to dispose unregistered instances, to unregister twice an instance or to unregister a non-registered instance. Triggered by functions: `write`, `write_w_timestamp`, `write_w_params`, `unregister_instance`, `unregister_instance_w_timestamp`,  `unregister_instance_w_params`, `dispose`, `dispose_w_timestamp` and `dispose_w_params`.
 
 ### LP-5: Try to get key from unkeyed type
 The error happens when the user tries to get the key from a sample with an unkeyed type. Triggered by functions: `get_key_value`.

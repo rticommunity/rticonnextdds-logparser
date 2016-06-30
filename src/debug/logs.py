@@ -116,6 +116,12 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"PRESCstReaderCollator_commitRemoteWriterQueue:" +
                   r"!add to polled"])
+    regex.append([debug.on_ignored_message,
+                  r"PRESCstReaderCollator_updateRemoteWriterQueue" +
+                  r"FirstRelevant:"])
+    regex.append([debug.on_ignored_message,
+                  r"PRESPsService_readerSampleListenerOnNewData:" +
+                  r"!goto WR pres psRemoteWriter"])
 
     regex.append([debug.on_ignored_message, r"^send failed: $"])
     regex.append([debug.on_ignored_message, r"^\s*locator:\s*$"])

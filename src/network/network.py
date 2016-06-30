@@ -16,7 +16,7 @@
 from __future__ import absolute_import
 from logger import log_recv, log_send, log_process, log_warning, log_error
 from utils import parse_guid, hex2ip, parse_sn, get_oid, get_participant
-from utils import get_port_name, is_builtin_entity
+from utils import get_port_name, get_locator, is_builtin_entity
 from utils import obfuscate
 from utils import add_statistics_packet, add_statistics_bandwidth
 
@@ -65,6 +65,25 @@ def on_shmem_receive(match, state):
 # pylint: disable=W0613
 def on_error_unreachable_network(match, state):
     log_warning("Unreachable network for previous send", state, 1)
+
+
+def on_error_no_transport_available(match, state):
+    loc = get_locator(match[0], state)
+    log_warning("[LP-12] No transport available to reach locator %s" % loc,
+                state, 1)
+
+
+# --------------------------------------------------------------------------- #
+# -- Write entity                                                          -- #
+# --------------------------------------------------------------------------- #
+def on_unregister_not_asserted_entity(entity):
+    def on_unregister_given_not_asserted_entity(match, state):
+        remote_part = parse_guid(state, match[0], match[1], match[2])
+        remote_oid = get_oid(match[3])
+        log_warning("%s %s is unregistering remote %s not previsouly asserted"
+                    % (remote_part, remote_oid, entity),
+                    state, 2)
+    return on_unregister_given_not_asserted_entity
 
 
 # --------------------------------------------------------------------------- #
