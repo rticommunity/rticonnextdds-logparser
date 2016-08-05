@@ -126,7 +126,7 @@ def get_regex_list():
     regex.append([network.on_receive_data,
                   r"COMMEND(Be|Sr)ReaderService_onSubmessage:" +
                   r"(?:\[\d+,\d+\])?\s?reader oid 0x(\w+) received (\w+) of " +
-                  r"sn\(([\d,]+)\), vSn\(([\d,]+)\) from writer 0x([\w\.]+)"])
+                  r"sn\(([\w,]+)\), vSn\(([\w,]+)\) from writer 0x([\w\.]+)"])
     regex.append([network.on_receive_old_data,
                   r"COMMENDSrReaderService_onSubmessage:\[\d+,\d+\] reader " +
                   r"oid 0x(\w+) received old out-of-range DATA of sn " +

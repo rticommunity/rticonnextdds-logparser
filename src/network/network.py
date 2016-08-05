@@ -247,7 +247,7 @@ def on_receive_data(match, state):
     comm = "best-effort" if match[0] == "Be" else "reliable"
     reader_oid = get_oid(match[1])
     packet = match[2]
-    seqnum = parse_sn(match[3])
+    seqnum = parse_sn(match[3], 16 if match[0] == "Be" else 10)
     remote = match[5].split('.')
     writer_addr = parse_guid(state, remote[0], remote[1], remote[2])
     writer_oid = get_oid(remote[3])
