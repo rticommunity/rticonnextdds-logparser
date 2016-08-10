@@ -41,7 +41,6 @@ Constants:
   + SINGLE_DATE_REGEX: Regular expression to match log timestamps.
   + DATE_REGEX: Regular expression to match system and monotonic clocks.
 """
-from __future__ import print_function
 from argparse import ArgumentParser
 import re
 from datetime import datetime, timedelta
@@ -61,14 +60,15 @@ SINGLE_DATE_REGEX = re.compile(r'\[(\d{10}).(\d{6})\]')
 
 def print_list(items, typ, state, color=None):
     """Print a generic log message list."""
+    write = state['device'].write
     if not state['no_colors'] and color:
         typ = color + typ + COLORS['ENDC']
 
-    print("----------------------")
-    print("## %s:" % typ)
+    write("----------------------")
+    write("## %s:" % typ)
     for i, element in enumerate(sorted(items)):
-        print("%2d. %s" % (i, element))
-    print()
+        write("%2d. %s" % (i, element))
+    write()
 
 
 def print_config(state):
@@ -86,59 +86,62 @@ def print_config(state):
 
 def print_locators(state):
     """Print the locators if any."""
-    print("### Locators:")
+    write = state['device'].write
+    write("### Locators:")
     for part in state['locators']:
-        print("* Participant: " + part)
-        print("    * Send locators:")
+        write("* Participant: " + part)
+        write("    * Send locators:")
         for loc in state['locators'][part]['send']:
-            print("        * " + loc)
-        print("    * Receive locators:")
+            write("        * " + loc)
+        write("    * Receive locators:")
         for loc in state['locators'][part]['receive']:
-            print("        * " + loc)
-    print()
+            write("        * " + loc)
+    write()
 
 
 def print_host_summary(state):
     """Print the host summary."""
-    print("### Assigned names:")
+    write = state['device'].write
+    write("### Assigned names:")
 
     apps_num = 0
     table = state['name_table']
     for host in table:
         # Print host
         if host in state['names']:
-            print("* Host %s: %s" % (state['names'][host], host))
+            write("* Host %s: %s" % (state['names'][host], host))
         else:
-            print("* Host %s" % host)
+            write("* Host %s" % host)
 
         # For each application.
         for app in table[host]:
             addr = host + " " + app
             apps_num += 1
             if addr in state['names']:
-                print("    * App %s: %s" % (state['names'][addr], app))
+                write("    * App %s: %s" % (state['names'][addr], app))
             else:
-                print("    * App %s" % app)
+                write("    * App %s" % app)
 
             # For each participant of the application
             for part in table[host][app]:
                 part_guid = addr + " " + part
                 if part_guid in state['names']:
-                    print("        * Participant %s: %s" %
+                    write("        * Participant %s: %s" %
                           (state['names'][part_guid], part))
 
     # Final stats
-    print()
-    print("Number of hosts: %d  " % len(table))  # Trailing space for markdown
-    print("Number of apps:  %d" % apps_num)
-    print()
+    write()
+    write("Number of hosts: %d  " % len(table))  # Trailing space for markdown
+    write("Number of apps:  %d" % apps_num)
+    write()
 
 
 def print_statistics_bandwidth(state):
     """Print the bandwidth statistics."""
-    print("### Bandwidth statistics:")
+    write = state['device'].write
+    write("### Bandwidth statistics:")
     for addr in state['statistics']:
-        print("* Address: %s" % addr)
+        write("* Address: %s" % addr)
         for typ in state['statistics'][addr]:
             # If this is a port with dictionary of statistics types
             if isinstance(state['statistics'][addr][typ], dict):
@@ -146,33 +149,34 @@ def print_statistics_bandwidth(state):
                 if state['verbosity'] < 1:
                     continue
                 port = typ
-                print("    * Port %s" % port)
+                write("    * Port %s" % port)
                 for typ in state['statistics'][addr][port]:
                     qty = bytes_to_string(state['statistics'][addr][port][typ])
-                    print("        * %s: %s" % (typ, qty))
+                    write("        * %s: %s" % (typ, qty))
             # If this is the host counter
             else:
                 qty = bytes_to_string(state['statistics'][addr][typ])
-                print("    * %s: %s" % (typ, qty))
-    print()
+                write("    * %s: %s" % (typ, qty))
+    write()
 
 
 def print_statistics_packets(state):
     """Print the packet statistics."""
-    print("### Packet statistics:")
+    write = state['device'].write
+    write("### Packet statistics:")
     stats = state['statistics_packet']
     for guid in stats:
-        print("* GUID: %s" % guid)
+        write("* GUID: %s" % guid)
         for typ in stats[guid]:
             total = float(stats[guid][typ]['ALL'])
-            print("    * %s: %d packets" % (typ, total))
+            write("    * %s: %d packets" % (typ, total))
             for packet in stats[guid][typ]:
                 if packet == "ALL":
                     continue
                 qty = stats[guid][typ][packet]
-                print("        * %s: %d (%.1f%%)" %
+                write("        * %s: %d (%.1f%%)" %
                       (packet, qty, qty / total * 100))
-    print()
+    write()
 
 
 def bytes_to_string(qty):
@@ -351,27 +355,28 @@ def parse_log(log_path, expressions, state):
 
 def print_header(state):
     """Print the header information."""
-    print("# Log Parser for RTI Connext ~ " + __version__)
-    print()
-    print("## Legend:")
-    print("  * ---> or <--- denotes if it's an output or input packet.")
-    print("  * An asterisk in remote address means 'inside initial_peers'")
-    print("  * Remote Address format is 'HostId AppId ObjId' or 'Ip:Port'")
-    print("  * Port format for out messages is 'Domain.Idx kind' where kind:")
-    print("    * MeMu: Meta-traffic over Multicast")
-    print("    * MeUn: Meta-traffic over Unicast")
-    print("    * UsMu: User-traffic over Multicast")
-    print("    * UsUn: User-traffic over Unicast")
-    print("  * H3.A2.P3 is third participant from second app of third host.  ")
-    print("    At the end of the log there is a summary with the assigned IP")
-    print("  * Reader and writer identifiers are: ID_TsK where:")
-    print("    * ID is the identifier number of the entity.")
-    print("    * T is the entity kind: 'W' for writers and 'R' for readers.")
-    print("    * sK determines if the entity is keyed (+K) or unkeyed (-K).")
-    print()
-    print()
+    write = state['device'].write
+    write("# Log Parser for RTI Connext ~ " + __version__)
+    write()
+    write("## Legend:")
+    write("  * ---> or <--- denotes if it's an output or input packet.")
+    write("  * An asterisk in remote address means 'inside initial_peers'")
+    write("  * Remote Address format is 'HostId AppId ObjId' or 'Ip:Port'")
+    write("  * Port format for out messages is 'Domain.Idx kind' where kind:")
+    write("    * MeMu: Meta-traffic over Multicast")
+    write("    * MeUn: Meta-traffic over Unicast")
+    write("    * UsMu: User-traffic over Multicast")
+    write("    * UsUn: User-traffic over Unicast")
+    write("  * H3.A2.P3 is third participant from second app of third host.  ")
+    write("    At the end of the log there is a summary with the assigned IP")
+    write("  * Reader and writer identifiers are: ID_TsK where:")
+    write("    * ID is the identifier number of the entity.")
+    write("    * T is the entity kind: 'W' for writers and 'R' for readers.")
+    write("    * sK determines if the entity is keyed (+K) or unkeyed (-K).")
+    write()
+    write()
 
-    print("## Network Data Flow and Application Events")
+    write("## Network Data Flow and Application Events")
     header = " In/Out  | Remote Address         | Local Entity   | Description"
     headln = "---------|:----------------------:|:--------------:|------------"
     if not state['no_timestamp']:
@@ -380,8 +385,8 @@ def print_header(state):
     if state['show_lines']:
         header = " Log/Parser |" + header
         headln = "------------|" + headln
-    print(header)
-    print(headln)
+    write(header)
+    write(headln)
 
 
 def main():

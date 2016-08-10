@@ -33,7 +33,7 @@ class OutputDevice(object):
         + close: Close the device.
     """
 
-    def write(self, text):
+    def write(self, text=""):
         """Write the log into the device."""
         raise NotImplementedError("write not implemented")
 
@@ -50,7 +50,7 @@ class ConsoleDevice(OutputDevice):
       + close: Do nothing, no need to close device.
     """
 
-    def write(self, text):
+    def write(self, text=""):
         """Write the log into the standard output."""
         print(text)
 
@@ -72,7 +72,7 @@ class FileDevice(OutputDevice):
         """Initialize the device with the specified file path."""
         self.stream = open(filePath, "a")
 
-    def write(self, text):
+    def write(self, text=""):
         """Write the log into a file stream."""
         self.stream.write(text + "\n")
 

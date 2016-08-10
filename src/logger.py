@@ -29,7 +29,6 @@ Functions:
 Constants:
   + COLORS: Colors to use in log messages.
 """
-from __future__ import print_function
 
 
 COLORS = {'HEADER': '\033[95m', 'BLUE': '\033[94m', 'OK': '\033[92m',
