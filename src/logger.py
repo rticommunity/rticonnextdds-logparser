@@ -67,7 +67,7 @@ def log(msg, level, state, color=None):
         msg = color + msg + COLORS['ENDC']
 
     # Write the message
-    print(msg)
+    state["device"].write(msg)
 
 
 def log_recv(addr, entity, text, state, level=0):

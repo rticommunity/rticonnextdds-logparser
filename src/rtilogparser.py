@@ -51,8 +51,9 @@ from traceback import extract_tb
 from logs import create_regex_list
 from utils import compare_times
 from logger import COLORS, log_warning, log_error
+from outputdevices import ConsoleDevice, FileDevice
 
-__version__ = "1.0"
+__version__ = "1.1"
 DATE_REGEX = re.compile(r'\[(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}.\d{6})\]' +
                         r'\[(\d{10}.\d{6})\]')
 SINGLE_DATE_REGEX = re.compile(r'\[(\d{10}).(\d{6})\]')
@@ -248,6 +249,8 @@ def read_arguments():
     parser.add_argument("file", help="log file path")
     parser.add_argument("-v", action='count',
                         help="verbosity level - increased by multiple 'v'")
+    parser.add_argument("--output", "-o",
+                        help="Writes the output into the specified file")
     parser.add_argument("--show-ip", action='store_true',
                         help="Show the IP address instead of an assigned name")
     parser.add_argument("--obfuscate", action='store_true',
@@ -306,6 +309,10 @@ def initialize_state(args):
         state['onlyIf'] = re.compile(args.only)
     if args.local_host:
         state['local_address'] = tuple(args.local_host.split(","))
+    if args.output:
+        state['device'] = FileDevice(args.output)
+    else:
+        state['device'] = ConsoleDevice()
     return state
 
 
