@@ -216,6 +216,8 @@ def get_participant(guid, state):
     # miss the instance ID from the message).
     if 'local_address' in state and tuple(address) in state['local_address']:
         if not state['assign_names']:
+            if state['obfuscate']:
+                address[1] = obfuscate(address[1], state)[:5]
             return 'local ' + address[1]
 
     name = None

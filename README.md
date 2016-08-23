@@ -23,6 +23,7 @@ The output is generated in Markdown format which is easy to read in raw format b
 
 Additional features can be enabled or disabled with the following arguments:
 * `-v`: verbosity level. You can control the level adding more 'v'.
+* `--output FILE, -o FILE`: write the output into the specified file.
 * `--show-ip`: show the IP address instead of an assigned name.
 * `--obfuscate`: hide sensitive information like IP addresses.
 * `--salt SALT, -s SALT`: salt for obfuscation. It will be random if not set.
