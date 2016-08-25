@@ -51,6 +51,7 @@ from logs import create_regex_list
 from utils import compare_times
 from logger import COLORS, log_warning, log_error
 from outputdevices import ConsoleDevice, FileDevice
+from inputdevices import InputFileDevice, InputConsoleDevice
 
 __version__ = "1.1"
 DATE_REGEX = re.compile(r'\[(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}.\d{6})\]' +
@@ -250,7 +251,7 @@ def read_arguments():
     parser = ArgumentParser(description="Convert RTI Connext logs in " +
                             "human-readable format.")
 
-    parser.add_argument("file", help="log file path")
+    parser.add_argument("file", help="log file path, '-' for stdin")
     parser.add_argument("-v", action='count',
                         help="verbosity level - increased by multiple 'v'")
     parser.add_argument("--output", "-o",
@@ -317,40 +318,37 @@ def initialize_state(args):
         state['device'] = FileDevice(args.output)
     else:
         state['device'] = ConsoleDevice()
+    if args.file == "-":
+        state['input_device'] = InputConsoleDevice()
+    else:
+        state['input_device'] = InputFileDevice(args.file)
     return state
 
 
-def parse_log(log_path, expressions, state):
+def parse_log(expressions, state):
     """Parse a log file."""
-    # Open log file
-    with open(log_path) as log:
-        # While there is a new line, parse it.
-        line = True  # For the first condition
-        while line:
-            # If the line contains non-UTF8 chars it could raise an exception.
-            state['log_line'] += 1
-            error = False
-            try:
-                line = log.readline()
-            except Exception:  # pylint: disable=W0703
-                # log_error("[EncodingError:%d] %s" % (state['log_line'], ex),
-                #           state)
-                error = True
+    device = state['input_device']
 
-            # If error or EOF go to condition
-            if error or not line:
-                continue
+    # While there is a new line, parse it.
+    line = True  # For the first condition.
+    while line:
+        # If the line contains non-UTF8 chars it could raise an exception.
+        state['log_line'] += 1
+        line = device.read_line()
 
-            # We can get exceptions if the file contains output from two
-            # different applications since the logs are messed up.
-            try:
-                if line:
-                    match_line(line, expressions, state)
-            except Exception as ex:  # pylint: disable=W0703
-                exc_traceback = exc_info()[2]
-                stacktraces = extract_tb(exc_traceback)
-                log_error("[ScriptError] %s %s" % (str(stacktraces[-1]), ex),
-                          state)
+        # If EOF or the line is empty, continue.
+        if not line or line == "":
+            continue
+
+        # We can get exceptions if the file contains output from two
+        # different applications since the logs are messed up.
+        try:
+            match_line(line, expressions, state)
+        except Exception as ex:  # pylint: disable=W0703
+            exc_traceback = exc_info()[2]
+            stacktraces = extract_tb(exc_traceback)
+            log_error("[ScriptError] %s %s" % (str(stacktraces[-1]), ex),
+                      state)
 
 
 def print_header(state):
@@ -397,7 +395,7 @@ def main():
 
     # Read log file and parse
     print_header(state)
-    parse_log(args.file, expressions, state)
+    parse_log(expressions, state)
 
     # Print result of config, errors and warnings.
     print_config(state)
