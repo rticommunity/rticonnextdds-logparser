@@ -23,6 +23,7 @@ Classes:
   + InputFileDevice: Reads the DDS log messages from a file.
 """
 from __future__ import print_function
+from sys import stdin
 
 
 class InputDevice(object):
@@ -60,9 +61,10 @@ class InputConsoleDevice(InputDevice):
         """
         line = None
         try:
-            line = raw_input()
-        except EOFError:
-            pass
+            line = stdin.readline()
+        except Exception:  # pylint: disable=W0703
+            # On error don't return None because we want to continue reading.
+            line = ""
         return line
 
     def close(self):
