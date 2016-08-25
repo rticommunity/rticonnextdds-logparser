@@ -42,7 +42,7 @@ class OutputDevice(object):
         raise NotImplementedError("close not implemented")
 
 
-class ConsoleDevice(OutputDevice):
+class OutputConsoleDevice(OutputDevice):
     """Console device. Writes output into the standard output.
 
     Functions:
@@ -59,7 +59,7 @@ class ConsoleDevice(OutputDevice):
         pass
 
 
-class FileDevice(OutputDevice):
+class OutputFileDevice(OutputDevice):
     """File device. Writes the output into a file.
 
     Functions:
@@ -68,9 +68,9 @@ class FileDevice(OutputDevice):
       + close: Close the file stream.
     """
 
-    def __init__(self, filePath):
+    def __init__(self, file_path):
         """Initialize the device with the specified file path."""
-        self.stream = open(filePath, "a")
+        self.stream = open(file_path, "a")
 
     def write(self, text=""):
         """Write the log into a file stream."""

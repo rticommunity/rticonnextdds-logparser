@@ -50,7 +50,7 @@ from traceback import extract_tb
 from logs import create_regex_list
 from utils import compare_times
 from logger import COLORS, log_warning, log_error
-from outputdevices import ConsoleDevice, FileDevice
+from outputdevices import OutputConsoleDevice, OutputFileDevice
 from inputdevices import InputFileDevice, InputConsoleDevice
 
 __version__ = "1.1"
@@ -61,7 +61,7 @@ SINGLE_DATE_REGEX = re.compile(r'\[(\d{10}).(\d{6})\]')
 
 def print_list(items, typ, state, color=None):
     """Print a generic log message list."""
-    write = state['device'].write
+    write = state['output_device'].write
     if not state['no_colors'] and color:
         typ = color + typ + COLORS['ENDC']
 
@@ -87,7 +87,7 @@ def print_config(state):
 
 def print_locators(state):
     """Print the locators if any."""
-    write = state['device'].write
+    write = state['output_device'].write
     write("### Locators:")
     for part in state['locators']:
         write("* Participant: " + part)
@@ -102,7 +102,7 @@ def print_locators(state):
 
 def print_host_summary(state):
     """Print the host summary."""
-    write = state['device'].write
+    write = state['output_device'].write
     write("### Assigned names:")
 
     apps_num = 0
@@ -139,7 +139,7 @@ def print_host_summary(state):
 
 def print_statistics_bandwidth(state):
     """Print the bandwidth statistics."""
-    write = state['device'].write
+    write = state['output_device'].write
     write("### Bandwidth statistics:")
     for addr in state['statistics']:
         write("* Address: %s" % addr)
@@ -163,7 +163,7 @@ def print_statistics_bandwidth(state):
 
 def print_statistics_packets(state):
     """Print the packet statistics."""
-    write = state['device'].write
+    write = state['output_device'].write
     write("### Packet statistics:")
     stats = state['statistics_packet']
     for guid in stats:
@@ -315,9 +315,9 @@ def initialize_state(args):
     if args.local_host:
         state['local_address'] = tuple(args.local_host.split(","))
     if args.output:
-        state['device'] = FileDevice(args.output)
+        state['output_device'] = OutputFileDevice(args.output)
     else:
-        state['device'] = ConsoleDevice()
+        state['output_device'] = OutputConsoleDevice()
     if args.file == "-":
         state['input_device'] = InputConsoleDevice()
     else:
@@ -353,7 +353,7 @@ def parse_log(expressions, state):
 
 def print_header(state):
     """Print the header information."""
-    write = state['device'].write
+    write = state['output_device'].write
     write("# Log Parser for RTI Connext ~ " + __version__)
     write()
     write("## Legend:")
