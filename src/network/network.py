@@ -240,6 +240,10 @@ def on_write_max_blocking_time_expired(match, state):
     log_error("[LP-13] Write maximum blocking time expired", state)
 
 
+def on_batch_serialize_failure(match, state):
+    log_error("Cannot serialize batch sample", state)
+
+
 # --------------------------------------------------------------------------- #
 # -- Read entity                                                           -- #
 # --------------------------------------------------------------------------- #

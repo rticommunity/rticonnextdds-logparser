@@ -121,6 +121,9 @@ def get_regex_list():
     regex.append([network.on_writer_exceed_max_entries,
                   r"WriterHistoryMemoryPlugin_addEntryToInstance:" +
                   r"exceeded max entries"])
+    regex.append([network.on_batch_serialize_failure,
+                  r"PRESPsWriter_writeBatchInternal:!error serializing " +
+                  r"batch sample"])
 
     # Messages from read entity.
     regex.append([network.on_receive_data,
