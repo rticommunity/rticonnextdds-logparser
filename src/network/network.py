@@ -172,7 +172,7 @@ def on_send_preemptive_hb(match, state):
     verb = 1 if is_builtin_entity(match[0]) else 0
     log_send("",
              writer_oid,
-             "Sent preemtive HB for [%d, %d]" % (sn_start, sn_end),
+             "Sent preemptive HB for [%d, %d]" % (sn_start, sn_end),
              state,
              verb)
 
