@@ -32,4 +32,12 @@ def get_regex_list():
     regex.append([routing.on_route_creation_failure,
                   r"ROUTERTopicRoute_new:!init ROUTERTopicRoute object"])
 
+    # Discovery
+    regex.append([routing.on_typecode_inconsistency,
+                  r"ROUTERDdsConnection_assertType:two different type " +
+                  r"definitions with the same name \((.+)\) were found"])
+    regex.append([routing.on_typecode_not_found,
+                  r"ROUTERDdsConnection_assertType:Type code for type (.+) " +
+                  r"is not available"])
+
     return regex
