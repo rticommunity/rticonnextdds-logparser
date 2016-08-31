@@ -23,6 +23,7 @@ import re
 from network.logs import get_regex_list as network_regex
 from custom.logs import get_regex_list as custom_regex
 from events.logs import get_regex_list as events_regex
+from routing.logs import get_regex_list as routing_regex
 from debug.logs import get_regex_list as debug_regex
 
 
@@ -37,6 +38,7 @@ def create_regex_list(state):
     expressions = []
     [add_regex(expressions, expr[0], expr[1]) for expr in network_regex()]
     [add_regex(expressions, expr[0], expr[1]) for expr in events_regex()]
+    [add_regex(expressions, expr[0], expr[1]) for expr in routing_regex()]
     [add_regex(expressions, expr[0], expr[1]) for expr in custom_regex()]
 
     if state['debug']:

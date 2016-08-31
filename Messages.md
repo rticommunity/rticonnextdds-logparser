@@ -64,7 +64,7 @@ Error returned from the DataWriter write function when the maximum blocking time
 ### LP-14: Cannot write because DataWriter has been deleted
 This error will happen when trying to write a sample from a deleted DataWriter.
 
-### LP-15: 
+### LP-15: Cannot delete X FlowControllers from delete_contained_entities
 This error denotes a potential known bug (RTI Issue ID `CORE-6511`). It was fixed for RTI Connext DDS 5.2.0. The error shows when `delete_contained_entities` fails because it cannot delete the FlowControllers for the Publisher and/or Subscriber. The workaround would be to delete manually the FlowControllers before calling `delete_contained_entities`.
 
 *Release's Notes Information:*
@@ -74,3 +74,15 @@ This error denotes a potential known bug (RTI Issue ID `CORE-6511`). It was fixe
 > Installing a custom flow controller on the built-in discovery DataWriters by setting the flow_controller_name of the publication_writer_publish_mode and/or subscription_writer_publish_mode fields in the DiscoveryConfigQosPolicy caused the call to DDS_DomainParticipant_delete_contained_entities() to fail. The flow controllers could not be deleted because the built-in DataWriters had not been deleted yet.
 
 >All flow controllers are now deleted after the built-in DataWriters are deleted, allowing participant destruction to complete successfully.
+
+### LP-16: [LP-16] Cannot initialize Monitoring: string too long in the RS configuration
+This error happens when the Routing Service configuration contains a string element larger than the maximum supported. As a consequence, the monitoring information cannot be initialized for this route and, the route creation process will fail. Data will not be forwarded in this route. 
+
+This can happen for the following configuration settings:
+* *Configuration Name* larger than 64 characters.
+* *Domain Route Name* larger than 64 characters.
+* *Session Name* larger than 64 characters.
+* *Route Name* larger than 64 characters.
+* *Input/Output Topic Name* larger than 255 characters.
+* *Input/Output Registered Type Name* larger than 255 characters.
+* *ContentFilter Expression* larger than 1024 characters

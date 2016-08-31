@@ -115,7 +115,7 @@ def on_delete_topic_before_cft(match, state):
 def on_fail_delete_flowcontrollers(match, state):
     num_flowcontrol = match[0]
     log_error("[LP-15] Cannot delete %s FlowControllers" % (num_flowcontrol) +
-              "from delete_contained_entities", state)
+              " from delete_contained_entities", state)
 
 
 # --------------------------------------------------------------------------- #
