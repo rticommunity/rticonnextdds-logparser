@@ -98,7 +98,7 @@ This error denotes a potential known bug (RTI Issue ID `CORE-6511`). It was fixe
 
 >All flow controllers are now deleted after the built-in DataWriters are deleted, allowing participant destruction to complete successfully.
 
-### LP-16: [LP-16] Cannot initialize Monitoring: string too long in the RS configuration
+### LP-16: Cannot initialize Monitoring: string too long in the RS configuration
 This error happens when the Routing Service configuration contains a string element larger than the maximum supported. As a consequence, the monitoring information cannot be initialized for this route and, the route creation process will fail. Data will not be forwarded in this route. 
 
 This can happen for the following configuration settings:

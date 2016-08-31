@@ -16,7 +16,7 @@ You will need **[python](https://www.python.org/) 2.7 or 3.x**. It works in any 
 
 ## Usage
 ```
-python rtilogparser logFile
+python rtilogparser -i logFile
 ```
 
 The output is generated in Markdown format which is easy to read in raw format but it also allows to convert into HTML using viewers like [Atom](https://atom.io/) or [dillinger](http://dillinger.io/).
