@@ -251,7 +251,8 @@ def read_arguments():
     parser = ArgumentParser(description="Convert RTI Connext logs in " +
                             "human-readable format.")
 
-    parser.add_argument("file", help="log file path, '-' for stdin")
+    parser.add_argument("-i", "--input",
+                        help="log file path, by default stdin")
     parser.add_argument("-v", action='count',
                         help="verbosity level - increased by multiple 'v'")
     parser.add_argument("--output", "-o",
@@ -318,10 +319,10 @@ def initialize_state(args):
         state['output_device'] = OutputFileDevice(args.output)
     else:
         state['output_device'] = OutputConsoleDevice()
-    if args.file == "-":
-        state['input_device'] = InputConsoleDevice()
+    if args.input:
+        state['input_device'] = InputFileDevice(args.input)
     else:
-        state['input_device'] = InputFileDevice(args.file)
+        state['input_device'] = InputConsoleDevice()
     return state
 
 
