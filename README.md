@@ -22,7 +22,7 @@ python rtilogparser logFile
 The output is generated in Markdown format which is easy to read in raw format but it also allows to convert into HTML using viewers like [Atom](https://atom.io/) or [dillinger](http://dillinger.io/).
 
 Additional features can be enabled or disabled with the following arguments:
-* `logFile`: log file path. '-' to read from the standard input.
+* `--input, -i`: log file path, by default read from the standard input.
 * `-v`: verbosity level. You can control the level adding more 'v'.
 * `--output FILE, -o FILE`: write the output into the specified file.
 * `--show-ip`: show the IP address instead of an assigned name.
