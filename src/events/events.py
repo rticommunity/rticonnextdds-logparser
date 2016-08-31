@@ -17,7 +17,7 @@ from __future__ import absolute_import
 from logger import log_cfg, log_process, log_event, log_error, log_warning
 from utils import parse_guid, hex2ip, get_locator, get_oid, get_participant
 from utils import obfuscate
-from utils import set_local_address
+from utils import set_local_address, is_builtin_entity
 
 
 # --------------------------------------------------------------------------- #
@@ -191,10 +191,12 @@ def on_match_entity(entity2, kind):
         entity2_addr = parse_guid(state, match[0], match[1], match[2])
         entity2_oid = get_oid(match[3])
         entity1_oid = get_oid(match[4])
+        verb = 1 if is_builtin_entity(match[4]) else 0
         reliable = match[5]  # Best-Effort or Reliable
         log_process(entity2_addr, entity1_oid, "Discovered %s %s %s %s" %
                     (kind, reliable, entity2, entity2_oid),
-                    state)
+                    state,
+                    verb)
     return match_entity
 
 
