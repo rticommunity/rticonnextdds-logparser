@@ -396,7 +396,15 @@ def main():
 
     # Read log file and parse
     print_header(state)
-    parse_log(expressions, state)
+    try:
+        parse_log(expressions, state)
+    except KeyboardInterrupt:
+        log_warning("Catched SIGINT", state)
+
+        # Parse logs again in case this process was piping the output from
+        # another and there are some remaining logs. Also we will be able to
+        # show the end summary. If the signal is sent again, it will quit.
+        parse_log(expressions, state)
 
     # Print result of config, errors and warnings.
     print_config(state)
