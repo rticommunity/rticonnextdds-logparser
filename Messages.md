@@ -22,7 +22,8 @@ This document contains a detailed description of the messages from the Log Parse
     - [LP-13: Write maximum blocking time expired](#lp-13-write-maximum-blocking-time-expired)
     - [LP-14: Cannot write because DataWriter has been deleted](#lp-14-cannot-write-because-datawriter-has-been-deleted)
     - [LP-15: Cannot delete X FlowControllers from delete_contained_entities](#lp-15-cannot-delete-x-flowcontrollers-from-deletecontainedentities)
-    - [LP-16: [LP-16] Cannot initialize Monitoring: string too long in the RS configuration](#lp-16-lp-16-cannot-initialize-monitoring-string-too-long-in-the-rs-configuration)
+    - [LP-16: Cannot initialize Monitoring: string too long in the RS configuration](#lp-16-cannot-initialize-monitoring-string-too-long-in-the-rs-configuration)
+    - [LP-17: Cannot deserialize sample](#lp-17-cannot-deserialize-sample)
 
 ## Warnings
 
@@ -109,3 +110,11 @@ This can happen for the following configuration settings:
 * *Input/Output Topic Name* larger than 255 characters.
 * *Input/Output Registered Type Name* larger than 255 characters.
 * *ContentFilter Expression* larger than 1024 characters
+
+### LP-17: Cannot deserialize sample
+This error happens when the DataReader is not able to deserialize a received sample. This happens when any of the following conditions is true:
+* The DataWriter and DataReader have different data-type definitions (IDL) for the same topic.
+* An enumeration field has an invalid value.
+
+More information is available in the following Knowled-Base solution:
+[What causes 'PRESPsReaderQueue_storeQueueEntry:!deserialize' messages?](https://community.rti.com/kb/what-causes-prespsreaderqueuestorequeueentrydeserialize-messages)

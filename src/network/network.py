@@ -325,3 +325,8 @@ def on_send_nack(match, state):
 def on_sample_received_from_deleted_writer(match, state):
     log_warning("Sample received from an already gone remote DataWriter.",
                 state, 1)
+
+
+def on_deserialize_failure(match, state):
+    """It happens when the reader is not able to deserialize a sample."""
+    log_error("[LP-17] Cannot deserialize sample", state)

@@ -132,6 +132,10 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"PRESPsService_readerSampleListenerOnNewData:" +
                   r"!goto WR pres psRemoteWriter"])
+    regex.append([debug.on_ignored_message,
+                  r"PRESPsReaderQueue_storeSampleToEntry:!store sample data"])
+    regex.append([debug.on_ignored_message,
+                  r"PRESPsReaderQueue_newData:!get entries"])
 
     regex.append([debug.on_ignored_message, r"^send failed: $"])
     regex.append([debug.on_ignored_message, r"^\s*locator:\s*$"])

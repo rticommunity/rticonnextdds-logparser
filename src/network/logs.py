@@ -166,5 +166,7 @@ def get_regex_list():
     regex.append([network.on_sample_received_from_deleted_writer,
                   r"COMMENDBeReaderService_onSubmessage:" +
                   r"!get ber remoteWriter"])
+    regex.append([network.on_deserialize_failure,
+                  r"PRESPsReaderQueue_storeSampleData:!deserialize"])
 
     return regex
