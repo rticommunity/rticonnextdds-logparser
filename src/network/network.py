@@ -329,4 +329,5 @@ def on_sample_received_from_deleted_writer(match, state):
 
 def on_deserialize_failure(match, state):
     """It happens when the reader is not able to deserialize a sample."""
-    log_error("[LP-17] Cannot deserialize sample", state)
+    kind = "keyed" if match[0] == "CstReaderCollator" else "unkeyed"
+    log_error("[LP-17] Cannot deserialize %s sample" % kind, state)
