@@ -261,15 +261,17 @@ def on_receive_data(match, state):
              state, verb)
 
 
-def on_receive_old_data(match, state):
+def on_receive_out_order_data(match, state):
+    """It happens when the received data sequence number isn't contiguous."""
     reader_oid = get_oid(match[0])
-    seqnum = parse_sn(match[1])
-    remote = match[2].split('.')
+    kind = "old" if match[1] == "old" else "future"
+    seqnum = parse_sn(match[2])
+    remote = match[3].split('.')
     writer_addr = parse_guid(state, remote[0], remote[1], remote[2])
     writer_oid = get_oid(remote[3])
     verb = 1 if is_builtin_entity(remote[3]) else 0
-    log_recv(writer_addr, reader_oid, "Received old DATA (%d) from writer %s" %
-             (seqnum, writer_oid),
+    log_recv(writer_addr, reader_oid, "Received %s DATA (%d) from writer %s" %
+             (kind, seqnum, writer_oid),
              state, verb)
 
 
