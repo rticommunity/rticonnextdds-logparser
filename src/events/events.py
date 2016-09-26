@@ -16,7 +16,7 @@
 from __future__ import absolute_import
 from logger import log_cfg, log_process, log_event, log_error, log_warning
 from utils import parse_guid, hex2ip, get_locator, get_oid, get_participant
-from utils import obfuscate
+from utils import get_topic_name, get_type_name, obfuscate
 from utils import set_local_address, is_builtin_entity
 
 
@@ -198,6 +198,16 @@ def on_match_entity(entity2, kind):
                     state,
                     verb)
     return match_entity
+
+
+def on_different_type_names(match, state):
+    """It happens when there isn't TypeObject and type names are different."""
+    topic = get_topic_name(match[0], state)
+    type1 = get_type_name(match[1], state)
+    type2 = get_type_name(match[2], state)
+    log_error("[LP-18] Cannot match remote entity in topic '%s': " % (topic) +
+              "Different type names found ('%s', '%s')" % (type1, type2),
+              state)
 
 
 # --------------------------------------------------------------------------- #

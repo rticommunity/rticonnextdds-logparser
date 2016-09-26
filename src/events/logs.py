@@ -136,6 +136,10 @@ def get_regex_list():
                   r"PRESPsService_linkToLocalWriter:(?:RTI0x\w+:)?" +
                   r"assert remote 0X(\w+),0X(\w+),0X(\w+),0X(\w+), " +
                   r"local 0x(\w+) in (reliable|best effort) writer service"])
+    regex.append([events.on_different_type_names,
+                  r"PRESPsService_matchTopics: type names for topic '(.+)' " +
+                  r"do not match \('(.+)', '(.+)'\) and type information " +
+                  r"is not available"])
 
     # Bad usage of the API
     regex.append([events.on_register_unkeyed_instance,
