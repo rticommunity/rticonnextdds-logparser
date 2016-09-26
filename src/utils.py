@@ -27,6 +27,7 @@ Functions:
   + is_builtin_entity: Get if the OID hex number is for a built-in entity.
   + get_topic_name: Get the topic name, obfuscating if needed.
   + get_type_name: Get the type name, obfuscating if needed.
+  + get_port_number: Get the port number, obfuscating if needed.
   + get_port_name: Get the domain ID and index of the port.
   + get_participant: Get the participant ID from the GUID.
   + get_locator: Parse the locator and convert to text.
@@ -192,6 +193,11 @@ def get_topic_name(topic, state):
 def get_type_name(typ, state):
     """get_type_name: Get the type name, obfuscating if needed."""
     return obfuscate(typ, state) if state['obfuscate'] else typ
+
+
+def get_port_number(port, state):
+    """Get the port number, obfuscating if needed."""
+    return obfuscate(port, state)[:5] if state['obfuscate'] else port
 
 
 def get_port_name(port):

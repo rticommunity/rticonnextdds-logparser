@@ -17,7 +17,7 @@ from __future__ import absolute_import
 from logger import log_recv, log_send, log_process, log_warning, log_error
 from utils import parse_guid, hex2ip, parse_sn, get_oid, get_participant
 from utils import get_port_name, get_locator, is_builtin_entity
-from utils import obfuscate
+from utils import get_port_number
 from utils import add_statistics_packet, add_statistics_bandwidth
 
 
@@ -45,7 +45,7 @@ def on_udpv4_send(match, state):
 def on_udpv4_receive(match, state):
     qty = int(match[0])
     addr = get_participant(hex2ip(match[1], True), state)
-    port = obfuscate(match[2], state)[:5] if state['obfuscate'] else match[2]
+    port = get_port_number(match[2], state)
     addr += ":" + port.zfill(5)
     log_recv(addr, "", "Received %d bytes" % qty, state, 2)
     add_statistics_bandwidth(addr, 'receive', qty, state)

@@ -16,7 +16,7 @@
 from __future__ import absolute_import
 from logger import log_cfg, log_process, log_event, log_error, log_warning
 from utils import parse_guid, hex2ip, get_locator, get_oid, get_participant
-from utils import get_topic_name, get_type_name, obfuscate
+from utils import get_topic_name, get_type_name
 from utils import set_local_address, is_builtin_entity
 
 
@@ -62,46 +62,46 @@ def on_delete_participant(match, state):
 
 
 def on_create_topic(match, state):
-    topic = obfuscate(match[0], state) if state['obfuscate'] else match[0]
-    typ = obfuscate(match[1], state) if state['obfuscate'] else match[1]
+    topic = get_topic_name(match[0], state)
+    typ = get_type_name(match[1], state)
     log_event("Created topic, name: '%s', type: '%s'" %
               (topic, typ), state)
 
 
 def on_create_cft(match, state):
-    topic = obfuscate(match[0], state) if state['obfuscate'] else match[0]
+    topic = get_topic_name(match[0], state)
     log_event("Created ContentFilteredTopic, name: '%s'" % topic, state)
 
 
 def on_delete_topic(match, state):
-    topic = obfuscate(match[0], state) if state['obfuscate'] else match[0]
-    typ = obfuscate(match[1], state) if state['obfuscate'] else match[1]
+    topic = get_topic_name(match[0], state)
+    typ = get_type_name(match[1], state)
     log_event("Deleted topic, name: '%s', type: '%s'" % (topic, typ),
               state, 1)
 
 
 def on_create_writer(match, state):
-    topic = obfuscate(match[0], state) if state['obfuscate'] else match[0]
+    topic = get_topic_name(match[0], state)
     log_event("Created writer for topic '%s'" % topic, state)
 
 
 def on_create_reader(match, state):
-    topic = obfuscate(match[0], state) if state['obfuscate'] else match[0]
+    topic = get_topic_name(match[0], state)
     log_event("Created reader for topic '%s'" % topic, state)
 
 
 def on_delete_writer(match, state):
-    topic = obfuscate(match[0], state) if state['obfuscate'] else match[0]
+    topic = get_topic_name(match[0], state)
     log_event("Deleted writer for topic '%s'" % topic, state)
 
 
 def on_delete_reader(match, state):
-    topic = obfuscate(match[0], state) if state['obfuscate'] else match[0]
+    topic = get_topic_name(match[0], state)
     log_event("Deleted reader for topic '%s'" % topic, state)
 
 
 def on_duplicate_topic_name_error(match, state):
-    topic = obfuscate(match[0], state) if state['obfuscate'] else match[0]
+    topic = get_topic_name(match[0], state)
     log_error("[LP-2] Topic name already in use by another topic: %s" % topic,
               state)
 
