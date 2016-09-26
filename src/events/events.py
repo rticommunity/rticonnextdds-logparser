@@ -210,6 +210,11 @@ def on_different_type_names(match, state):
               state)
 
 
+def on_typeobject_received(match, state):
+    """It happens for discovered entities when comparing TypeObjects."""
+    log_process("", "", "TypeObject %s" % match[0], state, 2)
+
+
 # --------------------------------------------------------------------------- #
 # -- Bad usage of the API                                                  -- #
 # --------------------------------------------------------------------------- #

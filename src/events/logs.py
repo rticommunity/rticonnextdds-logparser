@@ -140,6 +140,9 @@ def get_regex_list():
                   r"PRESPsService_matchTopics: type names for topic '(.+)' " +
                   r"do not match \('(.+)', '(.+)'\) and type information " +
                   r"is not available"])
+    regex.append([events.on_typeobject_received,
+                  r"PRESPsService_assertRemoteEndpoint:TypeObject " +
+                  r"(succesfully stored|could not be stored|not received)"])
 
     # Bad usage of the API
     regex.append([events.on_register_unkeyed_instance,
