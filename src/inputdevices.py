@@ -25,6 +25,7 @@ Classes:
 from __future__ import print_function
 from sys import stdin, stdout
 from os import fstat
+from time import time
 from outputdevices import OutputConsoleDevice
 
 
@@ -52,9 +53,28 @@ class InputConsoleDevice(InputDevice):
     """Console device. Reads the DDS log messages from the standard input.
 
     Functions:
+      + print_time: Print the execution time.
       + read_line: Read and return the next DDS log message from the device.
       + close: Close the file stream.
     """
+
+    def __init__(self, state):
+        """Initialize the device."""
+        self.to_terminal = type(state['output_device']) is OutputConsoleDevice
+        self.start_time = time()
+        self.current_time = -1
+
+    def print_time(self, threshold=0):
+        """Print the execution time."""
+        current_time = time()
+        update_time = current_time - self.current_time
+        if self.current_time > 0 and update_time < threshold:
+            return
+
+        self.current_time = current_time
+        diff_time = current_time - self.start_time
+        stdout.write("Running for %.2f sec\r" % diff_time)
+        stdout.flush()
 
     def read_line(self):
         """Read and return the next DDS log message from the device.
@@ -67,6 +87,9 @@ class InputConsoleDevice(InputDevice):
         except Exception:  # pylint: disable=W0703
             # On error don't return None because we want to continue reading.
             line = ""
+
+        if self.to_terminal:
+            self.print_time(0.2)
         return line
 
     def close(self):
@@ -79,7 +102,7 @@ class InputFileDevice(InputDevice):
 
     Functions:
       + __init__: Initialize the device with the specified file path.
-      + print_progress: Create a terminal progress bar.
+      + print_progress: Print a terminal progress bar.
       + read_line: Read and return the next DDS log message from the device.
       + close: Close the file stream.
     """
@@ -91,9 +114,8 @@ class InputFileDevice(InputDevice):
         self.file_size = fstat(self.stream.fileno()).st_size
         self.progress = -1
 
-    def print_progress(self, prefix='', suffix='',
-                       threshold=0, decimals=1, barLength=100):
-        """Create a terminal progress bar."""
+    def print_progress(self, threshold=0, decimals=1, barLength=100):
+        """Print a terminal progress bar."""
         # Based on @Greenstick's reply (https://stackoverflow.com/a/34325723)
         iteration = self.stream.tell()
         total = self.file_size
@@ -106,9 +128,7 @@ class InputFileDevice(InputDevice):
         filledLength = int(round(barLength * iteration / float(total)))
 
         bar = '*' * filledLength + '-' * (barLength - filledLength)
-        stdout.write('%s%s| %s%% %s\r' % (prefix, bar, percents, suffix))
-        if iteration == total:
-            stdout.write('\n')
+        stdout.write('%s| %s%% Completed\r' % (bar, percents))
         stdout.flush()
 
     def read_line(self):
@@ -124,7 +144,7 @@ class InputFileDevice(InputDevice):
             line = ""
 
         if self.to_terminal:
-            self.print_progress('', 'Completed', 0.01, 2, 51)
+            self.print_progress(0.01, 2, 51)
         return line
 
     def close(self):

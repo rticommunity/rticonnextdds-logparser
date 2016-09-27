@@ -322,7 +322,7 @@ def initialize_state(args):
     if args.input:
         state['input_device'] = InputFileDevice(args.input, state)
     else:
-        state['input_device'] = InputConsoleDevice()
+        state['input_device'] = InputConsoleDevice(state)
     return state
 
 
