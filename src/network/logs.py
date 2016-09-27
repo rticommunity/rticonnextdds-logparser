@@ -169,5 +169,11 @@ def get_regex_list():
     regex.append([network.on_deserialize_failure,
                   r"PRES(PsReaderQueue|CstReaderCollator)_storeSampleData:" +
                   r"(?:RTI0x\w+:)?!deserialize"])
+    regex.append([network.on_shmem_queue_full,
+                  r"NDDS_Transport_Shmem_send:failed to add data. " +
+                  r"shmem queue for port 0x(\w+) is full " +
+                  r"\(received_message_count_max=(\d+), " +
+                  r"receive_buffer_size=(\d+)\). Try to increase queue " +
+                  r"resource limits\."])
 
     return regex

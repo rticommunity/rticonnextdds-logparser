@@ -260,6 +260,18 @@ def on_receive_data(match, state):
              (packet, seqnum, writer_oid, comm),
              state, verb)
 
+    # Sequece number check
+    full_id = writer_addr + "." + writer_oid + ' to ' + reader_oid
+    if 'last_sn' not in state:
+        state['last_sn'] = {}
+    if full_id in state['last_sn']:
+        prev_seqnum = state['last_sn'][full_id]
+        diff = seqnum - prev_seqnum
+        if diff > 1:
+            log_warning("Missing %d packets for %s" % (diff, full_id),
+                        state)
+    state['last_sn'][full_id] = seqnum
+
 
 def on_receive_out_order_data(match, state):
     """It happens when the received data sequence number isn't contiguous."""
@@ -333,3 +345,11 @@ def on_deserialize_failure(match, state):
     """It happens when the reader is not able to deserialize a sample."""
     kind = "keyed" if match[0] == "CstReaderCollator" else "unkeyed"
     log_error("[LP-17] Cannot deserialize %s sample" % kind, state)
+
+
+def on_shmem_queue_full(match, state):
+    """It happens when the ShareMemory queue is full and data is dropped."""
+    count_max = match[1]
+    log_error("[LP-19] Sample dropped because ShareMemory queue (%s) is full."
+              % count_max,
+              state)
