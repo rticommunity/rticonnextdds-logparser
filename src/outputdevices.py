@@ -52,7 +52,9 @@ class OutputConsoleDevice(OutputDevice):
 
     def write(self, text=""):
         """Write the log into the standard output."""
-        print(text)
+        # 33[k is an ANSI code to clear the line
+        # We need it to clear the optional progress bar.
+        print("\033[K" + text)
 
     def close(self):
         """Do nothing, no need to close device."""

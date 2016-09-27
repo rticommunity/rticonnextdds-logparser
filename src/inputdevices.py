@@ -23,7 +23,9 @@ Classes:
   + InputFileDevice: Reads the DDS log messages from a file.
 """
 from __future__ import print_function
-from sys import stdin
+from sys import stdin, stdout
+from os import fstat
+from outputdevices import OutputConsoleDevice
 
 
 class InputDevice(object):
@@ -77,13 +79,37 @@ class InputFileDevice(InputDevice):
 
     Functions:
       + __init__: Initialize the device with the specified file path.
+      + print_progress: Create a terminal progress bar.
       + read_line: Read and return the next DDS log message from the device.
       + close: Close the file stream.
     """
 
-    def __init__(self, file_path):
+    def __init__(self, file_path, state):
         """Initialize the device with the specified file path."""
         self.stream = open(file_path, "r")
+        self.to_terminal = type(state['output_device']) is OutputConsoleDevice
+        self.file_size = fstat(self.stream.fileno()).st_size
+        self.progress = -1
+
+    def print_progress(self, prefix='', suffix='',
+                       threshold=0, decimals=1, barLength=100):
+        """Create a terminal progress bar."""
+        # Based on @Greenstick's reply (https://stackoverflow.com/a/34325723)
+        iteration = self.stream.tell()
+        total = self.file_size
+        progress = 100.0 * iteration / total
+        if self.progress > 0 and progress - self.progress < threshold:
+            return
+
+        self.progress = progress
+        percents = ("%03." + str(decimals) + "f") % progress
+        filledLength = int(round(barLength * iteration / float(total)))
+
+        bar = '*' * filledLength + '-' * (barLength - filledLength)
+        stdout.write('%s%s| %s%% %s\r' % (prefix, bar, percents, suffix))
+        if iteration == total:
+            stdout.write('\n')
+        stdout.flush()
 
     def read_line(self):
         """Read and return the next DDS log message from the device.
@@ -96,6 +122,9 @@ class InputFileDevice(InputDevice):
         except Exception:  # pylint: disable=W0703
             # On error don't return None because we want to continue reading.
             line = ""
+
+        if self.to_terminal:
+            self.print_progress('', 'Completed', 0.01, 2, 51)
         return line
 
     def close(self):
