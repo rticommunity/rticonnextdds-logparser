@@ -59,7 +59,7 @@ DATE_REGEX = re.compile(r'\[(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}.\d{6})\]' +
 SINGLE_DATE_REGEX = re.compile(r'\[(\d{10}).(\d{6})\]')
 
 
-def print_list(items, typ, state, color=None):
+def print_countset(items, typ, state, color=None):
     """Print a generic log message list."""
     write = state['output_device'].write
     if not state['no_colors'] and color:
@@ -67,14 +67,14 @@ def print_list(items, typ, state, color=None):
 
     write("----------------------")
     write("## %s:" % typ)
-    for i, element in enumerate(sorted(items)):
-        write("%2d. %s" % (i, element))
+    for i, msg in enumerate(sorted(items.keys(), key=lambda m: m[0])):
+        write("%2d. %dx %s" % (i, items[msg][1], msg))
     write()
 
 
 def print_config(state):
     """Print the configuration logs."""
-    print_list(state['config'], 'Config', state)
+    print_countset(state['config'], 'Config', state)
     if 'locators' in state:
         print_locators(state)
     if 'names' in state and 'name_table' in state:
@@ -294,9 +294,9 @@ def initialize_state(args):
     """Initialize the state dictionary."""
     state = {}
     state['verbosity'] = args.v or 0
-    state['warnings'] = set()
-    state['errors'] = set()
-    state['config'] = set()
+    state['warnings'] = {}
+    state['errors'] = {}
+    state['config'] = {}
     state['inline'] = not args.no_inline
     state['ignore_packets'] = args.no_network
     state['no_timestamp'] = not args.timestamp
@@ -408,8 +408,8 @@ def main():
 
     # Print result of config, errors and warnings.
     print_config(state)
-    print_list(state['warnings'], 'Warnings', state, COLORS['WARNING'])
-    print_list(state['errors'], 'Errors', state, COLORS['FAIL'])
+    print_countset(state['warnings'], 'Warnings', state, COLORS['WARNING'])
+    print_countset(state['errors'], 'Errors', state, COLORS['FAIL'])
 
 
 if __name__ == "__main__":

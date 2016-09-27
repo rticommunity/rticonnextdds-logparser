@@ -25,6 +25,7 @@ Functions:
   + log_cfg: Log a configuration message.
   + log_warning: Log a warning message.
   + log_error: Log an error.
+  + countset_add_element: Add an element to the countset.
 
 Constants:
   + COLORS: Colors to use in log messages.
@@ -95,7 +96,7 @@ def log_process(addr, entity, text, state, level=0):
 
 def log_cfg(text, state):
     """Log a configuration message."""
-    state['config'].add(text)
+    countset_add_element(state['config'], text)
 
 
 def log_event(text, state, level=0):
@@ -109,7 +110,7 @@ def log_warning(text, state, level=0):
     if state['verbosity'] < level:
         return
 
-    state['warnings'].add(text)
+    countset_add_element(state['warnings'], text)
     if state['inline']:
         text = "%s|%s|%s| *Warning: %s*" % (
             "".ljust(9), "".ljust(24), "".ljust(16), text)
@@ -121,8 +122,15 @@ def log_error(text, state, level=0):
     if state['verbosity'] < level:
         return
 
-    state['errors'].add(text)
+    countset_add_element(state['errors'], text)
     if state['inline']:
         text = "%s|%s|%s| **Error: %s**" % (
             "".ljust(9), "".ljust(24), "".ljust(16), text)
         log(text, level, state, COLORS['FAIL'])
+
+
+def countset_add_element(countset, el):
+    """Add an element to the countset."""
+    if el not in countset:
+        countset[el] = [len(countset), 0]
+    countset[el][1] += 1
