@@ -412,7 +412,12 @@ def main():
         # Parse logs again in case this process was piping the output from
         # another and there are some remaining logs. Also we will be able to
         # show the end summary. If the signal is sent again, it will quit.
-        parse_log(expressions, state)
+        try:
+            parse_log(expressions, state)
+        except KeyboardInterrupt:
+            # Catch again the SIGNIT in case the user wants to abort the
+            # log parsing but show the final summary
+            log_warning("Catched SIGINT", state)
 
     # Print result of config, errors and warnings.
     print_config(state)
