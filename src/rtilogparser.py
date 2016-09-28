@@ -140,20 +140,28 @@ def print_host_summary(state):
 def print_statistics_bandwidth(state):
     """Print the bandwidth statistics."""
     write = state['output_device'].write
+    stats = state['statistics']
+
     write("### Bandwidth statistics:")
-    for addr in state['statistics']:
+    for addr in stats:
         write("* Address: %s" % addr)
-        for typ in state['statistics'][addr]:
+        for typ in stats[addr]:
             # If this is a port with dictionary of statistics types
-            if isinstance(state['statistics'][addr][typ], dict):
+            if isinstance(stats[addr][typ], dict):
                 # Show statistics per port with verbosity >= 1
                 if state['verbosity'] < 1:
                     continue
                 port = typ
                 write("    * Port %s" % port)
-                for typ in state['statistics'][addr][port]:
-                    qty = bytes_to_string(state['statistics'][addr][port][typ])
-                    write("        * %s: %s" % (typ, qty))
+                for typ in stats[addr][port]:
+                    info = stats[addr][port][typ]
+                    time_diff = info[1] - info[0]
+                    qty = bytes_to_string(info[2])
+                    if time_diff > 0:
+                        th = bytes_to_string(info[2] / time_diff)
+                        write("        * %s: %s (%s/s)" % (typ, qty, th))
+                    else:
+                        write("        * %s: %s" % (typ, qty))
             # If this is the host counter
             else:
                 qty = bytes_to_string(state['statistics'][addr][typ])
@@ -186,8 +194,8 @@ def bytes_to_string(qty):
     for i in range(len(typ) - 1, 0, -1):
         rang = float(2 ** (10 * i))
         if qty > rang:
-            return "%.3f %s" % (qty / rang, typ[i])
-    return str(qty) + " B"
+            return "%.2f %s" % (qty / rang, typ[i])
+    return str(int(qty)) + " B"
 
 
 def match_date(line, state):

@@ -53,7 +53,7 @@ def on_udpv4_receive(match, state):
 
 def on_shmem_send(match, state):
     addr = "SHMEM:(%s)" % get_port_name(int(match[0], 16))
-    log_send(addr, "", "--", state, 2)
+    log_send(addr, "", "", state, 2)
 
 
 def on_shmem_receive(match, state):

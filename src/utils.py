@@ -43,6 +43,7 @@ Constants:
   + VIEW_STATES: View states for an instance.
 """
 from datetime import timedelta
+from calendar import timegm
 from hashlib import md5
 from logger import log_warning, log_cfg
 
@@ -140,12 +141,21 @@ def add_statistics_bandwidth(addr, typ, qty, state):
         stats[addr][typ] = 0
     stats[addr][typ] += qty
 
+    # Get the monotonic clock if possible, otherwise use the system clock.
+    if 'clocks' in state:
+        clock = state['clocks'][0]
+        if clock is None:
+            clock = timegm(state['clocks'][1].timetuple())
+    else:
+        clock = 0
+
     # Add to the host + port counter
     if port not in stats[addr]:
         stats[addr][port] = {}
     if typ not in stats[addr][port]:
-        stats[addr][port][typ] = 0
-    stats[addr][port][typ] += qty
+        stats[addr][port][typ] = [clock, clock, 0]
+    stats[addr][port][typ][1] = clock
+    stats[addr][port][typ][2] += qty
 
 
 def obfuscate(text, state):
