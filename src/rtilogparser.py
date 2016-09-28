@@ -32,6 +32,7 @@ Functions:
   + bytes_to_string: Convert a byte unit value into string.
   + print_statistics_packets: Print the packet statistics.
   + print_statistics_bandwidth: Print the bandwidth statistics.
+  + print_throughput_info: Print the throughput information.
   + print_host_summary: Print the host summary.
   + print_locators: Print the locators if any.
   + print_config: Print the configuration logs.
@@ -155,18 +156,25 @@ def print_statistics_bandwidth(state):
                 write("    * Port %s" % port)
                 for typ in stats[addr][port]:
                     info = stats[addr][port][typ]
-                    time_diff = info[1] - info[0]
-                    qty = bytes_to_string(info[2])
-                    if time_diff > 0:
-                        th = bytes_to_string(info[2] / time_diff)
-                        write("        * %s: %s (%s/s)" % (typ, qty, th))
-                    else:
-                        write("        * %s: %s" % (typ, qty))
+                    print_throughput_info("        * %s: " % typ, info, state)
             # If this is the host counter
             else:
-                qty = bytes_to_string(state['statistics'][addr][typ])
-                write("    * %s: %s" % (typ, qty))
+                info = stats[addr][typ]
+                print_throughput_info("    * %s: " % typ, info, state)
     write()
+
+
+def print_throughput_info(prefix, info, state):
+    """Print the throughput information."""
+    write = state['output_device'].write
+
+    time_diff = info[1] - info[0]
+    qty = bytes_to_string(info[2])
+    if time_diff > 0:
+        throughput = bytes_to_string(info[2] / time_diff)
+        write("%s%s (%s/s)" % (prefix, qty, throughput))
+    else:
+        write("%s%s" % (prefix, qty))
 
 
 def print_statistics_packets(state):

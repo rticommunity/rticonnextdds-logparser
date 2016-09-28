@@ -134,13 +134,6 @@ def add_statistics_bandwidth(addr, typ, qty, state):
     port = addr[1] if len(addr) > 1 else 0
     addr = addr[0]
 
-    # Add to the host counter
-    if addr not in stats:
-        stats[addr] = {}
-    if typ not in stats[addr]:
-        stats[addr][typ] = 0
-    stats[addr][typ] += qty
-
     # Get the monotonic clock if possible, otherwise use the system clock.
     if 'clocks' in state:
         clock = state['clocks'][0]
@@ -148,6 +141,14 @@ def add_statistics_bandwidth(addr, typ, qty, state):
             clock = timegm(state['clocks'][1].timetuple())
     else:
         clock = 0
+
+    # Add to the host counter
+    if addr not in stats:
+        stats[addr] = {}
+    if typ not in stats[addr]:
+        stats[addr][typ] = [clock, clock, 0]
+    stats[addr][typ][1] = clock
+    stats[addr][typ][2] += qty
 
     # Add to the host + port counter
     if port not in stats[addr]:
