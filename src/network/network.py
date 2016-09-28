@@ -350,6 +350,7 @@ def on_deserialize_failure(match, state):
 def on_shmem_queue_full(match, state):
     """It happens when the ShareMemory queue is full and data is dropped."""
     count_max = match[1]
-    log_error("[LP-19] Sample dropped because ShareMemory queue (%s) is full."
-              % count_max,
+    max_size = match[2]
+    log_error("[LP-19] Sample dropped because ShareMemory queue " +
+              "(num=%s, size=%s) is full." % (count_max, max_size),
               state)
