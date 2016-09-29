@@ -75,7 +75,7 @@ def print_countset(items, typ, state, color=None):
 
 def print_config(state):
     """Print the configuration logs."""
-    print_countset(state['config'], 'Config', state)
+    state['output_device'].write("----------------------")
     if 'locators' in state:
         print_locators(state)
     if 'names' in state and 'name_table' in state:
@@ -84,6 +84,7 @@ def print_config(state):
         print_statistics_bandwidth(state)
     if 'statistics_packet' in state and not state['no_stats']:
         print_statistics_packets(state)
+    print_countset(state['config'], 'Config', state)
 
 
 def print_locators(state):
