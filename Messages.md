@@ -25,7 +25,7 @@ This document contains a detailed description of the messages from the Log Parse
     - [LP-16: Cannot initialize Monitoring: string too long in the RS configuration](#lp-16-cannot-initialize-monitoring-string-too-long-in-the-rs-configuration)
     - [LP-17: Cannot deserialize sample](#lp-17-cannot-deserialize-sample)
     - [LP-18: Cannot match remote entity in topic 'X': Different type names found ('Y', 'Z')](#lp-18-cannot-match-remote-entity-in-topic-x-different-type-names-found-y-z-)
-    - [LP-19: Sample dropped because ShareMemory queue (num=X, size=Y) is full](#lp-19-sample-dropped-because-sharememory-queue-num-x-size-y-is-full)
+    - [LP-19: Sample dropped because ShareMemory queue X is full](#lp-19-sample-dropped-because-sharememory-queue-x-is-full)
 
 ## Warnings
 
@@ -124,7 +124,10 @@ More information is available in the following Knowled-Base solution:
 ### LP-18: Cannot match remote entity in topic 'X': Different type names found ('Y', 'Z')
 It happens when a remote entity cannot be matched because of a type mismatch. The TypeObject information is not available for one or both entities so the type name fields are checked. In this case, the name of the types are different and as a consequence, the match is not possible. To fix the issue, please ensure that Y is equals to Z.
 
-### LP-19: Sample dropped because ShareMemory queue (num=X, size=Y) is full
-This error happens when a received is dropped because there isn't enough space in the ShareMemory queue. The queue is limited by a maximum number of messages (`X` value) and a maximum size in bytes (`Y` value). You can configure these limits by changing the following properties:
-* Number of messages: dds.transport.shmem.builtin.received_message_count_max (default 64)
-* Size: dds.transport.shmem.builtin.receive_buffer_size (default 1048576 (1 MB))
+### LP-19: Sample dropped because ShareMemory queue X is full
+This error happens when a received is dropped because there isn't enough space in the ShareMemory queue. The queue is limited by a maximum number of messages and a maximum size in bytes. You can find the limits for the ShareMemory queue in port `X` in the configuration message:
+> ShareMemory limits for queue X (X) are: max_num=Y, max_size=Z
+
+You can configure these limits by changing the following properties:
+* Maximum number of messages (`Y` value): dds.transport.shmem.builtin.received_message_count_max (default 64)
+* Maximum size (`Z` value): dds.transport.shmem.builtin.receive_buffer_size (default 1048576 (1 MB))

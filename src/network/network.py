@@ -15,6 +15,7 @@
 #   limitations under the License.
 from __future__ import absolute_import
 from logger import log_recv, log_send, log_process, log_warning, log_error
+from logger import log_cfg
 from utils import parse_guid, hex2ip, parse_sn, get_oid, get_participant
 from utils import get_port_name, get_locator, is_builtin_entity
 from utils import get_port_number
@@ -349,8 +350,13 @@ def on_deserialize_failure(match, state):
 
 def on_shmem_queue_full(match, state):
     """It happens when the ShareMemory queue is full and data is dropped."""
+    port = get_port_number(match[0], state)
+    port_name = get_port_name(int(match[0], 16))
     count_max = match[1]
     max_size = match[2]
-    log_error("[LP-19] Sample dropped because ShareMemory queue " +
-              "(num=%s, size=%s) is full." % (count_max, max_size),
+    log_cfg("ShareMemory limits for queue %s (%s) are: max_num=%s, max_size=%s"
+            % (port, port_name, count_max, max_size),
+            state)
+    log_error("[LP-19] Sample dropped because ShareMemory queue %s is full."
+              % port,
               state)
