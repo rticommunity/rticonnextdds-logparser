@@ -60,7 +60,8 @@ class InputConsoleDevice(InputDevice):
 
     def __init__(self, state):
         """Initialize the device."""
-        self.to_terminal = type(state['output_device']) is OutputConsoleDevice
+        self.show_progress = (type(state['output_device']) is
+                              OutputConsoleDevice) and state['show_progress']
         self.start_time = time()
         self.current_time = -1
 
@@ -88,7 +89,7 @@ class InputConsoleDevice(InputDevice):
             # On error don't return None because we want to continue reading.
             line = ""
 
-        if self.to_terminal:
+        if self.show_progress:
             self.print_time(0.2)
         return line
 
@@ -110,7 +111,8 @@ class InputFileDevice(InputDevice):
     def __init__(self, file_path, state):
         """Initialize the device with the specified file path."""
         self.stream = open(file_path, "r")
-        self.to_terminal = type(state['output_device']) is OutputConsoleDevice
+        self.show_progress = (type(state['output_device']) is
+                              OutputConsoleDevice) and state['show_progress']
         self.file_size = fstat(self.stream.fileno()).st_size
         self.progress = -1
 
@@ -143,7 +145,7 @@ class InputFileDevice(InputDevice):
             # On error don't return None because we want to continue reading.
             line = ""
 
-        if self.to_terminal:
+        if self.show_progress:
             self.print_progress(0.01, 2, 51)
         return line
 

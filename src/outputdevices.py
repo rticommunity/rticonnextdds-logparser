@@ -46,15 +46,23 @@ class OutputConsoleDevice(OutputDevice):
     """Console device. Writes output into the standard output.
 
     Functions:
+      + __init__: Initialize the device with the specified file path.
       + write: Write the log into the standard output.
       + close: Do nothing, no need to close device.
     """
+
+    def __init__(self, state):
+        """Initialize the device."""
+        self.support_ansi = state['show_progress']
 
     def write(self, text=""):
         """Write the log into the standard output."""
         # 33[k is an ANSI code to clear the line
         # We need it to clear the optional progress bar.
-        print("\033[K" + text)
+        if self.support_ansi:
+            print("\033[K" + text)
+        else:
+            print(text)
 
     def close(self):
         """Do nothing, no need to close device."""

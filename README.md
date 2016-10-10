@@ -37,6 +37,7 @@ Additional features can be enabled or disabled with the following arguments:
 * `--no-network`: do not show the network related logs.
 * `--no-inline`: do not show warnigns and errors in network logs.
 * `--no-stats`: do not show the network and packet statistics.
+* `--no-progress`: do not show the interative info at the bottom.
 
 ### Enable Connext DDS logs
 By default any application built with RTI Connext DDS will print to the standard output errors from the middleware. To take advantage of this tool we recommend to enable the higher log verbosity and redirect the output into a file. There are several ways to increase the log verbosity:

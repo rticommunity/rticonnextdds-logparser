@@ -54,7 +54,7 @@ from logger import COLORS, log_warning, log_error
 from outputdevices import OutputConsoleDevice, OutputFileDevice
 from inputdevices import InputFileDevice, InputConsoleDevice
 
-__version__ = "1.1"
+__version__ = "1.2a0"
 DATE_REGEX = re.compile(r'\[(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}.\d{6})\]' +
                         r'\[(\d{10}.\d{6})\]')
 SINGLE_DATE_REGEX = re.compile(r'\[(\d{10}).(\d{6})\]')
@@ -298,6 +298,8 @@ def read_arguments():
                         help="do not show warnigns and errors in network logs")
     parser.add_argument("--no-stats", action='store_true',
                         help="do not show the network and packet statistics")
+    parser.add_argument("--no-progress", action='store_true',
+                        help="do not show the interative info at the bottom")
 
     parser.add_argument("--debug", action='store_true',
                         help="debug mode - export unmatched logs")
@@ -322,6 +324,7 @@ def initialize_state(args):
     state['assign_names'] = not args.show_ip
     state['no_colors'] = not args.colors
     state['no_stats'] = args.no_stats
+    state['show_progress'] = not args.no_progress
     state['show_lines'] = args.show_lines
     state['current_line'] = 0
     state['log_line'] = 0
@@ -335,7 +338,7 @@ def initialize_state(args):
     if args.output:
         state['output_device'] = OutputFileDevice(args.output)
     else:
-        state['output_device'] = OutputConsoleDevice()
+        state['output_device'] = OutputConsoleDevice(state)
     if args.input:
         state['input_device'] = InputFileDevice(args.input, state)
     else:
