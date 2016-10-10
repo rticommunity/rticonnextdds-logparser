@@ -73,6 +73,8 @@ def get_regex_list():
                   r"NDDS_Transport_Shmem_receive_rEA:\w+ blocking on 0X\w+"])
     regex.append([debug.on_ignored_message,
                   r"NDDS_Transport_Shmem_receive_rEA:\w+ woke up"])
+    regex.append([debug.on_ignored_message,
+                  r"NDDS_Transport_UDPv4_receive_rEA:\w+ blocking on 0X\w+"])
 
     regex.append([debug.on_ignored_message,
                   r"DDS_DomainParticipantPresentation_reserve_participant_" +

@@ -268,9 +268,10 @@ def on_receive_data(match, state):
     if full_id in state['last_sn']:
         prev_seqnum = state['last_sn'][full_id]
         diff = seqnum - prev_seqnum
-        if diff > 1:
-            log_warning("Missing %d packets for %s" % (diff, full_id),
-                        state)
+        # Add a warning message per missing packet to have a good count in
+        # the warning summary.
+        for i in range(diff - 1):
+            log_warning("Missing packet for %s" % full_id, state)
     state['last_sn'][full_id] = seqnum
 
 
