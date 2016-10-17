@@ -28,7 +28,7 @@ Additional features can be enabled or disabled with the following arguments:
 * `--show-ip`: show the IP address instead of an assigned name.
 * `--obfuscate`: hide sensitive information like IP addresses.
 * `--salt SALT, -s SALT`: salt for obfuscation. It will be random if not set.
-* `--timestamp, -t`: show timestamp log field.
+* `--show-timestamp, -t`: show timestamp log field.
 * `--show-lines`: print the original and parsed log lines.
 * `--only regex`: show only log messages that match the regex.
 * `--colors, -c`: apply colors to log messages (e.g.: warnings in yellow).

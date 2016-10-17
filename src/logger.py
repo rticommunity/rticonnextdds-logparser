@@ -53,7 +53,7 @@ def log(msg, level, state, color=None):
     # Add the current line if so
     if state['show_lines']:
         msg = " %05d/%04d |%s" % (
-            state['log_line'], state['current_line'], msg)
+            state['input_line'], state['output_line'] + 1, msg)
 
     if 'onlyIf' in state and not state['onlyIf'].search(msg):
         return

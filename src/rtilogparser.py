@@ -248,7 +248,6 @@ def match_line(line, expressions, state):
     for expr in expressions:
         match = expr[1].search(line)
         if match:
-            state['current_line'] += 1
             expr[0](match.groups(), state)
             break
 
@@ -280,7 +279,7 @@ def read_arguments():
                         help="hide sensitive information like IP addresses")
     parser.add_argument("--salt", "-s",
                         help="salt for obfuscation - from random if not set")
-    parser.add_argument("--timestamp", "-t", action='store_true',
+    parser.add_argument("--show-timestamp", "-t", action='store_true',
                         help="show timestamp log field")
     parser.add_argument("--show-lines", action='store_true',
                         help="print the original and parsed log lines")
@@ -318,7 +317,7 @@ def initialize_state(args):
     state['config'] = {}
     state['inline'] = not args.no_inline
     state['ignore_packets'] = args.no_network
-    state['no_timestamp'] = not args.timestamp
+    state['no_timestamp'] = not args.show_timestamp
     state['obfuscate'] = args.obfuscate
     state['salt'] = args.salt or get_urandom()
     state['assign_names'] = not args.show_ip
@@ -326,8 +325,8 @@ def initialize_state(args):
     state['no_stats'] = args.no_stats
     state['show_progress'] = not args.no_progress
     state['show_lines'] = args.show_lines
-    state['current_line'] = 0
-    state['log_line'] = 0
+    state['output_line'] = 0
+    state['input_line'] = 0
     state['debug'] = args.debug
     if args.highlight:
         state['highlight'] = re.compile(args.highlight)
@@ -336,7 +335,7 @@ def initialize_state(args):
     if args.local_host:
         state['local_address'] = tuple(args.local_host.split(","))
     if args.output:
-        state['output_device'] = OutputFileDevice(args.output)
+        state['output_device'] = OutputFileDevice(state, args.output)
     else:
         state['output_device'] = OutputConsoleDevice(state)
     if args.input:
@@ -354,7 +353,7 @@ def parse_log(expressions, state):
     line = True  # For the first condition.
     while line:
         # If the line contains non-UTF8 chars it could raise an exception.
-        state['log_line'] += 1
+        state['input_line'] += 1
         line = device.read_line()
 
         # If EOF or the line is empty, continue.
