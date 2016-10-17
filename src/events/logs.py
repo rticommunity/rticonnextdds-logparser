@@ -168,6 +168,10 @@ def get_regex_list():
     regex.append([events.on_participant_initial_peers,
                   r'DDS_DomainParticipantDiscovery_enableI:value of: ' +
                   r'initial_peers="(.+)"'])
-    regex.append([events.on_no_var_file_found,
-                  r"RTIOsapi_envVarOrFileGet:(\w+)(\s\w+)? (\w+) not found"])
+    regex.append([events.on_envvar_file_not_found,
+                  r"RTIOsapi_envVarOrFileGet:(environment variable|file) " +
+                  r"(\w+) not found"])
+    regex.append([events.on_envvar_file_found,
+                  r"RTIOsapi_envVarOrFileGet:using " +
+                  r"(environment variable|file) (\w+)"])
     return regex

@@ -94,8 +94,10 @@ def log_process(addr, entity, text, state, level=0):
             level, state)
 
 
-def log_cfg(text, state):
+def log_cfg(text, state, level=0):
     """Log a configuration message."""
+    if state['verbosity'] < level:
+        return
     countset_add_element(state['config'], text)
 
 

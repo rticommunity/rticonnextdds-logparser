@@ -253,10 +253,11 @@ def on_participant_initial_peers(match, state):
     log_cfg("Initial peers: %s" % ", ".join(initial_peers), state)
 
 
-def on_no_var_file_found(match, state):
-    if match[1]:
-        log_cfg(match[0] + match[1] + " " +
-                match[2] + " not found",
-                state)
-    else:
-        log_cfg(match[0] + " " + match[2] + " not found", state)
+def on_envvar_file_not_found(match, state):
+    """It happens when the middleware cannot find an env var or file."""
+    log_cfg("%s %s not found" % (match[0].capitalize(), match[1]), state)
+
+
+def on_envvar_file_found(match, state):
+    """It happens when the middleware found an env var or file."""
+    log_cfg("%s %s found" % (match[0].capitalize(), match[1]), state)
