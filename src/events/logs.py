@@ -37,6 +37,9 @@ def get_regex_list():
                   r"NDDS_Transport_UDPv4_InterfaceListener_onInterface:" +
                   r"interface ([\d\.]+) \((\w+)\), enabled=(\d), " +
                   r"multicast=(\d)"])
+    regex.append([events.on_skipped_interface,
+                  r"NDDS_Transport_UDPv4_query_interfaces:" +
+                  r"skipped (\w+)"])
 
     # Create or delete entities
     regex.append([events.on_create_participant,
@@ -78,6 +81,10 @@ def get_regex_list():
     regex.append([events.on_fail_delete_flowcontrollers,
                   r"PRESParticipant_destroyOneFlowControllerWithCursor:" +
                   r"has (\d+) writers on flowcontroller"])
+    regex.append([events.on_inconsistent_transport_discovery_configuration,
+                  r"DDS_DomainParticipant_enableI:Automatic participant " +
+                  r"index failed to initialize\. PLEASE VERIFY CONSISTENT " +
+                  r"TRANSPORT \/ DISCOVERY CONFIGURATION\."])
 
     # Discover remote or local entities
     regex.append([events.on_discover_participant,
@@ -161,4 +168,6 @@ def get_regex_list():
     regex.append([events.on_participant_initial_peers,
                   r'DDS_DomainParticipantDiscovery_enableI:value of: ' +
                   r'initial_peers="(.+)"'])
+    regex.append([events.on_no_var_file_found,
+                  r"RTIOsapi_envVarOrFileGet:(\w+)(\s\w+)? (\w+) not found"])
     return regex

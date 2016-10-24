@@ -48,6 +48,10 @@ def on_get_valid_interface(match, state):
                 state)
 
 
+def on_skipped_interface(match, state):
+    log_event("Skipped interface: %s" % match[0], state, 2)
+
+
 # --------------------------------------------------------------------------- #
 # -- Create or delete entities                                             -- #
 # --------------------------------------------------------------------------- #
@@ -116,6 +120,10 @@ def on_fail_delete_flowcontrollers(match, state):
     num_flowcontrol = match[0]
     log_error("[LP-15] Cannot delete %s FlowControllers" % (num_flowcontrol) +
               " from delete_contained_entities", state)
+
+
+def on_inconsistent_transport_discovery_configuration(match, state):
+    log_error("Inconsistent transport/discovery configuration", state)
 
 
 # --------------------------------------------------------------------------- #
@@ -243,3 +251,12 @@ def on_participant_initial_peers(match, state):
     initial_peers = [get_locator(peer, state) for peer in match[0].split(",")]
     state['initial_peers'] = initial_peers
     log_cfg("Initial peers: %s" % ", ".join(initial_peers), state)
+
+
+def on_no_var_file_found(match, state):
+    if match[1]:
+        log_cfg(match[0] + match[1] + " " +
+                match[2] + " not found",
+                state)
+    else:
+        log_cfg(match[0] + " " + match[2] + " not found", state)
