@@ -260,3 +260,8 @@ def on_no_var_file_found(match, state):
                 state)
     else:
         log_cfg(match[0] + " " + match[2] + " not found", state)
+
+
+def on_get_profile_error(match, state):
+    log_error("The " + match[1] + "QoS profile from library " +
+              match[1]+"was not found", state)

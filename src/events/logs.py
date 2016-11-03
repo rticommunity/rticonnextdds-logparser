@@ -170,4 +170,7 @@ def get_regex_list():
                   r'initial_peers="(.+)"'])
     regex.append([events.on_no_var_file_found,
                   r"RTIOsapi_envVarOrFileGet:(\w+)(\s\w+)? (\w+) not found"])
+    regex.append([events.on_get_profile_error,
+                  r"DDS_QosProvider_get_profile_xml_objectI:ERROR: " +
+                  r"Profile \'(\w+)::(\w+)\' not found"])
     return regex
