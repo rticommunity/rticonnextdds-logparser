@@ -139,20 +139,24 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"PRESPsReaderQueue_newData:!get entries"])
 
-    regex.append([debug.on_ignored_message, r"^send failed: $"])
-    regex.append([debug.on_ignored_message, r"^\s*locator:\s*$"])
-    regex.append([debug.on_ignored_message, r"^\s*transport: \d+$"])
-    regex.append([debug.on_ignored_message, r"^\s*address: [\d:]+$"])
-    regex.append([debug.on_ignored_message, r"^[\d:]+$"])
-    regex.append([debug.on_ignored_message, r"^\s*port: \d+$"])
-    regex.append([debug.on_ignored_message, r"^\s{6}encapsulation:$"])
-    regex.append([debug.on_ignored_message, r"^\s{3}transport_priority: \d+$"])
-    regex.append([debug.on_ignored_message, r'^\s{3}aliasList: ""$'])
+    regex.append([debug.on_ignored_message, r"^send failed:"])
+    regex.append([debug.on_ignored_message, r"Recv Resource:"])
+    regex.append([debug.on_ignored_message, r"^\s*locator:\s*"])
+    regex.append([debug.on_ignored_message, r"^\s*transport: \d"])
+    regex.append([debug.on_ignored_message, r"^\s*address: [\d:]"])
+    regex.append([debug.on_ignored_message, r"^[\d:]"])
+    regex.append([debug.on_ignored_message, r"^\s*port: \d"])
+    regex.append([debug.on_ignored_message, r"^\s{6}encapsulation:"])
+    regex.append([debug.on_ignored_message, r"^\s{3}transport_priority: \d"])
+    regex.append([debug.on_ignored_message, r'^\s{3}aliasList: ""'])
     regex.append([debug.on_ignored_message,
                   r"DDS_DomainParticipantFactory_initializeI:Welcome to NDDS"])
     regex.append([debug.on_ignored_message,
-                  r"DDS_DiscoveryQosPolicy_get_default:no environment" +
+                  r"DDS_DiscoveryQosPolicy_get_default:no environment " +
                   r"variable or file NDDS_DISCOVERY_PEERS"])
+    regex.append([debug.on_ignored_message,
+                  r"DDS_QosProvider_get_participant_qos_from_profile:" +
+                  r"ERROR: Profile \'(\w+)::(\w+)\' not found"])
 
     # The rest of unmatched message will be saved into a file to analyze them.
     regex.append([debug.on_unmatched_message, r"(.*)"])
