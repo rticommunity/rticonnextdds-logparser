@@ -275,6 +275,8 @@ def read_arguments():
                         help="write the output into the specified file")
     parser.add_argument("--overwrite-output", "-oo",
                         help="write the output into a new/truncated file")
+    parser.add_argument("--write-original",
+                        help="write the original log output into a file")
     parser.add_argument("--show-ip", action='store_true',
                         help="show the IP address instead of an assigned name")
     parser.add_argument("--obfuscate", action='store_true',
@@ -327,6 +329,7 @@ def initialize_state(args):
     state['no_stats'] = args.no_stats
     state['show_progress'] = not args.no_progress
     state['show_lines'] = args.show_lines
+    state['write_original'] = args.write_original
     state['output_line'] = 0
     state['input_line'] = 0
     state['debug'] = args.debug
@@ -355,6 +358,9 @@ def parse_log(expressions, state):
     """Parse a log file."""
     device = state['input_device']
 
+    if state['write_original']:
+        originalOutput = OutputFileDevice(state, state['write_original'], True)
+
     # While there is a new line, parse it.
     line = True  # For the first condition.
     while line:
@@ -365,6 +371,10 @@ def parse_log(expressions, state):
         # If EOF or the line is empty, continue.
         if not line or line == "":
             continue
+
+        # Write original log if needed
+        if state['write_original']:
+            originalOutput.write(line)
 
         # We can get exceptions if the file contains output from two
         # different applications since the logs are messed up.
