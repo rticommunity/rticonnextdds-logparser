@@ -232,6 +232,11 @@ def on_writer_exceed_max_entries(match, state):
                 state)
 
 
+def on_writer_batching_exceed_max_entries(match, state):
+    log_warning("[LP-10] DataWriter with batching exceeded resource limits",
+                state)
+
+
 def on_reader_exceed_max_entries(match, state):
     log_warning("[LP-11] DataReader exceeded resource limits",
                 state)

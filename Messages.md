@@ -53,7 +53,11 @@ The warning happens when the user tries to unregister an instance with an unkeye
 The DataWriter cannot drop an unregistered instance because the entity is still waiting for some DataReader to confirm the reception. This usually means that the DataWriter queues are full and it cannot release space for new samples because the DataReaders haven't confirmed yet the previous samples.
 
 ### LP-10: DataWriter exceeded resource limits
-The DataWriter reached its maximum number of entries. The sample cannot be added and the write operation will fail.
+The DataWriter reached its maximum number of entries. The sample cannot be added and the write operation will fail. To resolve this issue the following limits of the DataWriter need to be increased:
+* ResourceLimitsQosPolicy::max_instances
+* ResourceLimitsQosPolicy::max_samples_per_instance
+* ResourceLimitsQosPolicy::max_samples
+* DataWriterResourceLimitsQosPolicy::max_batches [Only if Batching is enabled]
 
 ### LP-11: DataReader exceeded resource limits
 The DataReader reached its maximum number of entries. The received sample cannot be added to the entity queue and it will be rejected.
