@@ -52,26 +52,26 @@ def get_regex_list():
     regex.append([events.on_create_topic,
                   r"DDS_DomainParticipant_create_topic_disabledI:" +
                   r"(?:RTI0x\w+:)?created topic: topic=(.+), " +
-                  r"type=([^\r]+)"])
+                  r"type=(.+)"])
     regex.append([events.on_create_cft,
                   r"DDS_DomainParticipant_create_contentfilteredtopic_" +
                   r"with_filter:(?:RTI0x\w+:)?created topic: topic=(.+)" +
                   r", type="])
     regex.append([events.on_delete_topic,
                   r"DDS_DomainParticipant_delete_topic:deleted topic: " +
-                  r"topic=(.+), type=([^\r]+)"])
+                  r"topic=(.+), type=(.+)"])
     regex.append([events.on_create_writer,
                   r"DDS_Publisher_create_datawriter_disabledI:(?:RTI0x\w+:)?" +
-                  r"created writer: topic=([^\r]+)"])
+                  r"created writer: topic=(.+)"])
     regex.append([events.on_create_reader,
                   r"DDS_Subscriber_create_datareader_disabledI:" +
                   r"(?:RTI0x\w+:)?created reader: topic=(.+)"])
     regex.append([events.on_delete_writer,
                   r"DDS_Publisher_delete_datawriter:(?:RTI0x\w+:)?" +
-                  r"deleted writer: topic=([^\r]+)"])
+                  r"deleted writer: topic=(.+)"])
     regex.append([events.on_delete_reader,
                   r"DDS_Subscriber_delete_datareader:(?:RTI0x\w+:)?" +
-                  r"deleted reader: topic=([^\r]+)"])
+                  r"deleted reader: topic=(.+)"])
     regex.append([events.on_duplicate_topic_name_error,
                   r"PRESParticipant_createTopic:name '(.+)' " +
                   r"is not unique"])

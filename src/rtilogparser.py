@@ -354,7 +354,7 @@ def parse_log(expressions, state):
     while line:
         # If the line contains non-UTF8 chars it could raise an exception.
         state['input_line'] += 1
-        line = device.read_line()
+        line = device.read_line().rstrip("\r\n")
 
         # If EOF or the line is empty, continue.
         if not line or line == "":
