@@ -54,7 +54,7 @@ def on_udpv4_receive(match, state):
 
 def on_shmem_send(match, state):
     addr = "SHMEM:(%s)" % get_port_name(int(match[0], 16))
-    log_send(addr, "", "", state, 2)
+    log_send(addr, "", "Sent data", state, 2)
 
 
 def on_shmem_receive(match, state):
@@ -254,6 +254,7 @@ def on_batch_serialize_failure(match, state):
 # -- Read entity                                                           -- #
 # --------------------------------------------------------------------------- #
 def on_receive_data(match, state):
+    """It happens when the reader receives data."""
     comm = "best-effort" if match[0] == "Be" else "reliable"
     reader_oid = get_oid(match[1])
     packet = match[2]
@@ -261,10 +262,6 @@ def on_receive_data(match, state):
     remote = match[5].split('.')
     writer_addr = parse_guid(state, remote[0], remote[1], remote[2])
     writer_oid = get_oid(remote[3])
-    verb = 1 if is_builtin_entity(remote[3]) else 0
-    log_recv(writer_addr, reader_oid, "Received %s (%d) from writer %s (%s)" %
-             (packet, seqnum, writer_oid, comm),
-             state, verb)
 
     # Sequece number check
     full_id = writer_addr + "." + writer_oid + ' to ' + reader_oid
@@ -278,6 +275,12 @@ def on_receive_data(match, state):
         for i in range(diff - 1):
             log_warning("Missing packet for %s" % full_id, state)
     state['last_sn'][full_id] = seqnum
+
+    # Show the message after any possible warning.
+    verb = 1 if is_builtin_entity(remote[3]) else 0
+    log_recv(writer_addr, reader_oid, "Received %s (%d) from writer %s (%s)" %
+             (packet, seqnum, writer_oid, comm),
+             state, verb)
 
 
 def on_receive_out_order_data(match, state):
