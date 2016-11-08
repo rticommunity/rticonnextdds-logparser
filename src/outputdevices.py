@@ -80,9 +80,10 @@ class OutputFileDevice(OutputDevice):
       + close: Close the file stream.
     """
 
-    def __init__(self, state, file_path):
+    def __init__(self, state, file_path, overwrite):
         """Initialize the device with the specified file path."""
-        self.stream = open(file_path, "a")
+        open_mode = "w" if overwrite else "a"
+        self.stream = open(file_path, open_mode)
         self.state = state
 
     def write(self, text=""):

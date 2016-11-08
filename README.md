@@ -25,6 +25,7 @@ Additional features can be enabled or disabled with the following arguments:
 * `--input, -i`: log file path, by default read from the standard input.
 * `-v`: verbosity level. You can control the level adding more 'v'.
 * `--output FILE, -o FILE`: write the output into the specified file.
+* `--overwrite-output FILE, -oo FILE`: write the output into a new file.
 * `--show-ip`: show the IP address instead of an assigned name.
 * `--obfuscate`: hide sensitive information like IP addresses.
 * `--salt SALT, -s SALT`: salt for obfuscation. It will be random if not set.
@@ -105,7 +106,7 @@ It is not necessary to compile the tool since it uses python. Optionally, the so
 There are two methods to add customer log messages in the parsed output. This allows to add custom application messages in the output of the tool.
 
 ### Log prefixes
-Any log message starting with `# Custom: ` is parsed and it will appear in the output.
+Any log message starting with `#Custom: ` is parsed and it will appear in the output.
 
 ### Adding a parser
 The tool can be extended to implement custom parsers by following these steps:

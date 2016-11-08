@@ -272,9 +272,11 @@ def read_arguments():
     parser.add_argument("-v", action='count',
                         help="verbosity level - increased by multiple 'v'")
     parser.add_argument("--output", "-o",
-                        help="Writes the output into the specified file")
+                        help="write the output into the specified file")
+    parser.add_argument("--overwrite-output", "-oo",
+                        help="write the output into a new/truncated file")
     parser.add_argument("--show-ip", action='store_true',
-                        help="Show the IP address instead of an assigned name")
+                        help="show the IP address instead of an assigned name")
     parser.add_argument("--obfuscate", action='store_true',
                         help="hide sensitive information like IP addresses")
     parser.add_argument("--salt", "-s",
@@ -335,7 +337,11 @@ def initialize_state(args):
     if args.local_host:
         state['local_address'] = tuple(args.local_host.split(","))
     if args.output:
-        state['output_device'] = OutputFileDevice(state, args.output)
+        state['output_device'] = OutputFileDevice(state, args.output, False)
+    elif args.overwrite_output:
+        state['output_device'] = OutputFileDevice(state,
+                                                  args.overwrite_output,
+                                                  True)
     else:
         state['output_device'] = OutputConsoleDevice(state)
     if args.input:
