@@ -14,12 +14,12 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 from __future__ import absolute_import
-from logger import log_recv, log_send, log_process, log_warning, log_error
-from logger import log_cfg
-from utils import parse_guid, hex2ip, parse_sn, get_oid, get_participant
-from utils import get_port_name, get_locator, is_builtin_entity
-from utils import get_port_number
-from utils import add_statistics_packet, add_statistics_bandwidth
+from logger import (log_cfg, log_error, log_process, log_recv, log_send,
+                    log_warning)
+from utils import (add_statistics_bandwidth, add_statistics_packet,
+                   get_locator, get_oid, get_participant, get_port_name,
+                   get_port_number, hex2ip, is_builtin_entity, parse_guid,
+                   parse_sn)
 
 
 # --------------------------------------------------------------------------- #

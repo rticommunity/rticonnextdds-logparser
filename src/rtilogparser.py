@@ -42,19 +42,20 @@ Constants:
   + SINGLE_DATE_REGEX: Regular expression to match log timestamps.
   + DATE_REGEX: Regular expression to match system and monotonic clocks.
 """
-from argparse import ArgumentParser
 import re
+from argparse import ArgumentParser
 from datetime import datetime, timedelta
 from os import urandom
 from sys import exc_info
 from traceback import extract_tb
-from logs import create_regex_list
-from utils import compare_times
-from logger import COLORS, log_warning, log_error
-from outputdevices import OutputConsoleDevice, OutputFileDevice
-from inputdevices import InputFileDevice, InputConsoleDevice
 
-__version__ = "1.2a0"
+from inputdevices import InputConsoleDevice, InputFileDevice
+from logger import COLORS, log_error, log_warning
+from logs import create_regex_list
+from outputdevices import OutputConsoleDevice, OutputFileDevice
+from utils import compare_times
+
+__version__ = "1.2a1"
 DATE_REGEX = re.compile(r'\[(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}.\d{6})\]' +
                         r'\[(\d{10}.\d{6})\]')
 SINGLE_DATE_REGEX = re.compile(r'\[(\d{10}).(\d{6})\]')

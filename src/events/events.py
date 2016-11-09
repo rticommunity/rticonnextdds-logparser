@@ -14,10 +14,10 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 from __future__ import absolute_import
-from logger import log_cfg, log_process, log_event, log_error, log_warning
-from utils import parse_guid, hex2ip, get_locator, get_oid, get_participant
-from utils import get_topic_name, get_type_name
-from utils import set_local_address, is_builtin_entity
+from logger import log_cfg, log_error, log_event, log_process, log_warning
+from utils import (get_locator, get_oid, get_participant, get_topic_name,
+                   get_type_name, hex2ip, is_builtin_entity, parse_guid,
+                   set_local_address)
 
 
 # --------------------------------------------------------------------------- #

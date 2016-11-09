@@ -20,11 +20,11 @@ Functions:
   + create_regex_list: Create the list of regular expressions and functions.
 """
 import re
-from network.logs import get_regex_list as network_regex
 from custom.logs import get_regex_list as custom_regex
-from events.logs import get_regex_list as events_regex
-from routing.logs import get_regex_list as routing_regex
 from debug.logs import get_regex_list as debug_regex
+from events.logs import get_regex_list as events_regex
+from network.logs import get_regex_list as network_regex
+from routing.logs import get_regex_list as routing_regex
 
 
 def add_regex(log_list, method, regex):
