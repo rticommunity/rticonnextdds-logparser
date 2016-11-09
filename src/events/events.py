@@ -122,6 +122,7 @@ def on_fail_delete_flowcontrollers(match, state):
               " from delete_contained_entities", state)
 
 
+# pylint: disable=W0613
 def on_inconsistent_transport_discovery_configuration(match, state):
     log_error("Inconsistent transport/discovery configuration", state)
 
@@ -178,6 +179,7 @@ def on_announce_local_subscription(match, state):
     log_process(local_addr, "", "Announcing new reader %s" % sub_oid, state)
 
 
+# pylint: disable=W0613
 def on_participant_ignore_itself(match, state):
     log_process("", "", "Participant is ignoring itself", state)
 

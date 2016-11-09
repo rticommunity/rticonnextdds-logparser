@@ -37,6 +37,11 @@ class InputDevice(object):
         + close: Close the device.
     """
 
+    def __init__(self, state):
+        """Initialize the device."""
+        self.show_progress = state['show_progress'] and \
+            isinstance(state['output_device'], OutputConsoleDevice)
+
     def read_line(self):
         """Read and return the next DDS log message from the device.
 
@@ -60,8 +65,7 @@ class InputConsoleDevice(InputDevice):
 
     def __init__(self, state):
         """Initialize the device."""
-        self.show_progress = (type(state['output_device']) is
-                              OutputConsoleDevice) and state['show_progress']
+        super(InputConsoleDevice, self).__init__(state)
         self.start_time = time()
         self.current_time = -1
 
@@ -110,9 +114,8 @@ class InputFileDevice(InputDevice):
 
     def __init__(self, file_path, state):
         """Initialize the device with the specified file path."""
+        super(InputFileDevice, self).__init__(state)
         self.stream = open(file_path, "r")
-        self.show_progress = (type(state['output_device']) is
-                              OutputConsoleDevice) and state['show_progress']
         self.file_size = fstat(self.stream.fileno()).st_size
         self.progress = -1
 
@@ -129,8 +132,8 @@ class InputFileDevice(InputDevice):
         percents = ("%03." + str(decimals) + "f") % progress
         filledLength = int(round(barLength * iteration / float(total)))
 
-        bar = '*' * filledLength + '-' * (barLength - filledLength)
-        stdout.write('%s| %s%% Completed\r' % (bar, percents))
+        barText = '*' * filledLength + '-' * (barLength - filledLength)
+        stdout.write('%s| %s%% Completed\r' % (barText, percents))
         stdout.flush()
 
     def read_line(self):
