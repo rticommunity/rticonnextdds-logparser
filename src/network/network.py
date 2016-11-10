@@ -13,6 +13,46 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+"""Log parsing functions for logs related to the network.
+
+Functions:
+  + on_parse_packet: it happens when an RTPS message is parsed.
+  + on_udpv4_send: it happens when sending an RTPS packet via UDPv4.
+  + on_udpv4_receive: it happens when receiving an RTPS packet via UDPv4.
+  + on_shmem_send: it happens when sending an RTPS packet via ShareMemory.
+  + on_shmem_receive: it happens when receiving an RTPS packet via ShareMemory.
+  + on_error_unreachable_network: it happens when the network is unreachable.
+  + on_error_no_transport_available: it happens when there isn't transport.
+  + on_unregister_not_asserted_entity: it happens unregistering the entity.
+  + on_schedule_data: it happens when a data is asynchronously scheduled.
+  + on_send_data: it happens when a DATA message is sent.
+  + on_resend_data: it happens when the writer resend a DATA message.
+  + on_send_gap: it happens when the writer send a GAP message.
+  + on_send_preemptive_gap: it happens when sending a preemptive GAP message.
+  + on_send_preemptive_hb: it happens when sending a preemptive HB message.
+  + on_send_piggyback_hb: it happens when sending a piggyback HB message.
+  + on_send_hb_response: it happens when sending a HB response.
+  + on_receive_ack: it happens when receiving an ACK message.
+  + on_instance_not_found: it happens when the instance is not found.
+  + on_send_from_deleted_writer: it happens when the writer is deleted.
+  + on_fail_serialize: it happens when the serialization fails.
+  + on_drop_unregister_no_ack_instance: it happens when there is missing ACK.
+  + on_writer_exceed_max_entries: it happens when resource limits are exceeded.
+  + on_writer_batching_exceed_max_entries: it happens for batching limits.
+  + on_reader_exceed_max_entries: it happens when resource limits are exceeded.
+  + on_write_max_blocking_time_expired: it happens when blocking time expired.
+  + on_batch_serialize_failure: it happens when the batch serialization fails.
+  + on_receive_data: it happens when the reader receives data.
+  + on_receive_out_order_data: it happens when SequenceNumber isn't contiguous.
+  + on_accept_data: it happens when the reader accepts data.
+  + on_rejected_data: it happens when the reader rejects data.
+  + on_receive_hb: it happens when receiving a HB.
+  + on_send_ack: it happens when a ACK message is sent.
+  + on_send_nack: it happens when a NACK message is sent.
+  + on_sample_received_from_deleted_writer: it happens when no remote writer.
+  + on_deserialize_failure: it happens when deserialization fails.
+  + on_shmem_queue_full: it happens when the ShareMemory queue is full.
+"""
 from __future__ import absolute_import
 from logger import (log_cfg, log_error, log_process, log_recv, log_send,
                     log_warning)
@@ -26,6 +66,7 @@ from utils import (add_statistics_bandwidth, add_statistics_packet,
 # -- Parser entity                                                         -- #
 # --------------------------------------------------------------------------- #
 def on_parse_packet(match, state):
+    """It happens when an RTPS message is parsed."""
     addr = parse_guid(state, match[1], match[2])
     log_recv(addr, "", "Received %s packet" % match[0], state, 2)
     add_statistics_packet(addr, 'receive', match[0], state)
@@ -35,6 +76,7 @@ def on_parse_packet(match, state):
 # -- Transport layer                                                       -- #
 # --------------------------------------------------------------------------- #
 def on_udpv4_send(match, state):
+    """It happens when sending an RTPS packet through UDPv4."""
     qty = int(match[0])
     addr = get_participant(hex2ip(match[1], True), state)
     port = get_port_name(int(match[2]))
@@ -44,6 +86,7 @@ def on_udpv4_send(match, state):
 
 
 def on_udpv4_receive(match, state):
+    """It happens when receiving an RTPS packet through UDPv4."""
     qty = int(match[0])
     addr = get_participant(hex2ip(match[1], True), state)
     port = get_port_number(match[2], state)
@@ -53,11 +96,13 @@ def on_udpv4_receive(match, state):
 
 
 def on_shmem_send(match, state):
+    """It happens when sending an RTPS packet through ShareMemory."""
     addr = "SHMEM:(%s)" % get_port_name(int(match[0], 16))
     log_send(addr, "", "Sent data", state, 2)
 
 
 def on_shmem_receive(match, state):
+    """It happens when receiving an RTPS packet through ShareMemory."""
     qty = int(match[0])
     log_recv("SHMEM", "", "Received %d bytes" % qty, state, 2)
     add_statistics_bandwidth("SHMEM", 'receive', qty, state)
@@ -65,10 +110,12 @@ def on_shmem_receive(match, state):
 
 # pylint: disable=W0613
 def on_error_unreachable_network(match, state):
+    """It happens when the network is unreachable."""
     log_warning("Unreachable network for previous send", state, 1)
 
 
 def on_error_no_transport_available(match, state):
+    """It happens when there isn't transport."""
     loc = get_locator(match[0], state)
     log_warning("[LP-12] No transport available to reach locator %s" % loc,
                 state, 1)
@@ -78,7 +125,9 @@ def on_error_no_transport_available(match, state):
 # -- Write entity                                                          -- #
 # --------------------------------------------------------------------------- #
 def on_unregister_not_asserted_entity(entity):
+    """It happens unregistering the entity."""
     def on_unregister_given_not_asserted_entity(match, state):
+        """Internal function for the specific entity."""
         remote_part = parse_guid(state, match[0], match[1], match[2])
         remote_oid = get_oid(match[3])
         log_warning("%s %s is unregistering remote %s not previsouly asserted"
@@ -91,6 +140,7 @@ def on_unregister_not_asserted_entity(entity):
 # -- Write entity                                                          -- #
 # --------------------------------------------------------------------------- #
 def on_schedule_data(match, state):
+    """It happens when a data is asynchronously scheduled."""
     writer_oid = get_oid(match[0])
     seqnum = parse_sn(match[1])
     log_process("", writer_oid, "Scheduled DATA (%d)" % seqnum, state)
@@ -105,6 +155,7 @@ def on_schedule_data(match, state):
 
 
 def on_send_data(match, state):
+    """It happens when a DATA packet is sent."""
     writer_oid = get_oid(match[0])
     seqnum = parse_sn(match[1])
     log_send("", writer_oid, "Sent DATA (%d)" % seqnum, state)
@@ -116,6 +167,7 @@ def on_send_data(match, state):
 
 
 def on_resend_data(match, state):
+    """It happens when the writer resend a DATA message."""
     writer_oid = get_oid(match[0])
     remote_part = parse_guid(state, match[1], match[2], match[3])
     remote_oid = get_oid(match[4])
@@ -127,6 +179,7 @@ def on_resend_data(match, state):
 
 
 def on_send_gap(match, state):
+    """It happens when the writer send a GAP message."""
     writer_oid = get_oid(match[0])
     remote_part = parse_guid(state, match[1], match[2], match[3])
     reader_oid = get_oid(match[4])
@@ -157,6 +210,7 @@ def on_send_gap(match, state):
 
 
 def on_send_preemptive_gap(match, state):
+    """It happens when sending a preemptive GAP message."""
     writer_oid = get_oid(match[0])
     reader_addr = parse_guid(state, match[1], match[2], match[3])
     reader_oid = get_oid(match[4])
@@ -167,6 +221,7 @@ def on_send_preemptive_gap(match, state):
 
 
 def on_send_preemptive_hb(match, state):
+    """It happens when sending a preemptive HB message."""
     writer_oid = get_oid(match[0])
     sn_start = parse_sn(match[1])
     sn_end = parse_sn(match[2])
@@ -179,6 +234,7 @@ def on_send_preemptive_hb(match, state):
 
 
 def on_send_piggyback_hb(match, state):
+    """It happens when sending a piggyback HB message."""
     writer_oid = get_oid(match[0])
     sn_first = parse_sn(match[1])
     sn_last = parse_sn(match[2])
@@ -189,6 +245,7 @@ def on_send_piggyback_hb(match, state):
 
 
 def on_send_hb_response(match, state):
+    """It happens when sending a HB response."""
     writer_oid = get_oid(match[0])
     sn_end = parse_sn(match[1])
     sn_start = parse_sn(match[2])
@@ -198,6 +255,7 @@ def on_send_hb_response(match, state):
 
 
 def on_receive_ack(match, state):
+    """It happens when receiving an ACK message."""
     writer_oid = get_oid(match[0])
     remote = match[1].split('.')
     reader_addr = parse_guid(state, remote[0], remote[1], remote[2])
@@ -210,43 +268,52 @@ def on_receive_ack(match, state):
 
 
 def on_instance_not_found(match, state):
+    """It happens when the instance is not found."""
     log_error("[LP-3] Cannot write unregistered instance.", state)
 
 
 def on_send_from_deleted_writer(match, state):
+    """It happens when the writer is deleted."""
     log_error("[LP-14] Cannot write because DataWriter has been deleted",
               state)
 
 
 def on_fail_serialize(match, state):
+    """It happens when the serialization fails."""
     log_error("[LP-8] Cannot serialize sample", state)
 
 
 def on_drop_unregister_no_ack_instance(match, state):
+    """It happens when unregistering fails because missing ACK."""
     log_warning("[LP-9] Cannot drop unregistered instance, missing ACKs",
                 state, 1)
 
 
 def on_writer_exceed_max_entries(match, state):
+    """It happens when the writer resource limits are exceeded."""
     log_warning("[LP-10] DataWriter exceeded resource limits",
                 state)
 
 
 def on_writer_batching_exceed_max_entries(match, state):
+    """It happens when the batching resource limits are exceeded."""
     log_warning("[LP-10] DataWriter with batching exceeded resource limits",
                 state)
 
 
 def on_reader_exceed_max_entries(match, state):
+    """It happens when the reader resource limits are excceded."""
     log_warning("[LP-11] DataReader exceeded resource limits",
                 state)
 
 
 def on_write_max_blocking_time_expired(match, state):
+    """It happens when the blocking time expired."""
     log_error("[LP-13] Write maximum blocking time expired", state)
 
 
 def on_batch_serialize_failure(match, state):
+    """It happens when the batch serialization fails."""
     log_error("Cannot serialize batch sample", state)
 
 
@@ -298,17 +365,20 @@ def on_receive_out_order_data(match, state):
 
 
 def on_accept_data(match, state):
+    """It happens when the reader accepts data."""
     seqnum = parse_sn(match[0])
     log_process("", "", "Reader accepted DATA (%d)" % seqnum, state, 1)
 
 
 def on_rejected_data(match, state):
+    """It happens when the reader rejects data."""
     seqnum = parse_sn(match[0])
     log_process("", "", "Reader rejected DATA (%d)" % seqnum, state)
     log_warning("A DataReader rejected sample %d" % seqnum, state)
 
 
 def on_receive_hb(match, state):
+    """It happens when the write receives a HB."""
     reader_oid = get_oid(match[0])
     sn_start = parse_sn(match[1])
     sn_end = parse_sn(match[2])
@@ -322,6 +392,7 @@ def on_receive_hb(match, state):
 
 
 def on_send_ack(match, state):
+    """It happens when a ACK message is sent."""
     reader_oid = get_oid(match[0])
     lead = parse_sn(match[1])
     bitcount = int(match[2])
@@ -334,6 +405,7 @@ def on_send_ack(match, state):
 
 
 def on_send_nack(match, state):
+    """It happens when a NACK message is sent."""
     reader_oid = get_oid(match[0])
     lead = parse_sn(match[1])
     bitcount = int(match[2])
@@ -347,6 +419,7 @@ def on_send_nack(match, state):
 
 
 def on_sample_received_from_deleted_writer(match, state):
+    """It happens when the remote writer is deleted."""
     log_warning("Sample received from an already gone remote DataWriter.",
                 state, 1)
 
