@@ -1,4 +1,4 @@
-# RTI Log Parser for Connext DDS [<img alt="Gitter" src="https://img.shields.io/badge/license-Apache-blue.svg?style=flat" align="right" />](https://www.apache.org/licenses/LICENSE-2.0.html)
+# RTI Log Parser for Connext DDS [<img alt="License Apache" src="https://img.shields.io/badge/license-Apache-blue.svg?style=flat" align="right" />](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 **RTI Log Parser** is a command-line tool that processes and enhances Connext DDS log messages making it easier to debug applications.
 
@@ -40,6 +40,9 @@ Additional features can be enabled or disabled with the following arguments:
 * `--no-inline`: do not show warnigns and errors in network logs.
 * `--no-stats`: do not show the network and packet statistics.
 * `--no-progress`: do not show the interative info at the bottom.
+* `--debug`: export the unmatched log messages.
+* `--version`: show the program version.
+* `--help, -h`: show the arguments help.
 
 ### Enable Connext DDS logs
 By default any application built with RTI Connext DDS will print to the standard output errors from the middleware. To take advantage of this tool we recommend to enable the higher log verbosity and redirect the output into a file. There are several ways to increase the log verbosity:
