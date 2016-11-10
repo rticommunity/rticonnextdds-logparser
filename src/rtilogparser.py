@@ -49,10 +49,10 @@ from os import urandom
 from sys import exc_info
 from traceback import extract_tb
 
-from inputdevices import InputConsoleDevice, InputFileDevice
-from logger import COLORS, log_error, log_warning
+from devices.inputdevices import InputConsoleDevice, InputFileDevice
+from devices.logger import COLORS, log_error, log_warning
+from devices.outputdevices import OutputConsoleDevice, OutputFileDevice
 from logs import create_regex_list
-from outputdevices import OutputConsoleDevice, OutputFileDevice
 from utils import compare_times
 
 __version__ = "1.2a1"

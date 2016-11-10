@@ -26,7 +26,7 @@ from __future__ import print_function
 from os import fstat
 from sys import stdin, stdout
 from time import time
-from outputdevices import OutputConsoleDevice
+from devices.outputdevices import OutputConsoleDevice
 
 
 class InputDevice(object):

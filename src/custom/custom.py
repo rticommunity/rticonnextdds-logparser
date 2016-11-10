@@ -19,7 +19,7 @@ Functions:
   + on_custom_log: Parse a log with a custom prefix.
 """
 from __future__ import absolute_import
-from logger import log_event
+from devices.logger import log_event
 
 
 def on_custom_log(match, state):

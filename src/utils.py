@@ -45,7 +45,7 @@ Constants:
 from calendar import timegm
 from datetime import timedelta
 from hashlib import md5
-from logger import log_cfg, log_warning
+from devices.logger import log_cfg, log_warning
 
 
 INSTANCE_STATES = ["invalid", "alive", "disposed", "", "no_writers"]
