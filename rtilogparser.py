@@ -24,7 +24,7 @@ human-readable format.
 from __future__ import absolute_import
 from argparse import ArgumentParser
 from logparser.__init__ import __version__
-from logparser.rtilogparser import LogParser
+from logparser.logparser import LogParser
 
 
 def read_arguments():
@@ -81,7 +81,7 @@ def main():
     """Main application entry."""
     args = read_arguments()
     parser = LogParser(args)
-    parser.process_logs()
+    parser.process()
     parser.write_summary()
 
 

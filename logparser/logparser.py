@@ -72,7 +72,7 @@ class LogParser(object):
     def __init__(self, args):
         """Initialize the rtilogparser."""
         self.state = {}
-        self.initialize_state(args)
+        self._initialize_state(args)
         self.formatter = self.state['format_device']
         self.expressions = create_regex_list(self.state)
 
@@ -112,7 +112,7 @@ class LogParser(object):
         self.state['ignore_packets'] = args.no_network
         self.state['no_timestamp'] = not args.show_timestamp
         self.state['obfuscate'] = args.obfuscate
-        self.state['salt'] = args.salt or LogParser.get_urandom()
+        self.state['salt'] = args.salt or LogParser._get_urandom()
         self.state['assign_names'] = not args.show_ip
         self.state['no_colors'] = not args.colors
         self.state['no_stats'] = args.no_stats
@@ -148,7 +148,7 @@ class LogParser(object):
         # Read log file and parse
         self.formatter.write_header(self.state)
         try:
-            self.parse_log()
+            self._parse_log()
         except KeyboardInterrupt:
             log_warning("Catched SIGINT", self.state)
 
@@ -157,7 +157,7 @@ class LogParser(object):
             # to show the end summary. If the signal is sent again, it will
             # quit.
             try:
-                self.parse_log()
+                self._parse_log()
             except KeyboardInterrupt:
                 # Catch again the SIGNIT in case the user wants to abort the
                 # log parsing but show the final summary
@@ -190,7 +190,7 @@ class LogParser(object):
             # We can get exceptions if the file contains output from two
             # different applications since the logs are messed up.
             try:
-                self.match_line(line)
+                self._match_line(line)
             except Exception as ex:  # pylint: disable=W0703
                 exc_traceback = exc_info()[2]
                 stacktraces = extract_tb(exc_traceback)
@@ -199,7 +199,7 @@ class LogParser(object):
 
     def _match_line(self, line):
         """Try to match a log line with the regular expressions."""
-        self.match_date(line)
+        self._match_date(line)
         for expr in self.expressions:
             match = expr[1].search(line)
             if match:
@@ -231,8 +231,8 @@ class LogParser(object):
 
         new_clocks = (monotonic, system)
         if 'clocks' in self.state:
-            self.check_time_distance(new_clocks, self.state['clocks'],
-                                     self.state)
+            self._check_time_distance(new_clocks, self.state['clocks'],
+                                      self.state)
 
         self.state['clocks'] = new_clocks
 
