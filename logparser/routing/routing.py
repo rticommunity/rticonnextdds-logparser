@@ -22,7 +22,7 @@ Functions:
   + on_typecode_not_found: RS doesn't have the type code for a topic.
 """
 from __future__ import absolute_import
-from devices.logger import log_error
+from logparser.devices.logger import log_error
 
 
 # --------------------------------------------------------------------------- #

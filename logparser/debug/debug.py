@@ -13,15 +13,25 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-"""Log parsing functions for custom logs.
+"""Ignore and export unmatched logs into a file for debugging.
 
 Functions:
-  + on_custom_log: Parse a log with a custom prefix.
+  + on_unmatched_message: write into a file the unmatched log
+  + on_ignored_message: ignore this matched log.
 """
-from __future__ import absolute_import
-from devices.logger import log_event
 
 
-def on_custom_log(match, state):
-    """Parse a log with a custom prefix."""
-    log_event("[App] " + match[0], state)
+UNMATCHED_LOG_FILENAME = "unmatched.txt"
+
+
+# pylint: disable=W0613
+def on_unmatched_message(match, state):
+    """Write into a file the unmatched log."""
+    with open(UNMATCHED_LOG_FILENAME, "a") as unmatched_file:
+        unmatched_file.write(match[0] + "\n")
+
+
+# pylint: disable=W0613
+def on_ignored_message(match, state):
+    """Ignore this matched log."""
+    pass

@@ -19,8 +19,8 @@ Classes:
   + MarkdownFormatDevice: Format device for Markdown.
 """
 from __future__ import absolute_import
-from __init__ import __version__
-from devices.formatdevice import FormatDevice
+from logparser.__init__ import __version__
+from logparser.devices.formatdevice import FormatDevice
 
 
 class MarkdownFormatDevice(FormatDevice):
