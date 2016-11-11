@@ -37,8 +37,19 @@ class FormatDevice(object):
         """Write the header if any."""
         raise NotImplementedError("write_header not implemented")
 
-    def write_message(self, state):
-        """Write the message."""
+    def write_message(self, content, state):
+        """Write the message.
+
+        The content argument is a dictionary with at least 'description' item.
+        The optional items are:
+          + kind: the kind or remark for the message.
+          + timestamp: the timestamp of the message.
+          + input_line: the current input line.
+          + output_line: the current output line.
+          + inout: [packets-only] 'in' if it's input packet, 'out' otherwise.
+          + remote: [packets-only] the remote address of the sender/receiver.
+          + entity: [packets-only] the local entity sending/receiving.
+        """
         raise NotImplementedError("write_message not implemented")
 
     def write_configurations(self, state):

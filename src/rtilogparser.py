@@ -49,6 +49,7 @@ from os import urandom
 from sys import exc_info
 from traceback import extract_tb
 
+from __init__ import __version__
 from devices.inputdevices import InputConsoleDevice, InputFileDevice
 from devices.logger import log_error, log_warning
 from devices.markdownformatdevice import MarkdownFormatDevice
@@ -56,7 +57,7 @@ from devices.outputdevices import OutputConsoleDevice, OutputFileDevice
 from logs import create_regex_list
 from utils import compare_times
 
-__version__ = "1.2a2"
+
 DATE_REGEX = re.compile(r'\[(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}.\d{6})\]' +
                         r'\[(\d{10}.\d{6})\]')
 SINGLE_DATE_REGEX = re.compile(r'\[(\d{10}).(\d{6})\]')

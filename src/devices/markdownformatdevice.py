@@ -18,9 +18,9 @@
 Classes:
   + MarkdownFormatDevice: Format device for Markdown.
 """
+from __future__ import absolute_import
+from __init__ import __version__
 from devices.formatdevice import FormatDevice
-from devices.logger import COLORS
-from rtilogparser import __version__
 
 
 class MarkdownFormatDevice(FormatDevice):
@@ -44,6 +44,8 @@ class MarkdownFormatDevice(FormatDevice):
     def __init__(self, state):
         """Initialize the device."""
         self.write = state['output_device'].write
+        self.show_timestamp = not state['no_timestamp']
+        self.show_lines = state['show_lines']
 
     def write_header(self, state):
         """Write the header."""
@@ -70,32 +72,50 @@ class MarkdownFormatDevice(FormatDevice):
         self.write("## Network Data Flow and Application Events")
         header = " In/Out  | Remote Address         | Local Entity   | Message"
         headln = "---------|:----------------------:|:--------------:|--------"
-        if not state['no_timestamp']:
+        if self.show_timestamp:
             header = "Timestamp".ljust(28) + "|" + header
-            headln = "----------------------------|" + headln
-        if state['show_lines']:
+            headln = "-".ljust(28, "-") + "|" + headln
+        if self.show_lines:
             header = " Log/Parser |" + header
             headln = "------------|" + headln
         self.write(header)
         self.write(headln)
 
-    def write_message(self, state):
+    def write_message(self, content, state):
         """Write the message."""
-        raise NotImplementedError("write_message not implemented")
+        # Create the standard message
+        if 'inout' not in content:
+            inout = "".ljust(9)
+        elif content['inout'] == 'in':
+            inout = "---> ".center(9)
+        else:
+            inout = " <---".center(9)
+        description = content['description']
+        if content.get('kind') in ['ERROR', 'IMPORTANT']:
+            description = "**" + description + "**"
+        elif content.get('kind') == 'WARNING':
+            description = "*" + description + "*"
+        remote = content.get('remote', '').center(24)
+        entity = content.get('entity', '').center(16)
+        msg = "%s|%s|%s| %s" % (inout, remote, entity, description)
+
+        # Add the optional columns
+        if self.show_timestamp:
+            timestamp = content.get('timestamp', '').center(28)
+            msg = timestamp + "|" + msg
+        if self.show_lines:
+            msg = " %05d/%04d |%s" % (content['input_line'],
+                                      content['output_line'], msg)
+
+        self.write(msg)
 
     def write_warnings(self, state):
         """Write the warning messages."""
-        title = "Warnings"
-        if not state['no_colors']:
-            title = COLORS['WARNING'] + title + COLORS['ENDC']
-        self.write_countset(state['warnings'], title)
+        self.write_countset(state['warnings'], "Warnings")
 
     def write_errors(self, state):
         """Write the warning messages."""
-        title = "Errors"
-        if not state['no_colors']:
-            title = COLORS['FAIL'] + title + COLORS['ENDC']
-        self.write_countset(state['errors'], title)
+        self.write_countset(state['errors'], "Errors")
 
     def write_configurations(self, state):
         """Write the configuration messages."""
