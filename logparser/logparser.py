@@ -19,27 +19,8 @@ The class parse a log generated from DDS application when the
 highest log verbosity is enabled. Then it will generate an output in
 human-readable format.
 
-Functions:
-  + main: Main application entry.
-  + print_header: Print the header information.
-  + parse_log: Parse a log file.
-  + initialize_state: Initialize the state dictionary.
-  + read_arguments: Parse the command-line arguments.
-  + get_urandom: Get a cryptographic random value.
-  + match_line: Try to match a log line with the regular expressions.
-  + match_data: Try to match the log date.
-  + bytes_to_string: Convert a byte unit value into string.
-  + print_statistics_packets: Print the packet statistics.
-  + print_statistics_bandwidth: Print the bandwidth statistics.
-  + print_throughput_info: Print the throughput information.
-  + print_host_summary: Print the host summary.
-  + print_locators: Print the locators if any.
-  + print_config: Print the configuration logs.
-  + print_list: Print a generic log message list.
-
-Constants:
-  + SINGLE_DATE_REGEX: Regular expression to match log timestamps.
-  + DATE_REGEX: Regular expression to match system and monotonic clocks.
+Classes:
+  + LogParser: parse a set of logs into human-redable format.
 """
 from __future__ import absolute_import
 import re
@@ -57,16 +38,18 @@ from logparser.logs import create_regex_list
 from logparser.utils import compare_times
 
 
-DATE_REGEX = re.compile(r'\[(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}.\d{6})\]' +
-                        r'\[(\d{10}.\d{6})\]')
-SINGLE_DATE_REGEX = re.compile(r'\[(\d{10}).(\d{6})\]')
-
-
 class LogParser(object):
     """Parse a set of logs into human-redable format.
 
     Functions:
-      +
+      + process: process all the logs.
+      + write_summary: write results of config, errors and warnings.
+      + _check_time_distance_: check that the distance between logs.
+      + _get_urandom: get a cryptographic random value.
+      + _initialize_state: initialize the state dictionary.
+      + _parse_log: parse a log file.
+      + _match_line: try to match a log line with the regular expressions.
+      + _match_data: try to match the log date.
     """
 
     def __init__(self, args):
@@ -208,6 +191,11 @@ class LogParser(object):
 
     def _match_date(self, line):
         """Try to match the log date."""
+        DATE_REGEX = re.compile(r'\[(\d{2}/\d{2}/\d{4} ' +
+                                r'\d{2}:\d{2}:\d{2}.\d{6})\]' +
+                                r'\[(\d{10}.\d{6})\]')
+        SINGLE_DATE_REGEX = re.compile(r'\[(\d{10}).(\d{6})\]')
+
         # Try to match the two clock format.
         clocks = DATE_REGEX.search(line)
         two_clocks = clocks is not None
@@ -237,7 +225,7 @@ class LogParser(object):
         self.state['clocks'] = new_clocks
 
     def write_summary(self):
-        """Write result of config, errors and warnings."""
+        """Write results of config, errors and warnings."""
         self.formatter.write_configurations(self.state)
         self.formatter.write_warnings(self.state)
         self.formatter.write_errors(self.state)
