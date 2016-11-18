@@ -124,6 +124,9 @@ class InputFileDevice(InputDevice):
         # Based on @Greenstick's reply (https://stackoverflow.com/a/34325723)
         iteration = self.stream.tell()
         total = self.file_size
+        if total == 0:
+            return
+
         progress = 100.0 * iteration / total
         if self.progress > 0 and progress - self.progress < threshold:
             return
