@@ -21,7 +21,7 @@ This document contains a detailed description of the messages from the Log Parse
     - [LP-8: Cannot serialize sample](#lp-8-cannot-serialize-sample)
     - [LP-13: Write maximum blocking time expired](#lp-13-write-maximum-blocking-time-expired)
     - [LP-14: Cannot write because DataWriter has been deleted](#lp-14-cannot-write-because-datawriter-has-been-deleted)
-    - [LP-15: Cannot delete X FlowControllers from delete_contained_entities](#lp-15-cannot-delete-x-flowcontrollers-from-deletecontainedentities)
+    - [LP-15: Cannot delete X FlowControllers from delete_contained_entities](#lp-15-cannot-delete-x-flowcontrollers-from-delete_contained_entities)
     - [LP-16: Cannot initialize Monitoring: string too long in the RS configuration](#lp-16-cannot-initialize-monitoring-string-too-long-in-the-rs-configuration)
     - [LP-17: Cannot deserialize sample](#lp-17-cannot-deserialize-sample)
     - [LP-18: Cannot match remote entity in topic 'X': Different type names found ('Y', 'Z')](#lp-18-cannot-match-remote-entity-in-topic-x-different-type-names-found-y-z-)
