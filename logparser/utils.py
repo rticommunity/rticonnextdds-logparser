@@ -166,35 +166,44 @@ def obfuscate(text, state):
 
 
 def get_oid(oid):
-    """Parse the entity object ID and conver to text."""
-    oid_names = {
+    """Get a name for the entity ID in hexadecimal text format."""
+    # Information from RTPS Spec: http://www.omg.org/spec/DDSI-RTPS/2.2/PDF/
+    BUILTIN_NAMES = {
         # Built-in OID names.
-        0x00000000: "UNKNOWN", 0x000001c1: "BUILTIN_PARTIC",
-        0x000002c2: "TOPIC_WRITER", 0x000002c7: "TOPIC_READER",
-        0x000003c2: "PUB_WRITER", 0x000003c7: "PUB_READER",
-        0x000004c2: "SUB_WRITER", 0x000004c7: "SUB_READER",
-        0x000100c2: "PARTIC_WRITER", 0x000100c7: "PARTIC_READER",
+        0x00000000: "UNKNOWN", 0x000001c1: "PARTICIPANT",
+        0x000002c2: "SED_TOPIC_WRITER", 0x000002c7: "SED_TOPIC_READER",
+        0x000003c2: "SED_PUB_WRITER", 0x000003c7: "SED_PUB_READER",
+        0x000004c2: "SED_SUB_WRITER", 0x000004c7: "SED_SUB_READER",
+        0x000100c2: "SPD_PART_WRITER", 0x000100c7: "SPD_PART_READER",
         0x000200c2: "MESSAGE_WRITER", 0x000200c7: "MESSAGE_READER"}
-    user_oid_kind = {
-        # Application defined entities.
-        0x00: "UNK", 0x01: "PAR",
+    ENTITY_ORIGINS = {0x00: "USER", 0x40: "VEND", 0xc0: "BUILTIN"}
+    ENTITY_KINDS = {
+        0x00: "UNK", 0x01: "PART",
         0x02: "W+K", 0x03: "W-K",
         0x04: "R-K", 0x07: "R+K"}
+
+    # Convert into a number from the hexadecimal text representation
     oid_num = int(oid, 16)
-    if oid_num & 0x80000000 == 0:
-        name = oid_names[oid_num] if oid_num in oid_names else oid
+
+    # Analyze the entity kind
+    entity_kind = oid_num & 0xFF
+    origin = ENTITY_ORIGINS[entity_kind & 0xC0]
+    kind = ENTITY_KINDS[entity_kind & 0x3F]
+
+    if origin == "BUILTIN":
+        name = BUILTIN_NAMES[oid_num]
+    elif origin == "USER":
+        name = kind + "_" + hex(oid_num >> 8)[2:].zfill(6)
     else:
-        kind = oid_num & 0xFF
-        kind = user_oid_kind[kind] if kind in user_oid_kind else "INV"
-        num = (oid_num & 0x7FFFF000) >> 13
-        name = str(num).zfill(2) + "_" + kind
+        name = origin + "_" + kind + "_" + hex(oid_num >> 8)[2:].zfill(6)
     return name
 
 
 def is_builtin_entity(oid):
-    """Get if the OID hex number is for a built-in entity."""
+    """Return if the OID hex number is for a built-in entity."""
+    # More information in get_oid
     oid_num = int(oid, 16)
-    return oid_num & 0x80000000 == 0
+    return oid_num & 0xC0 == 0xC0
 
 
 def get_topic_name(topic, state):
