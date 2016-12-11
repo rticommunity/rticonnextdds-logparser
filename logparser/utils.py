@@ -23,8 +23,9 @@ Functions:
   + add_statistics_packets: Add the given packet to the packet statistics.
   + add_statistics_bandwidth: Add the given packet to the bandwidth statistics.
   + obfuscate: Obfuscate the given text.
-  + get_oid: Parse the entity object ID and conver to text.
-  + is_builtin_entity: Get if the OID hex number is for a built-in entity.
+  + get_oid: Get a name for the entity ID in hexadecimal text format.
+  + is_builtin_entity: Return if the OID hex number is for a built-in entity.
+  + get_data_packet_name: Return the DATA packet name.
   + get_topic_name: Get the topic name, obfuscating if needed.
   + get_type_name: Get the type name, obfuscating if needed.
   + get_port_number: Get the port number, obfuscating if needed.
@@ -211,6 +212,16 @@ def is_builtin_entity(oid):
     # More information in get_oid
     oid_num = int(oid, 16)
     return oid_num & 0xC0 == 0xC0
+
+
+def get_data_packet_name(oid):
+    """Return the DATA packet name."""
+    # More information in get_oid
+    entity_name = get_oid(oid)
+    PACKET_NAMES = {
+        "SED_PUB_WRITER": "DATA(w)", "SED_SUB_WRITER": "DATA(r)",
+        "SPD_PART_WRITER": "DATA(p)", "MESSAGE_WRITER": "DATA(m)"}
+    return PACKET_NAMES[entity_name] if entity_name in PACKET_NAMES else "DATA"
 
 
 def get_topic_name(topic, state):
