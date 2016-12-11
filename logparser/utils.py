@@ -168,14 +168,21 @@ def obfuscate(text, state):
 def get_oid(oid):
     """Get a name for the entity ID in hexadecimal text format."""
     # Information from RTPS Spec: http://www.omg.org/spec/DDSI-RTPS/2.2/PDF/
+    # Security entities: http://www.omg.org/spec/DDS-SECURITY/1.0/Beta2/
     BUILTIN_NAMES = {
-        # Built-in OID names.
+        # Built-in Entity GUIDs
         0x00000000: "UNKNOWN", 0x000001c1: "PARTICIPANT",
         0x000002c2: "SED_TOPIC_WRITER", 0x000002c7: "SED_TOPIC_READER",
         0x000003c2: "SED_PUB_WRITER", 0x000003c7: "SED_PUB_READER",
         0x000004c2: "SED_SUB_WRITER", 0x000004c7: "SED_SUB_READER",
         0x000100c2: "SPD_PART_WRITER", 0x000100c7: "SPD_PART_READER",
-        0x000200c2: "MESSAGE_WRITER", 0x000200c7: "MESSAGE_READER"}
+        0x000200c2: "MESSAGE_WRITER", 0x000200c7: "MESSAGE_READER",
+        # Security Built-in Entity GUIDs
+        0xff0003c2: "SED_PUB_SEC_WRITER", 0xff0003c7: "SED_PUB_SEC_READER",
+        0xff0004c2: "SED_SUB_SEC_WRITER", 0xff0004c7: "SED_SUB_SEC_READER",
+        0xff0200c2: "MSG_SEC_WRITER", 0xff0200c7: "MSG_SEC_READER",
+        0x000201c2: "MSG_STA_SEC_WRITER", 0x000201c7: "MSG_STA_SEC_READER",
+        0xff0202c2: "MSG_VOL_SEC_WRITER", 0xff0202c7: "MSG_VOL_SEC_READER"}
     ENTITY_ORIGINS = {0x00: "USER", 0x40: "VEND", 0xc0: "BUILTIN"}
     ENTITY_KINDS = {
         0x00: "UNK", 0x01: "PART",
