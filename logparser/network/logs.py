@@ -97,7 +97,7 @@ def get_regex_list():
     regex.append([network.on_send_piggyback_hb_syncrepair,
                   r"COMMENDSrWriterService_sendSyncRepairData:\[\d+,\d+\] " +
                   r"writer oid 0x(\w+) sends piggyback HB for sn " +
-                  r"\(([\d,]+)\)-\(([\d,]+), epoch\(\d+\)\)"])
+                  r"\(([\d,]+)\)-\(([\d,]+), epoch\((\d+)\)\)"])
     regex.append([network.on_send_hb_response,
                   r"COMMENDSrWriterService_onSubmessage:\[\d+,\d+\] " +
                   r"writer oid 0x(\w+) sends response HB for sn " +

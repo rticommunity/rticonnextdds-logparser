@@ -254,11 +254,12 @@ def on_send_piggyback_hb_syncrepair(match, state):
     writer_oid = get_oid(match[0])
     sn_first = parse_sn(match[1])
     sn_last = parse_sn(match[2])
+    epoch = int(match[3])
     verb = 1 if is_builtin_entity(match[0]) else 0
     log_send("",
              writer_oid,
-             "Sent piggyback HB from synchronous reparation " +
-             "to acknowledge samples in [%d, %d]" % (sn_first, sn_last),
+             ("Sent piggyback HB [%d] from synchronous reparation" % epoch) +
+             " to acknowledge samples in [%d, %d]" % (sn_first, sn_last),
              state,
              verb)
     add_statistics_packet(writer_oid, "send", "PIGGYBACK HB", state)
@@ -269,9 +270,13 @@ def on_send_hb_response(match, state):
     writer_oid = get_oid(match[0])
     sn_end = parse_sn(match[1])
     sn_start = parse_sn(match[2])
+    epoch = int(match[3])
     verb = 1 if is_builtin_entity(match[0]) else 0
-    log_send("", writer_oid, "Sent HB to verify GAP for samples in  [%d, %d]" %
-             (sn_start, sn_end), state, verb)
+    log_send("",
+             writer_oid,
+             "Sent HB [%d] to verify GAP for samples in [%d, %d]" %
+             (epoch, sn_start, sn_end),
+             state, verb)
 
 
 def on_receive_ack(match, state):
@@ -281,9 +286,12 @@ def on_receive_ack(match, state):
     reader_addr = parse_guid(state, remote[0], remote[1], remote[2])
     reader_oid = get_oid(remote[3])
     seqnum = parse_sn(match[2])
+    epoch = int(match[4])
     verb = 1 if is_builtin_entity(match[0]) else 0
-    log_recv(reader_addr, writer_oid,
-             "Received ACKNACK from reader %s for %d" % (reader_oid, seqnum),
+    log_recv(reader_addr,
+             writer_oid,
+             "Received ACKNACK [%d] from reader %s for %d" %
+             (epoch, reader_oid, seqnum),
              state, verb)
 
 
@@ -405,14 +413,15 @@ def on_receive_hb(match, state):
     packet = match[1]
     sn_start = parse_sn(match[2])
     sn_end = parse_sn(match[3])
+    epoch = int(match[4])
     remote = match[5].split('.')
     writer_addr = parse_guid(state, remote[0], remote[1], remote[2])
     writer_oid = get_oid(remote[3])
     verb = 1 if is_builtin_entity(remote[3]) else 0
     log_recv(writer_addr,
              reader_oid,
-             "Received %s from writer %s for samples in [%d, %d]" %
-             (packet, writer_oid, sn_start, sn_end),
+             "Received %s [%d] from writer %s for samples in [%d, %d]" %
+             (packet, epoch, writer_oid, sn_start, sn_end),
              state,
              verb)
 
@@ -422,12 +431,17 @@ def on_send_ack(match, state):
     reader_oid = get_oid(match[0])
     lead = parse_sn(match[1])
     bitcount = int(match[2])
+    epoch = int(match[3])
     remote = match[4].split('.')
     writer_addr = parse_guid(state, remote[0], remote[1], remote[2])
     writer_oid = get_oid(remote[3])
     verb = 1 if is_builtin_entity(remote[3]) else 0
-    log_send(writer_addr, reader_oid, "Sent ACK to writer %s for %d count %d" %
-             (writer_oid, lead, bitcount), state, verb)
+    log_send(writer_addr,
+             reader_oid,
+             "Sent ACK [%d] to writer %s for %d count %d" %
+             (epoch, writer_oid, lead, bitcount),
+             state,
+             verb)
 
 
 def on_send_nack(match, state):
@@ -435,13 +449,17 @@ def on_send_nack(match, state):
     reader_oid = get_oid(match[0])
     lead = parse_sn(match[1])
     bitcount = int(match[2])
+    epoch = int(match[3])
     remote = match[4].split('.')
     writer_addr = parse_guid(state, remote[0], remote[1], remote[2])
     writer_oid = get_oid(remote[3])
     verb = 1 if is_builtin_entity(remote[3]) else 0
-    log_send(writer_addr, reader_oid,
-             "Sent NACK to writer %s for %d count %d" %
-             (writer_oid, lead, bitcount), state, verb)
+    log_send(writer_addr,
+             reader_oid,
+             "Sent NACK [%d] to writer %s for %d count %d" %
+             (epoch, writer_oid, lead, bitcount),
+             state,
+             verb)
 
 
 def on_sample_received_from_deleted_writer(match, state):
