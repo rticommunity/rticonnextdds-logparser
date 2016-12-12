@@ -144,7 +144,7 @@ def on_schedule_data(match, state):
     """It happens when a data is asynchronously scheduled."""
     writer_oid = get_oid(match[0])
     seqnum = parse_sn(match[1])
-    log_process("", writer_oid, "Scheduled DATA (%d)" % seqnum, state)
+    log_process("", writer_oid, "Scheduled DATA [%d]" % seqnum, state)
 
     if 'packets_lost' not in state:
         state['packets_lost'] = []
@@ -159,7 +159,7 @@ def on_send_data(match, state):
     """It happens when a DATA packet is sent."""
     writer_oid = get_oid(match[0])
     seqnum = parse_sn(match[1])
-    log_send("", writer_oid, "Sent DATA (%d)" % seqnum, state)
+    log_send("", writer_oid, "Sent DATA [%d]" % seqnum, state)
     add_statistics_packet(writer_oid, "send", "DATA", state)
 
     key = writer_oid + "-" + str(seqnum)
