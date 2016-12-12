@@ -40,6 +40,11 @@ def get_regex_list():
     regex.append([events.on_skipped_interface,
                   r"NDDS_Transport_UDPv4_query_interfaces:" +
                   r"skipped (\w+)"])
+    regex.append([events.on_recv_buffer_size_mismatch,
+                  r"NDDS_Transport_UDPv4_SocketFactory_create_receive_socket" +
+                  r":The specified recv_socket_buffer_size, (\d+), " +
+                  r"was not set. The actual receive socket buffer size " +
+                  r"is (\d+)"])
 
     # Create or delete entities
     regex.append([events.on_create_participant,

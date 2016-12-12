@@ -26,6 +26,7 @@ This document contains a detailed description of the messages from the Log Parse
     - [LP-17: Cannot deserialize sample](#lp-17-cannot-deserialize-sample)
     - [LP-18: Cannot match remote entity in topic 'X': Different type names found ('Y', 'Z')](#lp-18-cannot-match-remote-entity-in-topic-x-different-type-names-found-y-z)
     - [LP-19: Sample dropped because ShareMemory queue X is full](#lp-19-sample-dropped-because-sharememory-queue-x-is-full)
+    - [LP-20: The OS limits the receive socket buffer size from X to Y](#lp-20-the-os-limits-the-receive-socket-buffer-size-from-X-to-Y)
 
 ## Warnings
 
@@ -135,3 +136,11 @@ This error happens when a received is dropped because there isn't enough space i
 You can configure these limits by changing the following properties:
 * Maximum number of messages (`Y` value): dds.transport.shmem.builtin.received_message_count_max (default 64)
 * Maximum size (`Z` value): dds.transport.shmem.builtin.receive_buffer_size (default 1048576 (1 MB))
+
+### LP-20: The OS limits the receive socket buffer size from X to Y bytes
+Some operative systems may limit the maximum size of the receive socket buffser size. For this reason, the actual value of the buffer size may be smaller than the specified in the property QoS: *dds.transport.UDPv4.builtin.recv_socket_buffer_size*.
+
+In Unix systems the command `sysctl` can change the value of this limitation as follow:
+```
+sysctl net.core.rmem_max=MaximumSizeInBytes
+```

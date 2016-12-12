@@ -97,6 +97,16 @@ def on_skipped_interface(match, state):
     log_event("Skipped interface: %s" % match[0], state, 2)
 
 
+def on_recv_buffer_size_mismatch(match, state):
+    """It happens when the receive socket buffer is not set."""
+    expected = int(match[0])
+    actual = int(match[1])
+    log_cfg("The receive socket buffer size is %d" % actual, state)
+    log_error("[LP-20] The OS limits the receive socket buffer " +
+              "size from %d to %d bytes" % (expected, actual),
+              state)
+
+
 # --------------------------------------------------------------------------- #
 # -- Create or delete entities                                             -- #
 # --------------------------------------------------------------------------- #
