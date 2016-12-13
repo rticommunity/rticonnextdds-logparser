@@ -202,7 +202,6 @@ class MarkdownFormatDevice(FormatDevice):
             for typ in stats[addr]:
                 # If this is a port with dictionary of statistics types
                 if isinstance(stats[addr][typ], dict):
-                    # Show statistics per port with verbosity >= 1
                     if state['verbosity'] < 1:
                         continue
                     port = typ

@@ -82,7 +82,7 @@ def log(content, level, state):
         for kind in filter(None, content.get('kind', '').split("|")):
             for subkind in KIND_TO_COLOR[kind].split("|"):
                 color += COLORS[subkind]
-        if len(color) > 0:
+        if len(color):
             content['description'] = color + content['description'] + \
                 COLORS['END']
 
