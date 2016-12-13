@@ -49,198 +49,64 @@ from os import urandom
 from sys import exc_info
 from traceback import extract_tb
 
+from __init__ import __version__
 from devices.inputdevices import InputConsoleDevice, InputFileDevice
-from devices.logger import COLORS, log_error, log_warning
+from devices.logger import log_error, log_warning
+from devices.markdownformatdevice import MarkdownFormatDevice
 from devices.outputdevices import OutputConsoleDevice, OutputFileDevice
 from logs import create_regex_list
 from utils import compare_times
 
-__version__ = "1.2a1"
+
 DATE_REGEX = re.compile(r'\[(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}.\d{6})\]' +
                         r'\[(\d{10}.\d{6})\]')
 SINGLE_DATE_REGEX = re.compile(r'\[(\d{10}).(\d{6})\]')
 
 
-def print_countset(items, typ, state, color=None):
-    """Print a generic log message list."""
-    write = state['output_device'].write
-    if not state['no_colors'] and color:
-        typ = color + typ + COLORS['ENDC']
+def check_time_distance(new_clocks, old_clocks, state):
+    """Check that the distance between logs it's not large."""
+    MAX_TIME_SEC = 60
+    result = compare_times(old_clocks[1], new_clocks[1],
+                           timedelta(seconds=MAX_TIME_SEC))
+    if result:
+        log_warning("System clock went %s by %s." %
+                    (result[0], result[1]), state)
 
-    write("----------------------")
-    write("## %s:" % typ)
-    for i, msg in enumerate(sorted(items.keys(), key=lambda m: m[0])):
-        write("%2d. %dx %s" % (i, items[msg][1], msg))
-    write()
-
-
-def print_config(state):
-    """Print the configuration logs."""
-    state['output_device'].write("----------------------")
-    if 'locators' in state:
-        print_locators(state)
-    if 'names' in state and 'name_table' in state:
-        print_host_summary(state)
-    if 'statistics' in state and not state['no_stats']:
-        print_statistics_bandwidth(state)
-    if 'statistics_packet' in state and not state['no_stats']:
-        print_statistics_packets(state)
-    print_countset(state['config'], 'Config', state)
-
-
-def print_locators(state):
-    """Print the locators if any."""
-    write = state['output_device'].write
-    write("### Locators:")
-    for part in state['locators']:
-        write("* Participant: " + part)
-        write("    * Send locators:")
-        for loc in state['locators'][part]['send']:
-            write("        * " + loc)
-        write("    * Receive locators:")
-        for loc in state['locators'][part]['receive']:
-            write("        * " + loc)
-    write()
-
-
-def print_host_summary(state):
-    """Print the host summary."""
-    write = state['output_device'].write
-    write("### Assigned names:")
-
-    apps_num = 0
-    table = state['name_table']
-    for host in table:
-        # Print host
-        if host in state['names']:
-            write("* Host %s: %s" % (state['names'][host], host))
-        else:
-            write("* Host %s" % host)
-
-        # For each application.
-        for app in table[host]:
-            addr = host + " " + app
-            apps_num += 1
-            if addr in state['names']:
-                write("    * App %s: %s" % (state['names'][addr], app))
-            else:
-                write("    * App %s" % app)
-
-            # For each participant of the application
-            for part in table[host][app]:
-                part_guid = addr + " " + part
-                if part_guid in state['names']:
-                    write("        * Participant %s: %s" %
-                          (state['names'][part_guid], part))
-
-    # Final stats
-    write()
-    write("Number of hosts: %d  " % len(table))  # Trailing space for markdown
-    write("Number of apps:  %d" % apps_num)
-    write()
-
-
-def print_statistics_bandwidth(state):
-    """Print the bandwidth statistics."""
-    write = state['output_device'].write
-    stats = state['statistics']
-
-    write("### Bandwidth statistics:")
-    for addr in stats:
-        write("* Address: %s" % addr)
-        for typ in stats[addr]:
-            # If this is a port with dictionary of statistics types
-            if isinstance(stats[addr][typ], dict):
-                # Show statistics per port with verbosity >= 1
-                if state['verbosity'] < 1:
-                    continue
-                port = typ
-                write("    * Port %s" % port)
-                for typ in stats[addr][port]:
-                    info = stats[addr][port][typ]
-                    print_throughput_info("        * %s: " % typ, info, state)
-            # If this is the host counter
-            else:
-                info = stats[addr][typ]
-                print_throughput_info("    * %s: " % typ, info, state)
-    write()
-
-
-def print_throughput_info(prefix, info, state):
-    """Print the throughput information."""
-    write = state['output_device'].write
-
-    time_diff = info[1] - info[0]
-    qty = bytes_to_string(info[2])
-    if time_diff > 0:
-        throughput = bytes_to_string(info[2] / time_diff)
-        write("%s%s (%s/s)" % (prefix, qty, throughput))
-    else:
-        write("%s%s" % (prefix, qty))
-
-
-def print_statistics_packets(state):
-    """Print the packet statistics."""
-    write = state['output_device'].write
-    write("### Packet statistics:")
-    stats = state['statistics_packet']
-    for guid in stats:
-        write("* GUID: %s" % guid)
-        for typ in stats[guid]:
-            total = float(stats[guid][typ]['ALL'])
-            write("    * %s: %d packets" % (typ, total))
-            for packet in stats[guid][typ]:
-                if packet == "ALL":
-                    continue
-                qty = stats[guid][typ][packet]
-                write("        * %s: %d (%.1f%%)" %
-                      (packet, qty, qty / total * 100))
-    write()
-
-
-def bytes_to_string(qty):
-    """Convert a byte unit value into string."""
-    typ = ["GB", "MB", "KB", "B"]
-    for i in range(len(typ) - 1, 0, -1):
-        rang = float(2 ** (10 * i))
-        if qty > rang:
-            return "%.2f %s" % (qty / rang, typ[i])
-    return str(int(qty)) + " B"
+    if new_clocks[0]:
+        result = compare_times(old_clocks[0], new_clocks[0], MAX_TIME_SEC)
+        if result:
+            log_warning("Monotonic clock went %s by %.3f." %
+                        (result[0], result[1]), state)
 
 
 def match_date(line, state):
     """Try to match the log date."""
+    # Try to match the two clock format.
     clocks = DATE_REGEX.search(line)
-    er_52 = True  # If both clocks are set this is the engineering build 52.
+    two_clocks = clocks is not None
+
+    # If it doesn't match, try with the single clock format.
     if not clocks:
         clocks = SINGLE_DATE_REGEX.search(line)
-        er_52 = False
 
-    if clocks:
-        # Get clocks
-        if er_52:
-            system = datetime.strptime(clocks.group(1), "%m/%d/%Y %H:%M:%S.%f")
-            monotonic = float(clocks.group(2))
-        else:
-            system = datetime.utcfromtimestamp(int(clocks.group(1)))
-            system += timedelta(microseconds=int(clocks.group(2)))
-            monotonic = None
+    # If we don't match the default clock either, nothing to do
+    if not clocks:
+        return
 
-        # Check that the distance between logs it's not so long (60 sec)
-        if 'clocks' in state:
-            result = compare_times(state['clocks'][1], system,
-                                   timedelta(seconds=60))
-            if result:
-                log_warning("System clock went %s by %s." %
-                            (result[0], result[1]), state)
+    # Get clocks
+    if two_clocks:
+        system = datetime.strptime(clocks.group(1), "%m/%d/%Y %H:%M:%S.%f")
+        monotonic = float(clocks.group(2))
+    else:
+        system = datetime.utcfromtimestamp(int(clocks.group(1)))
+        system += timedelta(microseconds=int(clocks.group(2)))
+        monotonic = None
 
-            if monotonic:
-                result = compare_times(state['clocks'][0], monotonic, 60)
-                if result:
-                    log_warning("Monotonic clock went %s by %.3f." %
-                                (result[0], result[1]), state)
+    new_clocks = (monotonic, system)
+    if 'clocks' in state:
+        check_time_distance(new_clocks, state['clocks'], state)
 
-        state['clocks'] = (monotonic, system) if monotonic else (None, system)
+    state['clocks'] = new_clocks
 
 
 def match_line(line, expressions, state):
@@ -251,6 +117,39 @@ def match_line(line, expressions, state):
         if match:
             expr[0](match.groups(), state)
             break
+
+
+def parse_log(expressions, state):
+    """Parse a log."""
+    device = state['input_device']
+
+    if state['write_original']:
+        originalOutput = OutputFileDevice(state, state['write_original'], True)
+
+    # While there is a new line, parse it.
+    line = True  # For the first condition.
+    while line:
+        # If the line contains non-UTF8 chars it could raise an exception.
+        state['input_line'] += 1
+        line = device.read_line().rstrip("\r\n")
+
+        # If EOF or the line is empty, continue.
+        if not line or line == "":
+            continue
+
+        # Write original log if needed
+        if state['write_original']:
+            originalOutput.write(line)
+
+        # We can get exceptions if the file contains output from two
+        # different applications since the logs are messed up.
+        try:
+            match_line(line, expressions, state)
+        except Exception as ex:  # pylint: disable=W0703
+            exc_traceback = exc_info()[2]
+            stacktraces = extract_tb(exc_traceback)
+            log_error("[ScriptError] %s %s" % (str(stacktraces[-1]), ex),
+                      state)
 
 
 def get_urandom():
@@ -352,76 +251,8 @@ def initialize_state(args):
         state['input_device'] = InputFileDevice(args.input, state)
     else:
         state['input_device'] = InputConsoleDevice(state)
+    state['format_device'] = MarkdownFormatDevice(state)
     return state
-
-
-def parse_log(expressions, state):
-    """Parse a log file."""
-    device = state['input_device']
-
-    if state['write_original']:
-        originalOutput = OutputFileDevice(state, state['write_original'], True)
-
-    # While there is a new line, parse it.
-    line = True  # For the first condition.
-    while line:
-        # If the line contains non-UTF8 chars it could raise an exception.
-        state['input_line'] += 1
-        line = device.read_line().rstrip("\r\n")
-
-        # If EOF or the line is empty, continue.
-        if not line or line == "":
-            continue
-
-        # Write original log if needed
-        if state['write_original']:
-            originalOutput.write(line)
-
-        # We can get exceptions if the file contains output from two
-        # different applications since the logs are messed up.
-        try:
-            match_line(line, expressions, state)
-        except Exception as ex:  # pylint: disable=W0703
-            exc_traceback = exc_info()[2]
-            stacktraces = extract_tb(exc_traceback)
-            log_error("[ScriptError] %s %s" % (str(stacktraces[-1]), ex),
-                      state)
-
-
-def print_header(state):
-    """Print the header information."""
-    write = state['output_device'].write
-    write("# Log Parser for RTI Connext ~ " + __version__)
-    write()
-    write("## Legend:")
-    write("  * ---> or <--- denotes if it's an output or input packet.")
-    write("  * An asterisk in remote address means 'inside initial_peers'")
-    write("  * Remote Address format is 'HostId AppId ObjId' or 'Ip:Port'")
-    write("  * Port format for out messages is 'Domain.Idx kind' where kind:")
-    write("    * MeMu: Meta-traffic over Multicast")
-    write("    * MeUn: Meta-traffic over Unicast")
-    write("    * UsMu: User-traffic over Multicast")
-    write("    * UsUn: User-traffic over Unicast")
-    write("  * H3.A2.P3 is third participant from second app of third host.  ")
-    write("    At the end of the log there is a summary with the assigned IP")
-    write("  * Reader and writer identifiers are: ID_TsK where:")
-    write("    * ID is the identifier number of the entity.")
-    write("    * T is the entity kind: 'W' for writers and 'R' for readers.")
-    write("    * sK determines if the entity is keyed (+K) or unkeyed (-K).")
-    write()
-    write()
-
-    write("## Network Data Flow and Application Events")
-    header = " In/Out  | Remote Address         | Local Entity   | Description"
-    headln = "---------|:----------------------:|:--------------:|------------"
-    if not state['no_timestamp']:
-        header = "Timestamp".ljust(28) + "|" + header
-        headln = "----------------------------|" + headln
-    if state['show_lines']:
-        header = " Log/Parser |" + header
-        headln = "------------|" + headln
-    write(header)
-    write(headln)
 
 
 def main():
@@ -431,7 +262,7 @@ def main():
     expressions = create_regex_list(state)
 
     # Read log file and parse
-    print_header(state)
+    state['format_device'].write_header(state)
     try:
         parse_log(expressions, state)
     except KeyboardInterrupt:
@@ -448,9 +279,9 @@ def main():
             log_warning("Catched SIGINT", state)
 
     # Print result of config, errors and warnings.
-    print_config(state)
-    print_countset(state['warnings'], 'Warnings', state, COLORS['WARNING'])
-    print_countset(state['errors'], 'Errors', state, COLORS['FAIL'])
+    state['format_device'].write_configurations(state)
+    state['format_device'].write_warnings(state)
+    state['format_device'].write_errors(state)
 
 
 if __name__ == "__main__":

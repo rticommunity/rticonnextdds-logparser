@@ -16,82 +16,104 @@
 """Logger functions.
 
 The module contains functions to log the new messages.
+The 'content' dictionary is defined in the FormatDevice class.
 
 Functions:
-  + log: Log the given message.
-  + log_recv: Log a received packet.
-  + log_send: Log a sent packet.
-  + log_process: Log a processed packet.
-  + log_cfg: Log a configuration message.
-  + log_warning: Log a warning message.
-  + log_error: Log an error.
-  + countset_add_element: Add an element to the countset.
+  + log: log the given message.
+  + log_recv: log a received packet.
+  + log_send: log a sent packet.
+  + log_process: log a processed packet.
+  + log_cfg: log a configuration message.
+  + log_warning: log a warning message.
+  + log_error: log an error.
+  + countset_add_element: add an element to the countset.
+  + dict_regex_search: apply the regex over all the fields of the dictionary.
 
 Constants:
-  + COLORS: Colors to use in log messages.
+  + COLORS: ANSI colors to use in log messages.
+  + KIND_TO_COLOR: conversion between log kind and ANSI color
 """
 
 
-COLORS = {'HEADER': '\033[95m', 'BLUE': '\033[94m', 'OK': '\033[92m',
-          'WARNING': '\033[93m', 'FAIL': '\033[91m', 'ENDC': '\033[0m',
-          'BOLD': '\033[1m', 'UNDERLINE': '\033[4m'}
+COLORS = {
+    'RED': '\033[91m',
+    'GREEN': '\033[92m',
+    'YELLOW': '\033[93m',
+    'BLUE': '\033[94m',
+    'MAGENTA': '\033[95m',
+    'BOLD': '\033[1m',
+    'FAINT': '\033[2m',
+    'ITALIC': '\033[3m',
+    'UNDERLINE': '\033[4m',
+    'END': '\033[0m',
+}
+
+KIND_TO_COLOR = {
+    'WARNING': 'YELLOW|ITALIC',
+    'ERROR': 'RED|BOLD',
+    'IMPORTANT': 'BOLD'
+}
 
 
-def log(msg, level, state, color=None):
+def log(content, level, state):
     """Log the given message."""
     if state['verbosity'] < level:
         return
 
-    # Add the clock if so
-    if not state['no_timestamp']:
-        if 'clocks' in state:
-            clock = " %s " % state['clocks'][1].isoformat()
-        else:
-            clock = "".ljust(28)
-        msg = clock + "|" + msg
+    # Add the clock if available
+    if 'clocks' in state and state['clocks'][1]:
+        content['timestamp'] = " %s " % state['clocks'][1].isoformat()
 
-    # Add the current line if so
-    if state['show_lines']:
-        msg = " %05d/%04d |%s" % (
-            state['input_line'], state['output_line'] + 1, msg)
+    # Add the current line
+    content['input_line'] = state['input_line']
+    content['output_line'] = state['output_line'] + 1  # This message count
 
-    if 'onlyIf' in state and not state['onlyIf'].search(msg):
+    # Apply the filter
+    if 'onlyIf' in state and not dict_regex_search(content, state['onlyIf']):
         return
 
-    # Highlight the message if so
-    if 'highlight' in state and state['highlight'].search(msg):
-        color = (color or "") + COLORS['BOLD']
+    # Highlight the message if match
+    if 'highlight' in state and dict_regex_search(content, state['highlight']):
+        content['kind'] = content.get('kind', "") + "|IMPORTANT"
 
     # Apply color if specified
-    if color and not state['no_colors']:
-        msg = color + msg + COLORS['ENDC']
+    if not state['no_colors']:
+        color = ""
+        for kind in filter(None, content.get('kind', '').split("|")):
+            for subkind in KIND_TO_COLOR[kind].split("|"):
+                color += COLORS[subkind]
+        if len(color) > 0:
+            content['description'] = color + content['description'] + \
+                COLORS['END']
 
     # Write the message
-    state['output_device'].write(msg)
+    state['format_device'].write_message(content, state)
 
 
 def log_recv(addr, entity, text, state, level=0):
     """Log a received packet."""
-    if not state['ignore_packets']:
-        log("%s|%s|%s| %s" %
-            ("---> ".rjust(9), addr.center(24), entity.center(16), text),
-            level, state)
+    if state['ignore_packets']:
+        return
+    content = {'description': text, 'remote': addr, 'entity': entity,
+               'inout': 'in'}
+    log(content, level, state)
 
 
 def log_send(addr, entity, text, state, level=0):
     """Log a sent packet."""
-    if not state['ignore_packets']:
-        log("%s|%s|%s| %s" %
-            (" <---".ljust(9), addr.center(24), entity.center(16), text),
-            level, state)
+    if state['ignore_packets']:
+        return
+    content = {'description': text, 'remote': addr, 'entity': entity,
+               'inout': 'out'}
+    log(content, level, state)
 
 
 def log_process(addr, entity, text, state, level=0):
     """Log a processed packet."""
-    if not state['ignore_packets']:
-        log("%s|%s|%s| %s" %
-            ("".ljust(9), addr.center(24), entity.center(16), text),
-            level, state)
+    if state['ignore_packets']:
+        return
+    content = {'description': text, 'remote': addr, 'entity': entity}
+    log(content, level, state)
 
 
 def log_cfg(text, state, level=0):
@@ -103,8 +125,8 @@ def log_cfg(text, state, level=0):
 
 def log_event(text, state, level=0):
     """Log an application event."""
-    log("%s|%s|%s| %s" % ("".ljust(9), "".ljust(24), "".ljust(16), text),
-        level, state)
+    content = {'description': text}
+    log(content, level, state)
 
 
 def log_warning(text, state, level=0):
@@ -114,9 +136,8 @@ def log_warning(text, state, level=0):
 
     countset_add_element(state['warnings'], text)
     if state['inline']:
-        text = "%s|%s|%s| *Warning: %s*" % (
-            "".ljust(9), "".ljust(24), "".ljust(16), text)
-        log(text, level, state, COLORS['WARNING'])
+        content = {'description': "Warning: " + text, 'kind': 'WARNING'}
+        log(content, level, state)
 
 
 def log_error(text, state, level=0):
@@ -126,9 +147,8 @@ def log_error(text, state, level=0):
 
     countset_add_element(state['errors'], text)
     if state['inline']:
-        text = "%s|%s|%s| **Error: %s**" % (
-            "".ljust(9), "".ljust(24), "".ljust(16), text)
-        log(text, level, state, COLORS['FAIL'])
+        content = {'description': "Error: " + text, 'kind': 'ERROR'}
+        log(content, level, state)
 
 
 def countset_add_element(countset, el):
@@ -136,3 +156,11 @@ def countset_add_element(countset, el):
     if el not in countset:
         countset[el] = [len(countset), 0]
     countset[el][1] += 1
+
+
+def dict_regex_search(content, regex):
+    """Apply the regex over all the fields of the dictionary."""
+    match = False
+    for field in content:
+        match = match if match else regex.search(field)
+    return match
