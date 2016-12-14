@@ -42,10 +42,11 @@ Constants:
   + INSTANCE_STATES: States for an instance.
   + VIEW_STATES: View states for an instance.
 """
+from __future__ import absolute_import
 from calendar import timegm
 from datetime import timedelta
 from hashlib import md5
-from devices.logger import log_cfg, log_warning
+from logparser.devices.logger import log_cfg, log_warning
 
 
 INSTANCE_STATES = ["invalid", "alive", "disposed", "", "no_writers"]

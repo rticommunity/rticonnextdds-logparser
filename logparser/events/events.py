@@ -54,11 +54,11 @@ Functions:
   + on_envvar_file_found: it happens when it finds an env var or file.
 """
 from __future__ import absolute_import
-from devices.logger import (log_cfg, log_error, log_event, log_process,
-                            log_warning)
-from utils import (get_locator, get_oid, get_participant, get_topic_name,
-                   get_type_name, hex2ip, is_builtin_entity, parse_guid,
-                   set_local_address)
+from logparser.devices.logger import (log_cfg, log_error, log_event,
+                                      log_process, log_warning)
+from logparser.utils import (get_locator, get_oid, get_participant,
+                             get_topic_name, get_type_name, hex2ip,
+                             is_builtin_entity, parse_guid, set_local_address)
 
 
 # --------------------------------------------------------------------------- #

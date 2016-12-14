@@ -13,22 +13,8 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-"""Create the dictionary for log functions related to custom logs.
+"""Application entry point."""
+from rtilogparser import main
 
-Functions:
-  + get_regex_list: Get the regular expressions and function list.
-
-Constants:
-  + CUSTOM_PREFIX: Prefix for custom logs.
-"""
-from __future__ import absolute_import
-import custom.custom as custom
-
-CUSTOM_PREFIX = "#Custom: "
-
-
-def get_regex_list():
-    """Return the regular expressions and functions list for this module."""
-    regex = []
-    regex.append([custom.on_custom_log, CUSTOM_PREFIX + "(.*)"])
-    return regex
+if __name__ == "__main__":
+    main()

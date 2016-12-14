@@ -19,7 +19,7 @@ Functions:
   + get_regex_list: Get the regular expressions and function list.
 """
 from __future__ import absolute_import
-import debug.debug as debug
+import logparser.debug.debug as debug
 
 
 def get_regex_list():

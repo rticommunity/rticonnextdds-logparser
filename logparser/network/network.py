@@ -54,12 +54,12 @@ Functions:
   + on_shmem_queue_full: it happens when the ShareMemory queue is full.
 """
 from __future__ import absolute_import
-from devices.logger import (log_cfg, log_error, log_process, log_recv,
-                            log_send, log_warning)
-from utils import (add_statistics_bandwidth, add_statistics_packet,
-                   get_locator, get_oid, get_participant, get_port_name,
-                   get_port_number, hex2ip, is_builtin_entity, parse_guid,
-                   parse_sn)
+from logparser.devices.logger import (log_cfg, log_error, log_process,
+                                      log_recv, log_send, log_warning)
+from logparser.utils import (add_statistics_bandwidth, add_statistics_packet,
+                             get_locator, get_oid, get_participant,
+                             get_port_name, get_port_number, hex2ip,
+                             is_builtin_entity, parse_guid, parse_sn)
 
 
 # --------------------------------------------------------------------------- #

@@ -19,12 +19,13 @@ Functions:
   + add_regex: Compile the regex and add it to the list.
   + create_regex_list: Create the list of regular expressions and functions.
 """
+from __future__ import absolute_import
 import re
-from custom.logs import get_regex_list as custom_regex
-from debug.logs import get_regex_list as debug_regex
-from events.logs import get_regex_list as events_regex
-from network.logs import get_regex_list as network_regex
-from routing.logs import get_regex_list as routing_regex
+from logparser.custom.logs import get_regex_list as custom_regex
+from logparser.debug.logs import get_regex_list as debug_regex
+from logparser.events.logs import get_regex_list as events_regex
+from logparser.network.logs import get_regex_list as network_regex
+from logparser.routing.logs import get_regex_list as routing_regex
 
 
 def add_regex(log_list, method, regex):

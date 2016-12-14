@@ -115,7 +115,7 @@ Any log message starting with `#Custom: ` is parsed and it will appear in the ou
 ### Adding a parser
 The tool can be extended to implement custom parsers by following these steps:
 
-1. Add the regular expression for the log message. Open *src/custom/logs.py* and append a new tuple with the following format to the `regex` variable:
+1. Add the regular expression for the log message. Open *logparser/custom/logs.py* and append a new tuple with the following format to the `regex` variable:
 ```
 regex.append([custom.FUNCTION_NAME_TO_CALL_IF_MATCHED, LOG_REGEX])
 ```

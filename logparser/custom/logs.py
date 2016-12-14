@@ -13,31 +13,22 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-"""Create the dictionary for log functions related to Routing Service.
+"""Create the dictionary for log functions related to custom logs.
 
 Functions:
   + get_regex_list: Get the regular expressions and function list.
+
+Constants:
+  + CUSTOM_PREFIX: Prefix for custom logs.
 """
 from __future__ import absolute_import
-import routing.routing as routing
+import logparser.custom.custom as custom
+
+CUSTOM_PREFIX = "#Custom: "
 
 
 def get_regex_list():
     """Return the regular expressions and functions list for this module."""
     regex = []
-    # Configuration.
-    regex.append([routing.on_large_configuration_value,
-                  r"ROUTERTopicRoute_initializeMonitoring:" +
-                  r"!string is too long"])
-    regex.append([routing.on_route_creation_failure,
-                  r"ROUTERTopicRoute_new:!init ROUTERTopicRoute object"])
-
-    # Discovery
-    regex.append([routing.on_typecode_inconsistency,
-                  r"ROUTERDdsConnection_assertType:two different type " +
-                  r"definitions with the same name \((.+)\) were found"])
-    regex.append([routing.on_typecode_not_found,
-                  r"ROUTERDdsConnection_assertType:Type code for type (.+) " +
-                  r"is not available"])
-
+    regex.append([custom.on_custom_log, CUSTOM_PREFIX + "(.*)"])
     return regex
