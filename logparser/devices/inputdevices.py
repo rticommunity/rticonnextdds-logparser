@@ -128,7 +128,7 @@ class InputFileDevice(InputDevice):
             return
 
         progress = 100.0 * iteration / total
-        if self.progress > 0 and progress - self.progress < threshold:
+        if self.progress and progress - self.progress < threshold:
             return
 
         self.progress = progress
