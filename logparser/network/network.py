@@ -231,7 +231,7 @@ def on_send_preemptive_hb(match, state):
     verb = 1 if is_builtin_entity(match[0]) else 0
     log_send("",
              writer_oid,
-             "Sent preemptive HB to acknowledge samples in [%d, %d]" %
+             "Sent preemptive HB to let know about samples in [%d, %d]" %
              (sn_start, sn_end),
              state,
              verb)
@@ -286,12 +286,13 @@ def on_receive_ack(match, state):
     reader_addr = parse_guid(state, remote[0], remote[1], remote[2])
     reader_oid = get_oid(remote[3])
     seqnum = parse_sn(match[2])
+    bitcount = int(match[3])
     epoch = int(match[4])
     verb = 1 if is_builtin_entity(match[0]) else 0
     log_recv(reader_addr,
              writer_oid,
-             "Received ACKNACK [%d] from reader %s for %d" %
-             (epoch, reader_oid, seqnum),
+             "Received ACKNACK [%d] from reader %s for %d +%d" %
+             (epoch, reader_oid, seqnum, bitcount),
              state, verb)
 
 
