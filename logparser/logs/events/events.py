@@ -102,9 +102,9 @@ def on_recv_buffer_size_mismatch(match, state):
     expected = int(match[0])
     actual = int(match[1])
     log_cfg("The receive socket buffer size is %d" % actual, state)
-    log_error("[LP-20] The OS limits the receive socket buffer " +
-              "size from %d to %d bytes" % (expected, actual),
-              state)
+    log_warning("[LP-20] The OS limits the receive socket buffer " +
+                "size from %d to %d bytes" % (expected, actual),
+                state)
 
 
 # --------------------------------------------------------------------------- #
