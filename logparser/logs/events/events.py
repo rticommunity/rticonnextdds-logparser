@@ -110,6 +110,41 @@ def on_recv_buffer_size_mismatch(match, state):
 # --------------------------------------------------------------------------- #
 # -- Create or delete entities                                             -- #
 # --------------------------------------------------------------------------- #
+# pylint: disable=W0613
+def on_new_thread(match, state):
+    """It happens when a new middleware thread is created."""
+    log_cfg("New thread created", state)
+
+
+def on_new_thread_with_config(match, state):
+    """It happens when a new DB GC thread is created."""
+    kind = match[0]
+    name = match[1] if match[1][:4] != "rDsp" else "rDsp"
+    priority = int(match[2])
+    stack_size = int(match[3], 16)
+    log_cfg("New %s thread: priority=%d, stack size=%d" %
+            (kind, priority, stack_size),
+            state)
+
+    if "threads" not in state:
+        state['threads'] = {}
+    state['threads'][name] = {'kind': kind,
+                              'priority': priority,
+                              'stack_size': stack_size}
+
+
+def on_new_thread_affinity(match, state):
+    """It happens when setting the thread affinity."""
+    name = match[0]
+    tid = int(match[1])
+    affinity = match[2]
+    state['threads'][name]['tid'] = tid
+    state['threads'][name]['affinity'] = affinity
+    log_cfg("Affinity for %s thread is %s" %
+            (state['threads'][name]['kind'], affinity),
+            state)
+
+
 def on_create_participant(match, state):
     """It happens for new participants."""
     log_event("Created participant, domain: %3s index: %s" %
@@ -190,7 +225,7 @@ def on_fail_delete_flowcontrollers(match, state):
 
 
 # pylint: disable=W0613
-def on_inconsistent_transport_discovery_configuration(match, state):
+def on_invalid_transport_discovery(match, state):
     """It happens for inconsistencies in the discovery configuration."""
     log_error("Inconsistent transport/discovery configuration", state)
 

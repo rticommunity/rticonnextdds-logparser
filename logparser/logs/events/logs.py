@@ -47,6 +47,25 @@ def get_regex_list():
                   r"is (\d+)"])
 
     # Create or delete entities
+    regex.append([events.on_new_thread,
+                  r"RTIOsapiThread_new:spawning thread"])
+    regex.append([events.on_new_thread_with_config,
+                  r"RTIEventActiveDatabase_new:(database) gc thread starting" +
+                  r" up: name=(\w+), priority=([-\d]+), stack=([-\w]+)"])
+    regex.append([events.on_new_thread_with_config,
+                  r"RTIEventActiveGenerator_new:(event) thread starting up: " +
+                  r"name=(\w+), priority=([-\d]+), stack=([-\w]+)"])
+    regex.append([events.on_new_thread_with_config,
+                  r"COMMENDActiveFacade_addReceiverThread:(receive) thread " +
+                  r"starting up: name=(\w+), priority=([-\d]+), " +
+                  r"stack=([-\w]+)"])
+    regex.append([events.on_new_thread_with_config,
+                  r"RTIEventJobDispatcher_createThread:(job dispatcher) " +
+                  r"thread starting up: name=(\w+), priority=([-\d]+), " +
+                  r"stack=([-\w]+)"])
+    regex.append([events.on_new_thread_affinity,
+                  r"RTIOsapiThread_logCpuAffinity:thread '(\w+)' \((\d+)\) " +
+                  r"affinity: (.+),"])
     regex.append([events.on_create_participant,
                   r"DDS_DomainParticipantPresentation_reserve_participant_" +
                   r"index_entryports:Domain (\d+):" +
@@ -86,7 +105,7 @@ def get_regex_list():
     regex.append([events.on_fail_delete_flowcontrollers,
                   r"PRESParticipant_destroyOneFlowControllerWithCursor:" +
                   r"has (\d+) writers on flowcontroller"])
-    regex.append([events.on_inconsistent_transport_discovery_configuration,
+    regex.append([events.on_invalid_transport_discovery,
                   r"DDS_DomainParticipant_enableI:Automatic participant " +
                   r"index failed to initialize\. PLEASE VERIFY CONSISTENT " +
                   r"TRANSPORT \/ DISCOVERY CONFIGURATION\."])

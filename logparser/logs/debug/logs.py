@@ -33,6 +33,8 @@ def get_regex_list():
                   r"RTIEventJobDispatcher_scheduleJob:agent:\w+ job:\w+ " +
                   r"scheduled at priority \d+"])
     regex.append([debug.on_ignored_message,
+                  r"RTIOsapiThread_sleep: nanosleep\(\d+.\d+ s\)"])
+    regex.append([debug.on_ignored_message,
                   r"RTIEventActiveGeneratorThread_loop:\w+ gathering events"])
     regex.append([debug.on_ignored_message,
                   r"RTIEventActiveGeneratorThread_loop:\w+ firing events"])
