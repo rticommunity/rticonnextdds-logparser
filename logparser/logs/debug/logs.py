@@ -30,6 +30,27 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"^\s*$"])
     regex.append([debug.on_ignored_message,
+                  r"RTIEventActiveDatabaseThread_loop:created \w+"])
+    regex.append([debug.on_ignored_message,
+                  r"RTIEventActiveGeneratorThread_loop:created \w+"])
+    regex.append([debug.on_ignored_message,
+                  r"COMMENDActiveFacade_threadStarted:thread count ref " +
+                  r"count \d+"])
+    regex.append([debug.on_ignored_message,
+                  r"COMMENDActiveFacade_addReceiverThread:thread count ref " +
+                  r"count \d+"])
+    regex.append([debug.on_ignored_message,
+                  r"COMMENDActiveFacade_new:active object count ref " +
+                  r"count \d+"])
+    regex.append([debug.on_ignored_message,
+                  r"RTIEventJobDispatcher_distributeTokens: \d+ agents " +
+                  r"at priority [-\d]+"])
+    regex.append([debug.on_ignored_message,
+                  r"RTIEventJobDispatcher_updateAgentPriorities:agent:" +
+                  r"0x\w+ priority set to [-\d]+"])
+    regex.append([debug.on_ignored_message,
+                  r"NDDS_Transport_UDPv4_receive_rEA:\w+ woke up"])
+    regex.append([debug.on_ignored_message,
                   r"RTIEventJobDispatcher_scheduleJob:agent:\w+ job:\w+ " +
                   r"scheduled at priority \d+"])
     regex.append([debug.on_ignored_message,
@@ -58,6 +79,9 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"RTIOsapiThread_sleep: Sleep\(\d+ ms\)"])
 
+    regex.append([debug.on_ignored_message,
+                  r"DDS_PropertySeq_ensure_length:memory allocation: " +
+                  r"original \d+, new \d+"])
     regex.append([debug.on_ignored_message,
                   r"RTINetioReceiver_addEntryport:" +
                   r"NetioReceiver_Entryport reused"])

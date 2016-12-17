@@ -48,6 +48,8 @@ def get_regex_list():
 
     # Create or delete entities
     regex.append([events.on_new_thread,
+                  r"RTIOsapiThread_initializeWithStack"])
+    regex.append([events.on_new_thread,
                   r"RTIOsapiThread_new:spawning thread"])
     regex.append([events.on_new_thread_with_config,
                   r"RTIEventActiveDatabase_new:(database) gc thread starting" +
