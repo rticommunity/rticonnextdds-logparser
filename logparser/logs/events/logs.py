@@ -45,6 +45,9 @@ def get_regex_list():
                   r":The specified recv_socket_buffer_size, (\d+), " +
                   r"was not set. The actual receive socket buffer size " +
                   r"is (\d+)"])
+    regex.append([events.on_msg_size_reduced,
+                  r"NDDS_Transport_(UDPv4)_newI: Reducing message_size_max " +
+                  r"from (\d+) to (\d+), for protocol_overhead_max (\d+)"])
 
     # Create or delete entities
     regex.append([events.on_new_thread,

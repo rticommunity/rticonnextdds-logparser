@@ -30,6 +30,10 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"^\s*$"])
     regex.append([debug.on_ignored_message,
+                  r"DDS_Registry_lock:Locking the storage service"])
+    regex.append([debug.on_ignored_message,
+                  r"DDS_Registry_unlock:Unlocking the storage service"])
+    regex.append([debug.on_ignored_message,
                   r"RTIEventActiveDatabaseThread_loop:created \w+"])
     regex.append([debug.on_ignored_message,
                   r"RTIEventActiveGeneratorThread_loop:created \w+"])

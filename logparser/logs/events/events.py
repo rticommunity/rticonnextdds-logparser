@@ -107,6 +107,22 @@ def on_recv_buffer_size_mismatch(match, state):
                 state)
 
 
+def on_msg_size_reduced(match, state):
+    """It happens when the message_size_max is decreased."""
+    transport = match[0]
+    expected = int(match[1])
+    actual = int(match[2])
+    rtps_overhead = int(match[3])
+    log_warning("[LP-21] Decreased message_size_max for %s from %d to %d" %
+                (transport, expected, actual),
+                state)
+    log_cfg("The property rtps_overhead_max is %d bytes" % rtps_overhead,
+            state)
+    log_cfg("The property message_size_max for %s is %d bytes" %
+            (transport, actual),
+            state)
+
+
 # --------------------------------------------------------------------------- #
 # -- Create or delete entities                                             -- #
 # --------------------------------------------------------------------------- #
