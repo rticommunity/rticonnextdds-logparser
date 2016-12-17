@@ -113,7 +113,11 @@ def on_recv_buffer_size_mismatch(match, state):
 # pylint: disable=W0613
 def on_new_thread(match, state):
     """It happens when a new middleware thread is created."""
-    log_cfg("New thread created", state)
+    if 'threads' not in state:
+        state['threads'] = {}
+    if 'all' not in state['threads']:
+        state['threads']['all'] = 0
+    state['threads']['all'] += 1
 
 
 def on_new_thread_with_config(match, state):
@@ -122,15 +126,14 @@ def on_new_thread_with_config(match, state):
     name = match[1] if match[1][:4] != "rDsp" else "rDsp"
     priority = int(match[2])
     stack_size = int(match[3], 16)
-    log_cfg("New %s thread: priority=%d, stack size=%d" %
-            (kind, priority, stack_size),
-            state)
 
     if "threads" not in state:
         state['threads'] = {}
-    state['threads'][name] = {'kind': kind,
-                              'priority': priority,
-                              'stack_size': stack_size}
+    state['threads'][name] = {
+        'name': name,
+        'kind': kind,
+        'priority': priority,
+        'stack_size': stack_size}
 
 
 def on_new_thread_affinity(match, state):
@@ -140,9 +143,6 @@ def on_new_thread_affinity(match, state):
     affinity = match[2]
     state['threads'][name]['tid'] = tid
     state['threads'][name]['affinity'] = affinity
-    log_cfg("Affinity for %s thread is %s" %
-            (state['threads'][name]['kind'], affinity),
-            state)
 
 
 def on_create_participant(match, state):
