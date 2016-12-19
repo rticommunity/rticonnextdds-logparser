@@ -23,8 +23,9 @@ Functions:
   + add_statistics_packets: Add the given packet to the packet statistics.
   + add_statistics_bandwidth: Add the given packet to the bandwidth statistics.
   + obfuscate: Obfuscate the given text.
-  + get_oid: Parse the entity object ID and conver to text.
-  + is_builtin_entity: Get if the OID hex number is for a built-in entity.
+  + get_oid: Get a name for the entity ID in hexadecimal text format.
+  + is_builtin_entity: Return if the OID hex number is for a built-in entity.
+  + get_data_packet_name: Return the DATA packet name.
   + get_topic_name: Get the topic name, obfuscating if needed.
   + get_type_name: Get the type name, obfuscating if needed.
   + get_port_number: Get the port number, obfuscating if needed.
@@ -166,35 +167,61 @@ def obfuscate(text, state):
 
 
 def get_oid(oid):
-    """Parse the entity object ID and conver to text."""
-    oid_names = {
-        # Built-in OID names.
-        0x00000000: "UNKNOWN", 0x000001c1: "BUILTIN_PARTIC",
-        0x000002c2: "TOPIC_WRITER", 0x000002c7: "TOPIC_READER",
-        0x000003c2: "PUB_WRITER", 0x000003c7: "PUB_READER",
-        0x000004c2: "SUB_WRITER", 0x000004c7: "SUB_READER",
-        0x000100c2: "PARTIC_WRITER", 0x000100c7: "PARTIC_READER",
-        0x000200c2: "MESSAGE_WRITER", 0x000200c7: "MESSAGE_READER"}
-    user_oid_kind = {
-        # Application defined entities.
-        0x00: "UNK", 0x01: "PAR",
+    """Get a name for the entity ID in hexadecimal text format."""
+    # Information from RTPS Spec: http://www.omg.org/spec/DDSI-RTPS/
+    # Security entities: http://www.omg.org/spec/DDS-SECURITY/1.0/Beta2/
+    BUILTIN_NAMES = {
+        # Built-in Entity GUIDs
+        0x00000000: "UNKNOWN", 0x000001c1: "PARTICIPANT",
+        0x000002c2: "SED_TOPIC_WRITER", 0x000002c7: "SED_TOPIC_READER",
+        0x000003c2: "SED_PUB_WRITER", 0x000003c7: "SED_PUB_READER",
+        0x000004c2: "SED_SUB_WRITER", 0x000004c7: "SED_SUB_READER",
+        0x000100c2: "SPD_PART_WRITER", 0x000100c7: "SPD_PART_READER",
+        0x000200c2: "MESSAGE_WRITER", 0x000200c7: "MESSAGE_READER",
+        # Security Built-in Entity GUIDs
+        0xff0003c2: "SED_PUB_SEC_WRITER", 0xff0003c7: "SED_PUB_SEC_READER",
+        0xff0004c2: "SED_SUB_SEC_WRITER", 0xff0004c7: "SED_SUB_SEC_READER",
+        0xff0200c2: "MSG_SEC_WRITER", 0xff0200c7: "MSG_SEC_READER",
+        0x000201c2: "MSG_STA_SEC_WRITER", 0x000201c7: "MSG_STA_SEC_READER",
+        0xff0202c2: "MSG_VOL_SEC_WRITER", 0xff0202c7: "MSG_VOL_SEC_READER"}
+    ENTITY_ORIGINS = {0x00: "USER", 0x40: "VEND", 0xc0: "BUILTIN"}
+    ENTITY_KINDS = {
+        0x00: "UNK", 0x01: "PART",
         0x02: "W+K", 0x03: "W-K",
         0x04: "R-K", 0x07: "R+K"}
+
+    # Convert the hexadecimal text representation to a number
     oid_num = int(oid, 16)
-    if oid_num & 0x80000000 == 0:
-        name = oid_names[oid_num] if oid_num in oid_names else oid
+
+    # Analyze the entity kind
+    entity_kind = oid_num & 0xFF
+    origin = ENTITY_ORIGINS[entity_kind & 0xC0]
+    kind = ENTITY_KINDS[entity_kind & 0x3F]
+
+    if origin == "BUILTIN":
+        name = BUILTIN_NAMES[oid_num]
+    elif origin == "USER":
+        name = kind + "_" + hex(oid_num >> 8)[2:].zfill(6)
     else:
-        kind = oid_num & 0xFF
-        kind = user_oid_kind[kind] if kind in user_oid_kind else "INV"
-        num = (oid_num & 0x7FFFF000) >> 13
-        name = str(num).zfill(2) + "_" + kind
+        name = origin + "_" + kind + "_" + hex(oid_num >> 8)[2:].zfill(6)
     return name
 
 
 def is_builtin_entity(oid):
-    """Get if the OID hex number is for a built-in entity."""
+    """Return if the OID hex number is for a built-in entity."""
+    # More information in get_oid
     oid_num = int(oid, 16)
-    return oid_num & 0x80000000 == 0
+    return oid_num & 0xC0 == 0xC0
+
+
+def get_data_packet_name(oid):
+    """Return the DATA packet name."""
+    # More information in get_oid
+    entity_name = get_oid(oid)
+    PACKET_NAMES = {
+        "SED_PUB_WRITER": "DATA(w)", "SED_SUB_WRITER": "DATA(r)",
+        "SPD_PART_WRITER": "DATA(p)", "MESSAGE_WRITER": "DATA(m)"}
+    return PACKET_NAMES[entity_name] if entity_name in PACKET_NAMES else "DATA"
 
 
 def get_topic_name(topic, state):

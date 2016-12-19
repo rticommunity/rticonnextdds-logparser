@@ -57,9 +57,9 @@ from __future__ import absolute_import
 from logparser.devices.logger import (log_cfg, log_error, log_process,
                                       log_recv, log_send, log_warning)
 from logparser.utils import (add_statistics_bandwidth, add_statistics_packet,
-                             get_locator, get_oid, get_participant,
-                             get_port_name, get_port_number, hex2ip,
-                             is_builtin_entity, parse_guid, parse_sn)
+                             get_data_packet_name, get_locator, get_oid,
+                             get_participant, get_port_name, get_port_number,
+                             hex2ip, is_builtin_entity, parse_guid, parse_sn)
 
 
 # --------------------------------------------------------------------------- #
@@ -169,12 +169,13 @@ def on_send_data(match, state):
 def on_resend_data(match, state):
     """It happens when the writer resend a DATA message."""
     writer_oid = get_oid(match[0])
+    packet_name = get_data_packet_name(match[0])
     remote_part = parse_guid(state, match[1], match[2], match[3])
     remote_oid = get_oid(match[4])
     seqnum = parse_sn(match[5])
     verb = 1 if is_builtin_entity(match[0]) else 0
     log_send(remote_part, writer_oid,
-             "Resend DATA (%d) to reader %s" % (seqnum, remote_oid),
+             "Resend %s [%d] to reader %s" % (packet_name, seqnum, remote_oid),
              state, verb)
 
 
@@ -329,6 +330,7 @@ def on_receive_data(match, state):
     remote = match[5].split('.')
     writer_addr = parse_guid(state, remote[0], remote[1], remote[2])
     writer_oid = get_oid(remote[3])
+    packet = get_data_packet_name(remote[3]) if packet == "DATA" else packet
 
     # Sequece number check
     full_id = writer_addr + "." + writer_oid + ' to ' + reader_oid
@@ -345,7 +347,7 @@ def on_receive_data(match, state):
 
     # Show the message after any possible warning.
     verb = 1 if is_builtin_entity(remote[3]) else 0
-    log_recv(writer_addr, reader_oid, "Received %s (%d) from writer %s (%s)" %
+    log_recv(writer_addr, reader_oid, "Received %s [%d] from writer %s (%s)" %
              (packet, seqnum, writer_oid, comm),
              state, verb)
 
@@ -358,9 +360,10 @@ def on_receive_out_order_data(match, state):
     remote = match[3].split('.')
     writer_addr = parse_guid(state, remote[0], remote[1], remote[2])
     writer_oid = get_oid(remote[3])
+    packet_name = get_data_packet_name(remote[3])
     verb = 1 if is_builtin_entity(remote[3]) else 0
-    log_recv(writer_addr, reader_oid, "Received %s DATA (%d) from writer %s" %
-             (kind, seqnum, writer_oid),
+    log_recv(writer_addr, reader_oid, "Received %s %s [%d] from writer %s" %
+             (kind, packet_name, seqnum, writer_oid),
              state, verb)
 
 
