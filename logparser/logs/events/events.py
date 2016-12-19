@@ -169,6 +169,11 @@ def on_create_participant(match, state):
               (match[0], match[1]), state)
 
 
+def on_enable_participant(match, state):
+    """It happens when a participant is enabled."""
+    log_event("Enabled participant", state, 1)
+
+
 def on_delete_participant(match, state):
     """It happens for deleted participants."""
     log_event("Deleted participant, domain: %3s index: %s" %
@@ -197,16 +202,51 @@ def on_delete_topic(match, state):
               state, 1)
 
 
+def on_enable_topic(match, state):
+    """It happens when a topic is enabled."""
+    log_event("Enabled topic", state, 1)
+
+
+def on_create_publisher(match, state):
+    """It happens when a publisher is created."""
+    log_event("Created publisher", state)
+
+
+def on_enable_publisher(match, state):
+    """It happens when a publisher is enabled."""
+    log_event("Enabled publisher", state, 1)
+
+
+def on_create_subscriber(match, state):
+    """It happens when a subscriber is created."""
+    log_event("Created subscriber", state)
+
+
+def on_enable_subscriber(match, state):
+    """It happens when a subscriber is enabled."""
+    log_event("Enabled subscriber", state, 1)
+
+
 def on_create_writer(match, state):
     """It happens for new DataWriters."""
     topic = get_topic_name(match[0], state)
     log_event("Created writer for topic '%s'" % topic, state)
 
 
+def on_enable_writer(match, state):
+    """It happens when a DataWriter is enabled."""
+    log_event("Enabled DataWriter", state, 1)
+
+
 def on_create_reader(match, state):
     """It happens for new DataReader."""
     topic = get_topic_name(match[0], state)
     log_event("Created reader for topic '%s'" % topic, state)
+
+
+def on_enable_reader(match, state):
+    """It happens when a DataReader is enabled."""
+    log_event("Enabled DataReader", state, 1)
 
 
 def on_delete_writer(match, state):

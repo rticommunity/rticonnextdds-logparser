@@ -75,6 +75,8 @@ def get_regex_list():
                   r"DDS_DomainParticipantPresentation_reserve_participant_" +
                   r"index_entryports:Domain (\d+):" +
                   r"USING PARTICIPANT INDEX=(\d+)"])
+    regex.append([events.on_enable_participant,
+                  r"DDS_DomainParticipant_enableI:enabled"])
     regex.append([events.on_delete_participant,
                   r"DDS_DomainParticipantFactory_delete_participant:deleted " +
                   r"participant: domain=(\d+), index=(\d+)"])
@@ -89,12 +91,28 @@ def get_regex_list():
     regex.append([events.on_delete_topic,
                   r"DDS_DomainParticipant_delete_topic:deleted topic: " +
                   r"topic=(.+), type=(.+)"])
+    regex.append([events.on_enable_topic,
+                  r"DDS_Topic_enable:enabled"])
+    regex.append([events.on_create_publisher,
+                  r"DDS_DomainParticipant_create_publisher_disabledI:" +
+                  r"created publisher"])
+    regex.append([events.on_enable_publisher,
+                  r"DDS_Publisher_enable:enabled"])
+    regex.append([events.on_create_subscriber,
+                  r"DDS_DomainParticipant_create_subscriber_disabledI:" +
+                  r"created subscriber"])
+    regex.append([events.on_enable_subscriber,
+                  r"DDS_Subscriber_enable:enabled"])
     regex.append([events.on_create_writer,
                   r"DDS_Publisher_create_datawriter_disabledI:(?:RTI0x\w+:)?" +
                   r"created writer: topic=(.+)"])
+    regex.append([events.on_enable_writer,
+                  r"DDS_DataWriter_enableI:enabled"])
     regex.append([events.on_create_reader,
                   r"DDS_Subscriber_create_datareader_disabledI:" +
                   r"(?:RTI0x\w+:)?created reader: topic=(.+)"])
+    regex.append([events.on_enable_reader,
+                  r"DDS_DataReader_enableI:enabled"])
     regex.append([events.on_delete_writer,
                   r"DDS_Publisher_delete_datawriter:(?:RTI0x\w+:)?" +
                   r"deleted writer: topic=(.+)"])
