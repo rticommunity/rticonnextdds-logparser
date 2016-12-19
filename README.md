@@ -98,10 +98,13 @@ Logger.get_instance().set_verbosity_by_category(
 
 * Environment variable `NDDS_QOS_PROFILES`. It is possible to specify an inline XML QoS profile inside the variable:
 ```bash
+# Bash
 export NDDS_QOS_PROFILES="str://\"<dds><qos_library name=\"myLoggingLib\"><qos_profile name=\"myLoggingProfile\" is_default_participant_factory_profile=\"true\"><participant_factory_qos><logging><verbosity>ALL</verbosity><category>ALL</category><print_format>TIMESTAMPED</print_format></logging></participant_factory_qos></qos_profile></qos_library></dds>\""
 
+# Tcsh
 setenv NDDS_QOS_PROFILES 'str://"<dds><qos_library name="myLoggingLib"><qos_profile name="myLoggingProfile" is_default_participant_factory_profile="true"><participant_factory_qos><logging><verbosity>ALL</verbosity><category>ALL</category><print_format>TIMESTAMPED</print_format></logging></participant_factory_qos></qos_profile></qos_library></dds>"'
 
+# Windows CMD
 set NDDS_QOS_PROFILES=str://"<dds><qos_library name="myLoggingLib"><qos_profile name="myLoggingProfile" is_default_participant_factory_profile="true"><participant_factory_qos><logging><verbosity>ALL</verbosity><category>ALL</category><print_format>TIMESTAMPED</print_format></logging></participant_factory_qos></qos_profile></qos_library></dds>"
 ```
 

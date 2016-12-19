@@ -168,7 +168,7 @@ def obfuscate(text, state):
 
 def get_oid(oid):
     """Get a name for the entity ID in hexadecimal text format."""
-    # Information from RTPS Spec: http://www.omg.org/spec/DDSI-RTPS/2.2/PDF/
+    # Information from RTPS Spec: http://www.omg.org/spec/DDSI-RTPS/
     # Security entities: http://www.omg.org/spec/DDS-SECURITY/1.0/Beta2/
     BUILTIN_NAMES = {
         # Built-in Entity GUIDs
@@ -190,7 +190,7 @@ def get_oid(oid):
         0x02: "W+K", 0x03: "W-K",
         0x04: "R-K", 0x07: "R+K"}
 
-    # Convert into a number from the hexadecimal text representation
+    # Convert the hexadecimal text representation to a number
     oid_num = int(oid, 16)
 
     # Analyze the entity kind
