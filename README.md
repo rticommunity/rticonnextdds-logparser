@@ -1,6 +1,6 @@
 # RTI Log Parser for Connext DDS [<img alt="License Apache" src="https://img.shields.io/badge/license-Apache-blue.svg?style=flat" align="right" />](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-**RTI Log Parser** is a command-line tool that processes and enhances Connext DDS log messages making it easier to debug applications.
+**RTI Log Parser** is a command-line tool that processes and enhances RTI Connext DDS log messages making it easier to debug applications.
 
 ## Features
 * Show sent and received packets with IP addresses.
@@ -37,7 +37,7 @@ Additional features can be enabled or disabled with the following arguments:
 * `--highlight regex`: show in bold regex matched logs, requires -c.
 * `--local-host LOCAL_HOST`: set the local address.
 * `--no-network`: do not show the network related logs.
-* `--no-inline`: do not show warnigns and errors in network logs.
+* `--no-inline`: do not show warnings and errors in network logs.
 * `--no-stats`: do not show the network and packet statistics.
 * `--no-progress`: do not show the interative info at the bottom.
 * `--debug`: export the unmatched log messages.
