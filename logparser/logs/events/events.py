@@ -149,7 +149,9 @@ def on_new_thread_with_config(match, state):
         'name': name,
         'kind': kind,
         'priority': priority,
-        'stack_size': stack_size}
+        'stack_size': stack_size,
+        'tid': -1,
+        'affinity': '??'}
 
 
 def on_new_thread_affinity(match, state):

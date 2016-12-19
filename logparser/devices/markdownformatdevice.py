@@ -250,7 +250,8 @@ class MarkdownFormatDevice(FormatDevice):
         self.write("### Threads Information:")
 
         info = state['threads']
-        self.write("* Number of threads: %d" % info['all'])
+        num_threads = info['all'] if 'all' in info else len(info)
+        self.write("* Number of threads: %d" % num_threads)
 
         group_info = {}
         for thread_name in info:
