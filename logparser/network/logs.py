@@ -94,10 +94,10 @@ def get_regex_list():
     regex.append([network.on_send_piggyback_hb,
                   r"COMMENDSrWriterService_agentFunction:\s?writer oid " +
                   r"0x(\w+) sends piggyback HB \(([\d,]+)\)-\(([\d,]+)\)"])
-    regex.append([network.on_send_piggyback_hb,
+    regex.append([network.on_send_piggyback_hb_syncrepair,
                   r"COMMENDSrWriterService_sendSyncRepairData:\[\d+,\d+\] " +
                   r"writer oid 0x(\w+) sends piggyback HB for sn " +
-                  r"\(([\d,]+)\)-\(([\d,]+), epoch\(\d+\)\)"])
+                  r"\(([\d,]+)\)-\(([\d,]+), epoch\((\d+)\)\)"])
     regex.append([network.on_send_hb_response,
                   r"COMMENDSrWriterService_onSubmessage:\[\d+,\d+\] " +
                   r"writer oid 0x(\w+) sends response HB for sn " +
@@ -147,8 +147,9 @@ def get_regex_list():
                   r"nextRelSn\(([\d,]+)\), reservedCount\((\d+)\)"])
     regex.append([network.on_receive_hb,
                   r"COMMENDSrReaderService_onSubmessage:\[\d+,\d+\] reader " +
-                  r"oid 0x(\w+) received HB for sn \(([\d,]+)\)-" +
-                  r"\(([\d,]+)\), epoch\((\d+)\) from writer 0x([\w\.]+)"])
+                  r"oid 0x(\w+) received (HB|HB_BATCH|HB_SESSION) for " +
+                  r"sn \(([\d,]+)\)-\(([\d,]+)\), epoch\((\d+)\) " +
+                  r"from writer 0x([\w\.]+)"])
     regex.append([network.on_send_ack,
                   r"COMMENDSrReaderService_onSubmessage:\[\d+,\d+\] reader " +
                   r"oid 0x(\w+) sent ACK of bitmap lead\(([\d,]+)\), " +

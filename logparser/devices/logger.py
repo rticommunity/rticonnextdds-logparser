@@ -162,5 +162,6 @@ def dict_regex_search(content, regex):
     """Apply the regex over all the fields of the dictionary."""
     match = False
     for field in content:
-        match = match if match else regex.search(field)
+        if isinstance(content[field], str):
+            match = match if match else regex.search(content[field])
     return match

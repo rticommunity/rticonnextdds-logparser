@@ -64,7 +64,14 @@ class OutputConsoleDevice(OutputDevice):
         if self.support_ansi:
             print("\033[K" + text)
         else:
-            print(text)
+            # Catch any potential exception when piping the output and
+            # terminating the program.
+            try:
+                print(text)
+            except IOError:
+                # It makes no sense to print the error since we already had
+                # an exception printing a message.
+                pass
 
     def close(self):
         """Do nothing, no need to close device."""
