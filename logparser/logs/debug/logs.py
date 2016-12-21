@@ -114,6 +114,15 @@ def get_regex_list():
                   r"DISCPluginManager_onAfterLocalEndpointEnabled:at " +
                   r"\{\w+,\w+\}"])
     regex.append([debug.on_ignored_message,
+                  r"DISCSimpleEndpointDiscoveryPluginPDFListener_" +
+                  r"onAfterLocalWriterEnabled:at \{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCSimpleEndpointDiscoveryPlugin_" +
+                  r"subscriptionReaderListenerOnDataAvailable:at \{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCPluginManager_onAfterLocalParticipantEnabled:at " +
+                  r"\{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
                   r"DDS_Topic_createI:!create presentation topic"])
     regex.append([debug.on_ignored_message,
                   r"DDS_DomainParticipant_create_topic_disabledI:" +

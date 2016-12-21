@@ -133,6 +133,10 @@ def get_regex_list():
                   r"COMMEND(Be|Sr)ReaderService_onSubmessage:" +
                   r"(?:\[\d+,\d+\])?\s?reader oid 0x(\w+) received (\w+) of " +
                   r"sn\(([\w,]+)\), vSn\(([\w,]+)\) from writer 0x([\w\.]+)"])
+    regex.append([network.on_receive_fragment,
+                  r"COMMENDSrReaderService_onSubmessage:\[\d+,\d+\] " +
+                  r"reader oid 0x(\w+) received fragments (\d+)-(\d+) " +
+                  r"for sn \(([\w,]+)\)"])
     regex.append([network.on_receive_out_order_data,
                   r"COMMENDSrReaderService_onSubmessage:\[\d+,\d+\] reader " +
                   r"oid 0x(\w+) received (old|new) out-of-range DATA of sn " +

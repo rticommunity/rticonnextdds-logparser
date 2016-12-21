@@ -380,6 +380,19 @@ def on_receive_data(match, state):
              state, verb)
 
 
+def on_receive_fragment(match, state):
+    """It happens when a DATA fragment is received."""
+    reader_oid = get_oid(match[0])
+    frag_start = int(match[1])
+    frag_end = int(match[2])
+    seqnum = parse_sn(match[3])
+    log_recv("",
+             reader_oid,
+             "Received DATA fragments %d to %d for sample %d" %
+             (frag_start, frag_end, seqnum),
+             state)
+
+
 def on_receive_out_order_data(match, state):
     """It happens when the received data sequence number isn't contiguous."""
     reader_oid = get_oid(match[0])
