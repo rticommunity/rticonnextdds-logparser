@@ -156,11 +156,15 @@ class LogParser(object):
                                               True)
 
         # While there is a new line, parse it.
-        line = True  # For the first condition.
-        while line:
+        line = ""
+        while line is not None:
             # If the line contains non-UTF8 chars it could raise an exception.
             self.state['input_line'] += 1
-            line = device.read_line().rstrip("\r\n")
+            line = device.read_line()
+
+            # Remove end of lines
+            if line:
+                line = line.rstrip("\r\n")
 
             # If EOF or the line is empty, continue.
             if not line or line == "":

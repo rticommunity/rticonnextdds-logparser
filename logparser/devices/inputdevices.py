@@ -89,9 +89,12 @@ class InputConsoleDevice(InputDevice):
         line = None
         try:
             line = stdin.readline()
-        except Exception:  # pylint: disable=W0703
+            if line == "":  # On EOF it'll be empty, for empty line it's \n
+                line = None
+        except Exception as ex:  # pylint: disable=W0703
             # On error don't return None because we want to continue reading.
             line = ""
+            print("[InputError] %s" % ex)
 
         if self.show_progress:
             self.print_time(0.2)
@@ -147,9 +150,12 @@ class InputFileDevice(InputDevice):
         line = None
         try:
             line = self.stream.readline()
-        except Exception:  # pylint: disable=W0703
+            if line == "":  # On EOF it'll be empty, for empty line it's \n
+                line = None
+        except Exception as ex:  # pylint: disable=W0703
             # On error don't return None because we want to continue reading.
             line = ""
+            print("[InputError] %s" % ex)
 
         if self.show_progress:
             self.print_progress(0.01, 2, 51)
