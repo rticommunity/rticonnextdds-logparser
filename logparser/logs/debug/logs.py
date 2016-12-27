@@ -38,6 +38,8 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"RTIEventActiveGeneratorThread_loop:created \w+"])
     regex.append([debug.on_ignored_message,
+                  r"COMMENDActiveFacadeReceiver_loop:created \w+"])
+    regex.append([debug.on_ignored_message,
                   r"COMMENDActiveFacade_threadStarted:thread count ref " +
                   r"count \d+"])
     regex.append([debug.on_ignored_message,
@@ -122,6 +124,27 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"DISCPluginManager_onAfterLocalParticipantEnabled:at " +
                   r"\{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCEndpointDiscoveryPlugin_assertRemoteEndpoint:at " +
+                  r"\{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCPluginManager_activateEdpListenersFor" +
+                  r"RemoteParticipant:at \{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCParticipantDiscoveryPlugin_assertRemoteParticipant:" +
+                  r"at \{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCSimpleParticipantDiscoveryPluginReaderListener_" +
+                  r"onDataAvailable:at \{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCSimpleParticipantDiscoveryPlugin_" +
+                  r"remoteParticipantDiscovered:at \{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCSimpleEndpointDiscoveryPlugin_publicationReader" +
+                  r"ListenerOnDataAvailable:at \{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCSimpleEndpointDiscoveryPluginPDFListener_" +
+                  r"onAfterLocalReaderEnabled:at \{\w+,\w+\}"])
     regex.append([debug.on_ignored_message,
                   r"DDS_Topic_createI:!create presentation topic"])
     regex.append([debug.on_ignored_message,

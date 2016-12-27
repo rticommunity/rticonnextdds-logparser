@@ -291,6 +291,11 @@ def on_invalid_transport_discovery(match, state):
 # --------------------------------------------------------------------------- #
 # -- Discover remote or local entities                                     -- #
 # --------------------------------------------------------------------------- #
+def on_eds_disabled(match, state):
+    """It happens if Enterprise Discovery Service is disabled."""
+    log_cfg("Enterprise Discovery Service is disabled", state, 2)
+
+
 def on_discover_participant(match, state):
     """It happens for discovered participants."""
     local_address = parse_guid(state, match[0], match[1])
@@ -340,11 +345,25 @@ def on_announce_local_publication(match, state):
     log_process(local_addr, "", "Announcing new writer %s" % pub_oid, state)
 
 
+def on_announce_local_publication_sed(match, state):
+    """It happens when announcing a writer."""
+    local_addr = parse_guid(state, match[0], match[1], match[2])
+    pub_oid = get_oid(match[3])
+    log_process(local_addr, "", "Announcing new writer %s" % pub_oid, state, 2)
+
+
 def on_announce_local_subscription(match, state):
     """It happens when announcing a reader."""
     local_addr = parse_guid(state, match[0], match[1], match[2])
     sub_oid = get_oid(match[3])
     log_process(local_addr, "", "Announcing new reader %s" % sub_oid, state)
+
+
+def on_announce_local_subscription_sed(match, state):
+    """It happens when announcing a reader too."""
+    local_addr = parse_guid(state, match[0], match[1], match[2])
+    sub_oid = get_oid(match[3])
+    log_process(local_addr, "", "Announcing new reader %s" % sub_oid, state, 2)
 
 
 # pylint: disable=W0613

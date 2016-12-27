@@ -134,6 +134,9 @@ def get_regex_list():
                   r"TRANSPORT \/ DISCOVERY CONFIGURATION\."])
 
     # Discover remote or local entities
+    regex.append([events.on_eds_disabled,
+                  r"DDS_DomainParticipantDiscovery_initialize:" +
+                  r"builtin discovery plugin PA Client disabled"])
     regex.append([events.on_discover_participant,
                   r"DISCSimpleParticipantDiscoveryPluginReaderListener_" +
                   r"onDataAvailable:(?:RTI0x\w+:)?discovered new " +
@@ -161,9 +164,17 @@ def get_regex_list():
                   r"DISCPluginManager_onAfterLocalEndpointEnabled:" +
                   r"(?:RTI0x\w+:)?announcing new local publication: " +
                   r"0X(\w+),0X(\w+),0X(\w+),0X(\w+)"])
+    regex.append([events.on_announce_local_publication_sed,
+                  r"DISCSimpleEndpointDiscoveryPluginPDFListener_" +
+                  r"onAfterLocalWriterEnabled:announcing new publication: " +
+                  r"0X(\w+),0X(\w+),0X(\w+),0X(\w+)"])
     regex.append([events.on_announce_local_subscription,
                   r"DISCPluginManager_onAfterLocalEndpointEnabled:" +
                   r"(?:RTI0x\w+:)?announcing new local subscription: " +
+                  r"0X(\w+),0X(\w+),0X(\w+),0X(\w+)"])
+    regex.append([events.on_announce_local_subscription_sed,
+                  r"DISCSimpleEndpointDiscoveryPluginPDFListener_" +
+                  r"onAfterLocalReaderEnabled:announcing new subscription: " +
                   r"0X(\w+),0X(\w+),0X(\w+),0X(\w+)"])
     regex.append([events.on_participant_ignore_itself,
                   r"PRESPsService_destroyLocalEndpointWithCursor:" +
