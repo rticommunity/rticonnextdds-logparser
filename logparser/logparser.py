@@ -166,8 +166,8 @@ class LogParser(object):
             if line:
                 line = line.rstrip("\r\n")
 
-            # If EOF or the line is empty, continue.
-            if not line or line == "":
+            # Skip if EOF or empty line
+            if not line:
                 continue
 
             # Write original log if needed
