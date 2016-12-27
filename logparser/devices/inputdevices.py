@@ -24,7 +24,7 @@ Classes:
 """
 from __future__ import absolute_import, print_function
 from os import fstat
-from sys import stdin, stdout
+from sys import stdin, stdout, exit
 from time import time
 from logparser.devices.outputdevices import OutputConsoleDevice
 
@@ -118,7 +118,11 @@ class InputFileDevice(InputDevice):
     def __init__(self, file_path, state):
         """Initialize the device with the specified file path."""
         super(InputFileDevice, self).__init__(state)
-        self.stream = open(file_path, "r")
+        try:
+            self.stream = open(file_path, "r")
+        except IOError:
+            print("The file cannot be opened. Verify the file exists and you can access it")
+            exit(-1)
         self.file_size = fstat(self.stream.fileno()).st_size
         self.progress = -1
 
