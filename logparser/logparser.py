@@ -181,7 +181,8 @@ class LogParser(object):
             except Exception as ex:  # pylint: disable=W0703
                 exc_traceback = exc_info()[2]
                 stacktraces = extract_tb(exc_traceback)
-                log_error("[ScriptError] %s %s" % (str(stacktraces[-1]), ex),
+                log_error("[ScriptError] %s %s - log line %d" %
+                          (str(stacktraces[-1]), ex, self.state['input_line']),
                           self.state)
 
     def _match_line(self, line):
