@@ -24,7 +24,7 @@ Classes:
 """
 from __future__ import absolute_import, print_function
 from os import fstat
-from sys import stdin, stdout, exit
+from sys import stdin, stdout
 from time import time
 from logparser.devices.outputdevices import OutputConsoleDevice
 
