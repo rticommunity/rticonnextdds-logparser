@@ -15,6 +15,6 @@
 #   limitations under the License.
 """LogParser package."""
 
-__version__ = "1.2"
+__version__ = "1.3a0"
 __license__ = "Apache"
 __copyright__ = "Copyright 2016 Real-Time Innovations, Inc."
