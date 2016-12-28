@@ -71,8 +71,8 @@ class MarkdownFormatDevice(FormatDevice):
         self.write()
 
         self.write("## Network Data Flow and Application Events")
-        header = " In/Out  | Remote Address         | Local Entity   | Message"
-        headln = "---------|:----------------------:|:--------------:|--------"
+        header = " Remote Address         | In/Out  | Local Entity   | Message"
+        headln = ":----------------------:|---------|:--------------:|--------"
         if self.show_timestamp:
             header = "Timestamp".ljust(28) + "|" + header
             headln = "-".ljust(28, "-") + "|" + headln
@@ -98,7 +98,7 @@ class MarkdownFormatDevice(FormatDevice):
             description = "*" + description + "*"
         remote = content.get('remote', '').center(24)
         entity = content.get('entity', '').center(16)
-        msg = "%s|%s|%s| %s" % (inout, remote, entity, description)
+        msg = "%s|%s|%s| %s" % (remote, inout, entity, description)
 
         # Add the optional columns
         if self.show_timestamp:
