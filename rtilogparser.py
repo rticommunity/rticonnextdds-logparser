@@ -22,6 +22,7 @@ highest log verbosity is enabled. Then it will generate an output in
 human-readable format.
 """
 from __future__ import absolute_import
+from os.path import exists
 from argparse import ArgumentParser
 from logparser.__init__ import __version__
 from logparser.logparser import LogParser
@@ -77,12 +78,23 @@ def read_arguments():
     return parser.parse_args()
 
 
+def validate(args):
+    """Validate the arguments."""
+    if args.input and not exists(args.input):
+        print("\033[91mERROR: The input file does not exists\033[0m")
+        return False
+    return True
+
+
 def main():
     """Main application entry."""
     args = read_arguments()
-    parser = LogParser(args)
-    parser.process()
-    parser.write_summary()
+    if validate(args):
+        parser = LogParser(args)
+        parser.process()
+        parser.write_summary()
+    else:
+        exit(-1)
 
 
 if __name__ == "__main__":
