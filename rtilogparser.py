@@ -24,7 +24,7 @@ human-readable format.
 from __future__ import absolute_import
 from os.path import exists
 from argparse import ArgumentParser
-from logparser.__init__ import __version__
+from logparser import __version__
 from logparser.logparser import LogParser
 
 
