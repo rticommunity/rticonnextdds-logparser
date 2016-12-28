@@ -118,11 +118,7 @@ class InputFileDevice(InputDevice):
     def __init__(self, file_path, state):
         """Initialize the device with the specified file path."""
         super(InputFileDevice, self).__init__(state)
-        try:
-            self.stream = open(file_path, "r")
-        except IOError:
-            print("The file cannot be opened. Verify the file exists and you can access it")
-            exit(-1)
+        self.stream = open(file_path, "r")
         self.file_size = fstat(self.stream.fileno()).st_size
         self.progress = -1
 
