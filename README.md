@@ -110,19 +110,19 @@ set NDDS_QOS_PROFILES=str://"<dds><qos_library name="myLoggingLib"><qos_profile 
 
 
 ## Compilation
-It is not necessary to compile the tool since it uses python. Optionally, the source code can be zipped into a single file with `create_redist.sh` to simplify the distribution.
+It is not necessary to compile the tool since it uses python. Optionally, the source code can be zipped into a single file with `create_redist.sh` to simplify the distribution. The zip file can be executed as .py file, e.g.: `python rtilogparser -i log.txt`
 
 
 ## Adding new logs
-There are two methods to add customer log messages in the parsed output. This allows to add custom application messages in the output of the tool.
+The tool can be extented to parse custom log messages from an application. This can be done adding a prefix to the log message or adding a new regular expression to the tool.
 
 ### Log prefixes
-Any log message starting with `#Custom: ` is parsed and it will appear in the output.
+Any log message starting with `#Custom: ` is parsed and it will appear in the output with the prefix `[APP]`.
 
 ### Adding a parser
 The tool can be extended to implement custom parsers by following these steps:
 
-1. Add the regular expression for the log message. Open *logparser/custom/logs.py* and append a new tuple with the following format to the `regex` variable:
+1. Add the regular expression for the log message. Open *logparser/logs/custom/logs.py* and append a new *tuple* with the following format to the `regex` variable:
 ```
 regex.append([custom.FUNCTION_NAME_TO_CALL_IF_MATCHED, LOG_REGEX])
 ```
