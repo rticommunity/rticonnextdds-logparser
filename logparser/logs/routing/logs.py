@@ -19,7 +19,7 @@ Functions:
   + get_regex_list: Get the regular expressions and function list.
 """
 from __future__ import absolute_import
-import logparser.routing.routing as routing
+import logparser.logs.routing.routing as routing
 
 
 def get_regex_list():
