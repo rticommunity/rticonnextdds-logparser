@@ -19,7 +19,7 @@ Functions:
   + get_regex_list: Get the regular expressions and function list.
 """
 from __future__ import absolute_import
-import logparser.network.network as network
+import logparser.logs.network.network as network
 
 
 def get_regex_list():

@@ -34,7 +34,7 @@ from logparser.devices.logger import log_error, log_warning
 from logparser.devices.markdownformatdevice import MarkdownFormatDevice
 from logparser.devices.outputdevices import (OutputConsoleDevice,
                                              OutputFileDevice)
-from logparser.logs import create_regex_list
+from logparser.logs.logs import create_regex_list
 from logparser.utils import compare_times
 
 
