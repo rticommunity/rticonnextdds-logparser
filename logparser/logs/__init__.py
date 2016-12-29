@@ -15,4 +15,4 @@
 #   limitations under the License.
 """Create the global list of regular expressions and functions."""
 
-__all__ = ["custom", "debug", "events", "network", "routing"]
+__all__ = ["custom", "debug", "events", "network", "routing", "logs"]
