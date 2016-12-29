@@ -19,9 +19,8 @@ Functions:
   + on_custom_log: Parse a log with a custom prefix.
 """
 from __future__ import absolute_import
-from logparser.devices.logger import log_event
 
 
-def on_custom_log(match, state):
+def on_custom_log(match, state, logger):
     """Parse a log with a custom prefix."""
-    log_event("[App] " + match[0], state)
+    logger.event("[App] " + match[0])

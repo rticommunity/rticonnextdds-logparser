@@ -30,7 +30,7 @@ from sys import exc_info
 from traceback import extract_tb
 
 from logparser.devices.inputdevices import InputConsoleDevice, InputFileDevice
-from logparser.devices.logger import log_error, log_warning
+from logparser.logger import Logger
 from logparser.devices.markdownformatdevice import MarkdownFormatDevice
 from logparser.devices.outputdevices import (OutputConsoleDevice,
                                              OutputFileDevice)
@@ -57,23 +57,23 @@ class LogParser(object):
         self.state = {}
         self._initialize_state(args)
         self.formatter = self.state['format_device']
+        self._logger = Logger(self.state)
         self.expressions = create_regex_list(self.state)
 
-    @staticmethod
-    def _check_time_distance(new_clocks, old_clocks, state):
+    def _check_time_distance(self, new_clocks, old_clocks, state):
         """Check that the distance between logs it's not large."""
         MAX_TIME_SEC = 60
         result = compare_times(old_clocks[1], new_clocks[1],
                                timedelta(seconds=MAX_TIME_SEC))
         if result:
-            log_warning("System clock went %s by %s." %
-                        (result[0], result[1]), state)
+            self._logger.warning("System clock went %s by %s." %
+                                 (result[0], result[1]))
 
         if new_clocks[0]:
             result = compare_times(old_clocks[0], new_clocks[0], MAX_TIME_SEC)
             if result:
-                log_warning("Monotonic clock went %s by %.3f." %
-                            (result[0], result[1]), state)
+                self._logger.warning("Monotonic clock went %s by %.3f." %
+                                     (result[0], result[1]))
 
     @staticmethod
     def _get_urandom():
@@ -133,7 +133,7 @@ class LogParser(object):
         try:
             self._parse_log()
         except KeyboardInterrupt:
-            log_warning("Catched SIGINT", self.state)
+            self._logger.warning("Catched SIGINT")
 
             # Parse logs again in case this process was piping the output from
             # another and there are some remaining logs. Also we will be able
@@ -144,7 +144,7 @@ class LogParser(object):
             except KeyboardInterrupt:
                 # Catch again the SIGNIT in case the user wants to abort the
                 # log parsing but show the final summary
-                log_warning("Catched SIGINT", self.state)
+                self._logger.warning("Catched SIGINT")
 
     def _parse_log(self):
         """Parse a log."""
@@ -181,8 +181,9 @@ class LogParser(object):
             except Exception as ex:  # pylint: disable=W0703
                 exc_traceback = exc_info()[2]
                 stacktraces = extract_tb(exc_traceback)
-                log_error("[ScriptError] %s %s" % (str(stacktraces[-1]), ex),
-                          self.state)
+                self._logger.error(
+                    "[ScriptError] %s %s" % (str(stacktraces[-1]), ex),
+                    self.state)
 
     def _match_line(self, line):
         """Try to match a log line with the regular expressions."""
@@ -190,7 +191,7 @@ class LogParser(object):
         for expr in self.expressions:
             match = expr[1].search(line)
             if match:
-                expr[0](match.groups(), self.state)
+                expr[0](match.groups(), self.state, self._logger)
                 break
 
     def _match_date(self, line):
