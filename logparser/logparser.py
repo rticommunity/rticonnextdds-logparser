@@ -58,6 +58,7 @@ class LogParser(object):
         self._initialize_state(args)
         self.formatter = self.state['format_device']
         self._logger = Logger(self.state)
+        self._initialize_logger(args)
         self.expressions = create_regex_list(self.state)
 
     def _check_time_distance(self, new_clocks, old_clocks, state):
@@ -87,17 +88,13 @@ class LogParser(object):
 
     def _initialize_state(self, args):
         """Initialize the state dictionary."""
-        self.state['verbosity'] = args.v or 0
         self.state['warnings'] = {}
         self.state['errors'] = {}
         self.state['config'] = {}
-        self.state['inline'] = not args.no_inline
-        self.state['ignore_packets'] = args.no_network
         self.state['no_timestamp'] = not args.show_timestamp
         self.state['obfuscate'] = args.obfuscate
         self.state['salt'] = args.salt or LogParser._get_urandom()
         self.state['assign_names'] = not args.show_ip
-        self.state['no_colors'] = not args.colors
         self.state['no_stats'] = args.no_stats
         self.state['show_progress'] = not args.no_progress
         self.state['show_lines'] = args.show_lines
@@ -106,9 +103,9 @@ class LogParser(object):
         self.state['input_line'] = 0
         self.state['debug'] = args.debug
         if args.highlight:
-            self.state['highlight'] = re.compile(args.highlight)
+            self._logger.setHighlight(re.compile(args.highlight))
         if args.only:
-            self.state['onlyIf'] = re.compile(args.only)
+            self._logger.setOnlyIf(re.compile(args.only))
         if args.local_host:
             self.state['local_address'] = tuple(args.local_host.split(","))
         if args.output:
@@ -124,7 +121,14 @@ class LogParser(object):
                 InputFileDevice(args.input, self.state)
         else:
             self.state['input_device'] = InputConsoleDevice(self.state)
+        self.state['verbosity'] = args.v or 0
         self.state['format_device'] = MarkdownFormatDevice(self.state)
+
+    def _initialize_logger(self, args):
+        self._logger.setVerbosity(args.v or 0)
+        self._logger.setInline(not args.no_inline)
+        self._logger.setIgnorePackets(args.no_network)
+        self._logger.setColors(args.colors)
 
     def process(self):
         """Process all the logs."""
