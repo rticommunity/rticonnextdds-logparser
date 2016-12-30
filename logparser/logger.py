@@ -122,7 +122,18 @@ class Logger(object):
         """Log the given message.
 
         Args:
-            content (dict):
+            content (dict): the content argument is a dictionary with at
+                least 'description' item.
+                The optional items are:
+                  + kind: the kind or remark for the message.
+                  + timestamp: the timestamp of the message.
+                  + input_line: the current input line.
+                  + output_line: the current output line.
+                  + inout: [packets-only] 'in' if it's input packet,
+                    'out' otherwise.
+                  + remote: [packets-only] the remote address of
+                    the sender/receiver.
+                  + entity: [packets-only] the local entity sending/receiving.
             level (int): verbosity level of the log message
         """
         if self._verbosity < level:
@@ -269,8 +280,19 @@ class Logger(object):
         """Apply the regex over all the fields of the content.
 
         Args:
-            content(dict):
-            regex(:obj:`compiled re`): regex to apply
+            content (dict): the content argument is a dictionary with at
+                least 'description' item.
+                The optional items are:
+                  + kind: the kind or remark for the message.
+                  + timestamp: the timestamp of the message.
+                  + input_line: the current input line.
+                  + output_line: the current output line.
+                  + inout: [packets-only] 'in' if it's input packet,
+                    'out' otherwise.
+                  + remote: [packets-only] the remote address of
+                    the sender/receiver.
+                  + entity: [packets-only] the local entity sending/receiving.
+            regex (:obj:`compiled re`): regex to apply
 
         Returns:
             bool: True if the regex match with at least one field of content
