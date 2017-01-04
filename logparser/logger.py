@@ -29,12 +29,10 @@ class Logger(object):
         verbosity (int): verbosity level of the log
         inline (bool): show warnings/erros in network logs
         ignorePackets (bool): ignore network events
-        ignore
         showColors (bool): show colors in the log
         formatDevice (:obj:`FormatDevice`): format device to print the logs
         highlight (:obj:`compiled re`): show in bold regex matched logs
-        onlyIf (:obj:`compiled re`): show only
-            log messages that match the regex
+        onlyIf (:obj:compiled re): show only regex matched logs
     """
 
     def __init__(self, state):
@@ -67,7 +65,17 @@ class Logger(object):
         self._highlight = None
         self._onlyIf = None
 
-    def setVerbosity(self, value):
+    @property
+    def verbosity(self):
+        """Get the verbosity level.
+
+        Returns:
+            int: verbosity level of the log
+        """
+        return self._verbosity
+
+    @verbosity.setter
+    def verbosity(self, value):
         """Set  the verbosity level.
 
         Args:
@@ -75,7 +83,17 @@ class Logger(object):
         """
         self._verbosity = value
 
-    def setInline(self, value):
+    @property
+    def inline(self):
+        """Get if show warnigns and errors in network logs.
+
+        Returns:
+            bool: True if warnings are shown
+        """
+        return self._inline
+
+    @inline.setter
+    def inline(self, value):
         """Enable/disable show warnigns and errors in network logs.
 
         Args:
@@ -83,15 +101,35 @@ class Logger(object):
         """
         self._inline = value
 
-    def setIgnorePackets(self, value):
-        """Enable/disable show the network related logs.
+    @property
+    def ignorePackets(self):
+        """Get if the network logs are shown in the log.
+
+        Returns:
+            bool: True if the network logs are ignored
+        """
+        return self._ignorePackets
+
+    @ignorePackets.setter
+    def ignorePackets(self, value):
+        """Enable/disable the network logs are shown in the log.
 
         Args:
-            value (bool): show network logs
+            value (bool): show inline
         """
         self._ignorePackets = value
 
-    def setColors(self, value):
+    @property
+    def colors(self):
+        """Get if coloured logs are activated.
+
+        Returns:
+            bool: True if coloured logs are activated
+        """
+        return self._showColors
+
+    @colors.setter
+    def colors(self, value):
         """Enable/disable coloured logs.
 
         Args:
@@ -99,8 +137,21 @@ class Logger(object):
         """
         self._showColors = value
 
-    def setHighlight(self, value):
-        """Enable/disable show in bold regex matched logs.
+    @property
+    def highlight(self):
+        """Get the regex to show in bold regex matched logs.
+
+        Note:
+            Requires self._showColors = True
+
+        Returns:
+            :obj:`compiled re`: the set regex to match logs
+        """
+        return self._highlight
+
+    @highlight.setter
+    def highlight(self, value):
+        """Add a regex to show in bold regex matched logs.
 
         Note:
             Requires self._showColors = True
@@ -110,7 +161,17 @@ class Logger(object):
         """
         self._highlight = value
 
-    def setOnlyIf(self, value):
+    @property
+    def onlyIf(self):
+        """Show only log messages that match the regex.
+
+        Returns:
+            :obj:`compiled re`: he set regex to match logs
+        """
+        return self._onlyIf
+
+    @onlyIf.setter
+    def onlyIf(self, value):
         """Show only log messages that match the regex.
 
         Args:

@@ -311,7 +311,7 @@ def on_fail_serialize(match, state, logger):
 
 def on_drop_unregister_no_ack_instance(match, state, logger):
     """It happens when unregistering fails because missing ACK."""
-    logger.wrning("[LP-9] Cannot drop unregistered instance, missing ACKs", 1)
+    logger.warning("[LP-9] Cannot drop unregistered instance, missing ACKs", 1)
 
 
 def on_writer_exceed_max_entries(match, state, logger):

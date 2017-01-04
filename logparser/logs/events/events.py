@@ -74,7 +74,6 @@ def on_query_udpv4_interfaces(match, state, logger):
     for bit in flags:
         if flag & bit != 0:
             flag_name += flags[bit] + "|"
-    print("sdfsdfsd")
     logger.event("Interface: %s is %s" % (addr, flag_name[:-1]), 2)
 
 
@@ -173,8 +172,8 @@ def on_delete_topic_before_cft(match, state, logger):
 def on_fail_delete_flowcontrollers(match, state, logger):
     """It happens when delete FC fails."""
     num_flowcontrol = match[0]
-    logger.error("[LP-15] Cannot delete %s FlowControllers" % (num_flowcontrol)
-                 + " from delete_contained_entities")
+    logger.error("[LP-15] Cannot delete %s " % (num_flowcontrol) +
+                 "FlowControllers from delete_contained_entities")
 
 
 # pylint: disable=W0613
@@ -282,9 +281,9 @@ def on_different_type_names(match, state, logger):
     topic = get_topic_name(match[0], state)
     type1 = get_type_name(match[1], state)
     type2 = get_type_name(match[2], state)
-    logger.process("[LP-18] Cannot match remote entity in topic '%s': "
-                   % (topic) + "Different type names found ('%s', '%s')"
-                   % (type1, type2))
+    logger.error("[LP-18] Cannot match remote entity in topic '%s': "
+                 % (topic) + "Different type names found ('%s', '%s')"
+                 % (type1, type2))
 
 
 def on_typeobject_received(match, state, logger):

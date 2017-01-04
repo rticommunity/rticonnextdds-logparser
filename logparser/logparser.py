@@ -103,9 +103,9 @@ class LogParser(object):
         self.state['input_line'] = 0
         self.state['debug'] = args.debug
         if args.highlight:
-            self._logger.setHighlight(re.compile(args.highlight))
+            self._logger.highlight = re.compile(args.highlight)
         if args.only:
-            self._logger.setOnlyIf(re.compile(args.only))
+            self._logger.onlyIf = re.compile(args.only)
         if args.local_host:
             self.state['local_address'] = tuple(args.local_host.split(","))
         if args.output:
@@ -125,10 +125,10 @@ class LogParser(object):
         self.state['format_device'] = MarkdownFormatDevice(self.state)
 
     def _initialize_logger(self, args):
-        self._logger.setVerbosity(args.v or 0)
-        self._logger.setInline(not args.no_inline)
-        self._logger.setIgnorePackets(args.no_network)
-        self._logger.setColors(args.colors)
+        self._logger.verbosity = args.v or 0
+        self._logger.inline = not args.no_inline
+        self._logger.ignorePackets = args.no_network
+        self._logger.colors = args.colors
 
     def process(self):
         """Process all the logs."""
