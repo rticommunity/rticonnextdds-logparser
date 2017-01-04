@@ -78,6 +78,10 @@ def get_regex_list():
                   r"writer oid 0x(\w+) resends DATA to reader " +
                   r"\(0x(\w+),0x(\w+),0x(\w+),0x(\w+)\), sn " +
                   r"\[\(([\d,]+)\)\]"])
+    regex.append([network.on_send_periodic_data,
+                  r"COMMENDAnonWriterService_onBroadcastEvent:writing " +
+                  r"periodic keyed data: SN=0x(\d+), key=\(16\)(\w+), " +
+                  r"\d+ bytes"])
     regex.append([network.on_send_gap,
                   r"COMMENDSrWriterService_sendGapToLocator: writer oid " +
                   r"0x(\w+) sends GAP to reader " +
@@ -91,6 +95,10 @@ def get_regex_list():
                   r"COMMENDSrWriterService_assertRemoteReader: " +
                   r"writer oid 0x(\w+) sends preemptive HB for sn " +
                   r"\(([\d,]+)\)-\(([\d,]+)\)"])
+    regex.append([network.on_send_periodic_hb,
+                  r"COMMENDSrWriterService_onSendHeartbeatEvent:\[\d+,\d+\] " +
+                  r"writer oid 0x(\w+) sends periodic unicast HB for sn " +
+                  r"\(([\d,]+)\)-\(([\d,]+)\), epoch\((\d+)\)"])
     regex.append([network.on_send_piggyback_hb,
                   r"COMMENDSrWriterService_agentFunction:\s?writer oid " +
                   r"0x(\w+) sends piggyback HB \(([\d,]+)\)-\(([\d,]+)\)"])
@@ -137,6 +145,9 @@ def get_regex_list():
                   r"COMMENDSrReaderService_onSubmessage:\[\d+,\d+\] " +
                   r"reader oid 0x(\w+) received fragments (\d+)-(\d+) " +
                   r"for sn \(([\w,]+)\)"])
+    regex.append([network.on_complete_fragment,
+                  r"COMMENDSrReaderService_onSubmessage:\s+reader oid " +
+                  r"0x(\w+) fully received sn \(([\d,]+)\)"])
     regex.append([network.on_receive_out_order_data,
                   r"COMMENDSrReaderService_onSubmessage:\[\d+,\d+\] reader " +
                   r"oid 0x(\w+) received (old|new) out-of-range DATA of sn " +
@@ -166,6 +177,12 @@ def get_regex_list():
                   r"COMMENDSrReaderService_sendAckNacks:\[\d+,\d+\] reader " +
                   r"oid 0x(\w+) sent NACK of bitmap lead\(([\d,]+)\), " +
                   r"bitcount\((\d+)\), epoch\((\d+)\) to writer 0x([\w\.]+)"])
+    regex.append([network.on_send_nack_frag,
+                  r"COMMENDSrReaderService_onSubmessage:\[\d+,\d+\] reader " +
+                  r"oid 0x(\d+) sends NACK_FRAG for sn \(([\d,]+)\)"])
+    regex.append([network.on_suppress_hb,
+                  r"COMMENDSrReaderService_onSubmessage:\s+reader oid " +
+                  r"0x(\w+) suppressed HEARTBEAT"])
     regex.append([network.on_reader_exceed_max_entries,
                   r"PRESCstReaderCollator_addEntryToInstance:" +
                   r"exceeded max entriesPerInstance"])

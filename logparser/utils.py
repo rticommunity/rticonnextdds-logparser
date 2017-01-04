@@ -220,7 +220,8 @@ def get_data_packet_name(oid):
     entity_name = get_oid(oid)
     PACKET_NAMES = {
         "SED_PUB_WRITER": "DATA(w)", "SED_SUB_WRITER": "DATA(r)",
-        "SPD_PART_WRITER": "DATA(p)", "MESSAGE_WRITER": "DATA(m)"}
+        "SPD_PART_WRITER": "DATA(p)", "MESSAGE_WRITER": "DATA(m)",
+        "PARTICIPANT": "DATA(p)"}
     return PACKET_NAMES[entity_name] if entity_name in PACKET_NAMES else "DATA"
 
 

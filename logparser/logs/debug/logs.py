@@ -84,6 +84,9 @@ def get_regex_list():
                   r"priority \d+"])
     regex.append([debug.on_ignored_message,
                   r"RTIOsapiThread_sleep: Sleep\(\d+ ms\)"])
+    regex.append([debug.on_ignored_message,
+                  r"RTISystemClock_init:epoch range \{\w+,\w+\}, " +
+                  r"frequency \d+ Hz"])
 
     regex.append([debug.on_ignored_message,
                   r"DDS_PropertySeq_ensure_length:memory allocation: " +
@@ -108,6 +111,9 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"NDDS_Transport_UDPv4_receive_rEA:\w+ blocking on 0X\w+"])
 
+    regex.append([debug.on_ignored_message,
+                  r"DDS_DomainParticipantFactory_create_participant_" +
+                  r"disabledI:created participant: domain=\d+, index=-1"])
     regex.append([debug.on_ignored_message,
                   r"DDS_DomainParticipantPresentation_reserve_participant_" +
                   r"index_entryports:Domain \d+:Trying to reserve " +
@@ -200,6 +206,8 @@ def get_regex_list():
                   r"PRESPsReaderQueue_storeSampleToEntry:!store sample data"])
     regex.append([debug.on_ignored_message,
                   r"PRESPsReaderQueue_newData:!get entries"])
+    regex.append([debug.on_ignored_message,
+                  r"MIGGeneratorContext_addData:!space assert"])
 
     regex.append([debug.on_ignored_message, r"^send failed: $"])
     regex.append([debug.on_ignored_message, r"^\s*locator:\s*$"])

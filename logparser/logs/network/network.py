@@ -180,6 +180,21 @@ def on_resend_data(match, state):
              state, verb)
 
 
+def on_send_periodic_data(match, state):
+    """It happens when writing periodic data."""
+    seqnum = int(match[0])
+    key = match[1]
+    local_part = parse_guid(state, key[0:8], key[8:16], key[16:24])
+    oid = get_oid(key[24:32])
+    data_name = get_data_packet_name(key[24:32])
+    verb = 1 if is_builtin_entity(key[24:32]) else 0
+    log_send("",
+             oid,
+             "Sent periodic %s [%d] for %s" % (data_name, seqnum, local_part),
+             state,
+             verb)
+
+
 def on_send_gap(match, state):
     """It happens when the writer send a GAP message."""
     writer_oid = get_oid(match[0])
@@ -233,6 +248,21 @@ def on_send_preemptive_hb(match, state):
              writer_oid,
              "Sent preemptive HB to let know about samples in [%d, %d]" %
              (sn_start, sn_end),
+             state,
+             verb)
+
+
+def on_send_periodic_hb(match, state):
+    """It happens when sending a periodic HB message."""
+    writer_oid = get_oid(match[0])
+    sn_start = parse_sn(match[1])
+    sn_end = parse_sn(match[2])
+    epoch = int(match[3])
+    verb = 1 if is_builtin_entity(match[0]) else 0
+    log_send("",
+             writer_oid,
+             "Sent periodic HB [%d] for samples in [%d, %d]" %
+             (epoch, sn_start, sn_end),
              state,
              verb)
 
@@ -393,6 +423,16 @@ def on_receive_fragment(match, state):
              state)
 
 
+def on_complete_fragment(match, state):
+    """It happens when the fragment is complete."""
+    reader_oid = get_oid(match[0])
+    seqnum = parse_sn(match[1])
+    log_process("",
+                reader_oid,
+                "Fragmented sample %d is complete" % seqnum,
+                state)
+
+
 def on_receive_out_order_data(match, state):
     """It happens when the received data sequence number isn't contiguous."""
     reader_oid = get_oid(match[0])
@@ -474,6 +514,29 @@ def on_send_nack(match, state):
              (epoch, writer_oid, lead, bitcount),
              state,
              verb)
+
+
+def on_send_nack_frag(match, state):
+    """It happens when sending a NACK_FRAG."""
+    reader_oid = get_oid(match[0])
+    seqnum = parse_sn(match[1])
+    verb = 1 if is_builtin_entity(match[0]) else 0
+    log_send("",
+             reader_oid,
+             "Sent NACK_FRAG for sample %d" % seqnum,
+             state,
+             verb)
+
+
+def on_suppress_hb(match, state):
+    """It happens when the HB is suppressed."""
+    reader_oid = get_oid(match[0])
+    verb = 1 if is_builtin_entity(match[0]) else 0
+    log_process("",
+                reader_oid,
+                "Ignored HB due to heartbeat_suppression_duration QoS",
+                state,
+                verb)
 
 
 def on_sample_received_from_deleted_writer(match, state):
