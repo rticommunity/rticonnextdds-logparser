@@ -25,13 +25,13 @@ UNMATCHED_LOG_FILENAME = "unmatched.txt"
 
 
 # pylint: disable=W0613
-def on_unmatched_message(match, state):
+def on_unmatched_message(match, state, logger):
     """Write into a file the unmatched log."""
     with open(UNMATCHED_LOG_FILENAME, "a") as unmatched_file:
         unmatched_file.write(match[0] + "\n")
 
 
 # pylint: disable=W0613
-def on_ignored_message(match, state):
+def on_ignored_message(match, state, logger):
     """Ignore this matched log."""
     pass
