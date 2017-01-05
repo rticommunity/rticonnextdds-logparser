@@ -25,14 +25,14 @@ class Logger(object):
     Attributes:
         COLORS: colors to use in the logs
         KIND_TO_COLOR: logs messages to color
-        state (:obj:`list` of `str`): information about the parse process
+        state (dict): information about the parse process
         verbosity (int): verbosity level of the log
         inline (bool): show warnings/erros in network logs
         ignorePackets (bool): ignore network events
         showColors (bool): show colors in the log
         formatDevice (:obj:`FormatDevice`): format device to print the logs
         highlight (:obj:`compiled re`): show in bold regex matched logs
-        onlyIf (:obj:compiled re): show only regex matched logs
+        onlyIf (:obj:`compiled re`): show only regex matched logs
     """
 
     def __init__(self, state):
@@ -76,7 +76,7 @@ class Logger(object):
 
     @verbosity.setter
     def verbosity(self, value):
-        """Set  the verbosity level.
+        """Set the verbosity level.
 
         Args:
             value (int): verbosity level
@@ -94,10 +94,10 @@ class Logger(object):
 
     @inline.setter
     def inline(self, value):
-        """Enable/disable show warnigns and errors in network logs.
+        """Enable/disable show warnings and errors in network logs.
 
         Args:
-            value (bool): show inline
+            value (bool): show inline warnings and errors
         """
         self._inline = value
 
@@ -115,7 +115,7 @@ class Logger(object):
         """Enable/disable the network logs are shown in the log.
 
         Args:
-            value (bool): show inline
+            value (bool): ignore network logs
         """
         self._ignorePackets = value
 
@@ -142,7 +142,7 @@ class Logger(object):
         """Get the regex to show in bold regex matched logs.
 
         Note:
-            Requires self._showColors = True
+            Requires colors = True
 
         Returns:
             :obj:`compiled re`: the set regex to match logs
@@ -154,7 +154,7 @@ class Logger(object):
         """Add a regex to show in bold regex matched logs.
 
         Note:
-            Requires self._showColors = True
+            Requires colors = True
 
         Args:
             value (:obj:`compiled re`): regex to match logs
@@ -166,7 +166,7 @@ class Logger(object):
         """Show only log messages that match the regex.
 
         Returns:
-            :obj:`compiled re`: he set regex to match logs
+            :obj:`compiled re`: the set regex to match logs
         """
         return self._onlyIf
 
