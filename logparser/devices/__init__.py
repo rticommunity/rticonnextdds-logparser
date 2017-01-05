@@ -15,5 +15,5 @@
 #   limitations under the License.
 """Module to manage the I/O devices and some predefined devices."""
 
-__all__ = ["formatdevice", "inputdevices", "logger",
+__all__ = ["formatdevice", "inputdevices",
            "markdownformatdevice", "outputdevices"]

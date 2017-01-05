@@ -47,14 +47,13 @@ from __future__ import absolute_import
 from calendar import timegm
 from datetime import timedelta
 from hashlib import md5
-from logparser.devices.logger import log_cfg, log_warning
 
 
 INSTANCE_STATES = ["invalid", "alive", "disposed", "", "no_writers"]
 VIEW_STATES = ["invalid", "new", "not_new"]
 
 
-def check_periodic(state, name, msg=""):
+def check_periodic(state, name, logger, msg=""):
     """Check if the given event is periodic."""
     # If there is no clock (timestamped log), returns always true
     if 'clocks' not in state:
@@ -89,8 +88,8 @@ def check_periodic(state, name, msg=""):
     tolerance = 0.1 if has_monotonic else timedelta(milliseconds=100)
     result = compare_times(previous_period, period, tolerance)
     if result:
-        log_warning("%s not periodic (%s by %s) %s" %
-                    (name, result[0], result[1], msg), state)
+        logger.warning("%s not periodic (%s by %s) %s" %
+                       (name, result[0], result[1], msg), state)
 
 
 def compare_times(past, future, tolerance):
@@ -366,7 +365,7 @@ def set_participant(guid, name, state):
     state['participants'][guid] = name
 
 
-def set_local_address(guid, state):
+def set_local_address(guid, state, logger):
     """Set the local address."""
     address = guid.split()
     local_address = (address[0], address[1])
@@ -375,14 +374,13 @@ def set_local_address(guid, state):
     if 'local_address' not in state:
         state['local_address'] = set()
     elif local_address not in state['local_address']:
-        log_warning("You may have written output from two different apps.",
-                    state)
+        logger.warning("You may have written output from two different apps.")
     state['local_address'].add(local_address)
 
     if state['obfuscate']:
         address[0] = obfuscate(address[0], state)[:15]
         address[1] = obfuscate(address[1], state)[:5]
-    log_cfg("Local address: %s %s" % (address[0], address[1]), state)
+    logger.cfg("Local address: %s %s" % (address[0], address[1]))
 
 
 def hex2ip(host_id, reverse=False):

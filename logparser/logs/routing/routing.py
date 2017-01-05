@@ -22,34 +22,32 @@ Functions:
   + on_typecode_not_found: RS doesn't have the type code for a topic.
 """
 from __future__ import absolute_import
-from logparser.devices.logger import log_error
 
 
 # --------------------------------------------------------------------------- #
 # -- Configuration                                                         -- #
 # --------------------------------------------------------------------------- #
-def on_large_configuration_value(match, state):
+def on_large_configuration_value(match, state, logger):
     """It happens when the configuration value is too long, can't be parsed."""
-    log_error("[LP-16] Cannot initialize Monitoring: " +
-              "string too long in RS configuration",
-              state)
+    logger.error("[LP-16] Cannot initialize Monitoring: " +
+                 "string too long in RS configuration")
 
 
-def on_route_creation_failure(match, state):
+def on_route_creation_failure(match, state, logger):
     """It happens when the route cannot be created."""
-    log_error("Cannot create RS route.", state)
+    logger.error("Cannot create RS route.")
 
 
 # --------------------------------------------------------------------------- #
 # -- Discovery                                                             -- #
 # --------------------------------------------------------------------------- #
-def on_typecode_inconsistency(match, state):
+def on_typecode_inconsistency(match, state, logger):
     """It happens when RS detects two different types with same name."""
-    log_error("RS found two different types with the same name: %s" % match[0],
-              state)
+    logger.error("RS found two different types with the same name: %s"
+                 % match[0])
 
 
-def on_typecode_not_found(match, state):
+def on_typecode_not_found(match, state, logger):
     """It happens when RS doesn't have the type code for a topic."""
-    log_error("Typecode for %s is unavailable. Route will not work" % match[0],
-              state)
+    logger.error("Typecode for %s is unavailable. Route will not work"
+                 % match[0])
