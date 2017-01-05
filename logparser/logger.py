@@ -141,9 +141,6 @@ class Logger(object):
     def highlight(self):
         """Get the regex to show in bold regex matched logs.
 
-        Note:
-            Requires colors = True
-
         Returns:
             :obj:`compiled re`: the set regex to match logs
         """
@@ -152,9 +149,6 @@ class Logger(object):
     @highlight.setter
     def highlight(self, value):
         """Add a regex to show in bold regex matched logs.
-
-        Note:
-            Requires colors = True
 
         Args:
             value (:obj:`compiled re`): regex to match logs
