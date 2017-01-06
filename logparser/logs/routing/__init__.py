@@ -15,4 +15,5 @@
 #   limitations under the License.
 """Analyze the RS messages and log the meaning."""
 
-__all__ = ["routing", "logs"]
+# pylint: disable=E0603
+__all__ = ("routing", "logs")

@@ -15,4 +15,5 @@
 #   limitations under the License.
 """Ignore and export unmatched logs into a file for debugging."""
 
-__all__ = ["debug", "logs"]
+# pylint: disable=E0603
+__all__ = ("debug", "logs")

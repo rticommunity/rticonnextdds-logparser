@@ -15,4 +15,5 @@
 #   limitations under the License.
 """Log parsing functions for logs related to the network."""
 
-__all__ = ["network", "logs"]
+# pylint: disable=E0603
+__all__ = ("network", "logs")

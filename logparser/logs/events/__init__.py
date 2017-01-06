@@ -15,4 +15,5 @@
 #   limitations under the License.
 """Log parsing functions for logs related to DDS events."""
 
-__all__ = ["events", "logs"]
+# pylint: disable=E0603
+__all__ = ("events", "logs")

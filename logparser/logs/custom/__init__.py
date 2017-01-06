@@ -15,4 +15,5 @@
 #   limitations under the License.
 """Log parsing functions for custom logs."""
 
-__all__ = ["custom", "logs"]
+# pylint: disable=E0603
+__all__ = ("custom", "logs")
