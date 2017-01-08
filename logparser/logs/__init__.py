@@ -15,4 +15,5 @@
 #   limitations under the License.
 """Create the global list of regular expressions and functions."""
 
-__all__ = ["custom", "debug", "events", "network", "routing", "logs"]
+# pylint: disable=E0603
+__all__ = ("custom", "debug", "events", "network", "routing", "logs")

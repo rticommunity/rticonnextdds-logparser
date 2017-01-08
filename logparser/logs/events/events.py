@@ -54,17 +54,18 @@ Functions:
   + on_envvar_file_found: it happens when it finds an env var or file.
 """
 from __future__ import absolute_import
-from logparser.devices.logger import (log_cfg, log_error, log_event,
-                                      log_process, log_warning)
 from logparser.utils import (get_locator, get_oid, get_participant,
                              get_topic_name, get_type_name, hex2ip,
                              is_builtin_entity, parse_guid, set_local_address)
+
+# Disable warnings about unused arguments
+# pylint: disable=W0613
 
 
 # --------------------------------------------------------------------------- #
 # -- Network Interfaces                                                    -- #
 # --------------------------------------------------------------------------- #
-def on_query_udpv4_interfaces(match, state):
+def on_query_udpv4_interfaces(match, state, logger):
     """It happens when it queries the interfaces."""
     flags = {
         0x01: "UP", 0x02: "BROADCAST", 0x04: "LOOPBACK", 0x08: "POINTOPOINT",
@@ -76,58 +77,53 @@ def on_query_udpv4_interfaces(match, state):
     for bit in flags:
         if flag & bit != 0:
             flag_name += flags[bit] + "|"
-    log_event("Interface: %s is %s" % (addr, flag_name[:-1]), state, 2)
+    logger.event("Interface: %s is %s" % (addr, flag_name[:-1]), 2)
 
 
-def on_find_valid_interface(match, state):
+def on_find_valid_interface(match, state, logger):
     """It happens when a valid interface is found."""
-    log_cfg("Valid interface: %s" % match[0], state)
+    logger.cfg("Valid interface: %s" % match[0])
 
 
-def on_get_valid_interface(match, state):
+def on_get_valid_interface(match, state, logger):
     """It happens when a valid interface is queried."""
     if match[2] == "1":
         multicast = "with" if match[3] == "1" else "no"
-        log_cfg("Valid interface: %s (%s multicast)" % (match[1], multicast),
-                state)
+        logger.cfg("Valid interface: %s (%s multicast)"
+                   % (match[1], multicast))
 
 
-def on_skipped_interface(match, state):
+def on_skipped_interface(match, state, logger):
     """It happens when an interface is skipped."""
-    log_event("Skipped interface: %s" % match[0], state, 2)
+    logger.event("Skipped interface: %s" % match[0], 2)
 
 
-def on_recv_buffer_size_mismatch(match, state):
+def on_recv_buffer_size_mismatch(match, state, logger):
     """It happens when the receive socket buffer is not set."""
     expected = int(match[0])
     actual = int(match[1])
-    log_cfg("The receive socket buffer size is %d" % actual, state)
-    log_warning("[LP-20] The OS limits the receive socket buffer " +
-                "size from %d to %d bytes" % (expected, actual),
-                state)
+    logger.cfg("The receive socket buffer size is %d" % actual)
+    logger.warning("[LP-20] The OS limits the receive socket buffer " +
+                   "size from %d to %d bytes" % (expected, actual))
 
 
-def on_msg_size_reduced(match, state):
+def on_msg_size_reduced(match, state, logger):
     """It happens when the message_size_max is decreased."""
     transport = match[0]
     expected = int(match[1])
     actual = int(match[2])
     rtps_overhead = int(match[3])
-    log_warning("[LP-21] Decreased message_size_max for %s from %d to %d" %
-                (transport, expected, actual),
-                state)
-    log_cfg("The property rtps_overhead_max is %d bytes" % rtps_overhead,
-            state)
-    log_cfg("The property message_size_max for %s is %d bytes" %
-            (transport, actual),
-            state)
+    logger.warning("[LP-21] Decreased message_size_max for %s from %d to %d" %
+                   (transport, expected, actual))
+    logger.cfg("The property rtps_overhead_max is %d bytes" % rtps_overhead)
+    logger.cfg("The property message_size_max for %s is %d bytes" %
+               (transport, actual))
 
 
 # --------------------------------------------------------------------------- #
 # -- Create or delete entities                                             -- #
 # --------------------------------------------------------------------------- #
-# pylint: disable=W0613
-def on_new_thread(match, state):
+def on_new_thread(match, state, logger):
     """It happens when a new middleware thread is created."""
     if 'threads' not in state:
         state['threads'] = {}
@@ -136,7 +132,7 @@ def on_new_thread(match, state):
     state['threads']['all'] += 1
 
 
-def on_new_thread_with_config(match, state):
+def on_new_thread_with_config(match, state, logger):
     """It happens when a new DB GC thread is created."""
     kind = match[0]
     name = match[1] if match[1][:4] != "rDsp" else "rDsp"
@@ -154,7 +150,7 @@ def on_new_thread_with_config(match, state):
         'affinity': '??'}
 
 
-def on_new_thread_affinity(match, state):
+def on_new_thread_affinity(match, state, logger):
     """It happens when setting the thread affinity."""
     name = match[0]
     tid = int(match[1])
@@ -163,223 +159,220 @@ def on_new_thread_affinity(match, state):
     state['threads'][name]['affinity'] = affinity
 
 
-def on_create_participant(match, state):
+def on_create_participant(match, state, logger):
     """It happens for new participants."""
-    log_event("Created participant, domain: %3s index: %s" %
-              (match[0], match[1]), state)
+    logger.event("Created participant, domain: %3s index: %s" %
+                 (match[0], match[1]))
 
 
-def on_enable_participant(match, state):
+def on_enable_participant(match, state, logger):
     """It happens when a participant is enabled."""
-    log_event("Enabled participant", state, 1)
+    logger.event("Enabled participant", 1)
 
 
-def on_delete_participant(match, state):
+def on_delete_participant(match, state, logger):
     """It happens for deleted participants."""
-    log_event("Deleted participant, domain: %3s index: %s" %
-              (match[0], match[1]), state)
+    logger.event("Deleted participant, domain: %3s index: %s" %
+                 (match[0], match[1]))
 
 
-def on_create_topic(match, state):
+def on_create_topic(match, state, logger):
     """It happens for new topics."""
     topic = get_topic_name(match[0], state)
     typ = get_type_name(match[1], state)
-    log_event("Created topic, name: '%s', type: '%s'" %
-              (topic, typ), state)
+    logger.event("Created topic, name: '%s', type: '%s'" %
+                 (topic, typ))
 
 
-def on_create_cft(match, state):
+def on_create_cft(match, state, logger):
     """It happens for new CFT."""
     topic = get_topic_name(match[0], state)
-    log_event("Created ContentFilteredTopic, name: '%s'" % topic, state)
+    logger.event("Created ContentFilteredTopic, name: '%s'" % topic)
 
 
-def on_delete_topic(match, state):
+def on_delete_topic(match, state, logger):
     """It happens for deleted topics."""
     topic = get_topic_name(match[0], state)
     typ = get_type_name(match[1], state)
-    log_event("Deleted topic, name: '%s', type: '%s'" % (topic, typ),
-              state, 1)
+    logger.event("Deleted topic, name: '%s', type: '%s'" % (topic, typ), 1)
 
 
-def on_enable_topic(match, state):
+def on_enable_topic(match, state, logger):
     """It happens when a topic is enabled."""
-    log_event("Enabled topic", state, 1)
+    logger.event("Enabled topic", 1)
 
 
-def on_create_publisher(match, state):
+def on_create_publisher(match, state, logger):
     """It happens when a publisher is created."""
-    log_event("Created publisher", state)
+    logger.event("Created publisher")
 
 
-def on_enable_publisher(match, state):
+def on_enable_publisher(match, state, logger):
     """It happens when a publisher is enabled."""
-    log_event("Enabled publisher", state, 1)
+    logger.event("Enabled publisher", 1)
 
 
-def on_create_subscriber(match, state):
+def on_create_subscriber(match, state, logger):
     """It happens when a subscriber is created."""
-    log_event("Created subscriber", state)
+    logger.event("Created subscriber")
 
 
-def on_enable_subscriber(match, state):
+def on_enable_subscriber(match, state, logger):
     """It happens when a subscriber is enabled."""
-    log_event("Enabled subscriber", state, 1)
+    logger.event("Enabled subscriber", 1)
 
 
-def on_create_writer(match, state):
+def on_create_writer(match, state, logger):
     """It happens for new DataWriters."""
     topic = get_topic_name(match[0], state)
-    log_event("Created writer for topic '%s'" % topic, state)
+    logger.event("Created writer for topic '%s'" % topic)
 
 
-def on_enable_writer(match, state):
+def on_enable_writer(match, state, logger):
     """It happens when a DataWriter is enabled."""
-    log_event("Enabled DataWriter", state, 1)
+    logger.event("Enabled DataWriter", 1)
 
 
-def on_create_reader(match, state):
+def on_create_reader(match, state, logger):
     """It happens for new DataReader."""
     topic = get_topic_name(match[0], state)
-    log_event("Created reader for topic '%s'" % topic, state)
+    logger.event("Created reader for topic '%s'" % topic)
 
 
-def on_enable_reader(match, state):
+def on_enable_reader(match, state, logger):
     """It happens when a DataReader is enabled."""
-    log_event("Enabled DataReader", state, 1)
+    logger.event("Enabled DataReader", 1)
 
 
-def on_delete_writer(match, state):
+def on_delete_writer(match, state, logger):
     """It happens for deleted DataWriters."""
     topic = get_topic_name(match[0], state)
-    log_event("Deleted writer for topic '%s'" % topic, state)
+    logger.event("Deleted writer for topic '%s'" % topic)
 
 
-def on_delete_reader(match, state):
+def on_delete_reader(match, state, logger):
     """It happens for deleted DataReaders."""
     topic = get_topic_name(match[0], state)
-    log_event("Deleted reader for topic '%s'" % topic, state)
+    logger.event("Deleted reader for topic '%s'" % topic)
 
 
-def on_duplicate_topic_name_error(match, state):
+def on_duplicate_topic_name_error(match, state, logger):
     """It happens when there is a topic name duplication."""
     topic = get_topic_name(match[0], state)
-    log_error("[LP-2] Topic name already in use by another topic: %s" % topic,
-              state)
+    logger.event("[LP-2] Topic name already in use by another topic: %s"
+                 % topic)
 
 
-def on_delete_topic_before_cft(match, state):
+def on_delete_topic_before_cft(match, state, logger):
     """It happens when deleting a topic before its CFT."""
     num_cft = match[0]
-    log_error("[LP-7] Cannot delete topic before its %s ContentFilteredTopics"
-              % num_cft, state)
+    logger.error("[LP-7] Cannot delete topic before its %s" % num_cft +
+                 "ContentFilteredTopics")
 
 
-def on_fail_delete_flowcontrollers(match, state):
+def on_fail_delete_flowcontrollers(match, state, logger):
     """It happens when delete FC fails."""
     num_flowcontrol = match[0]
-    log_error("[LP-15] Cannot delete %s FlowControllers" % (num_flowcontrol) +
-              " from delete_contained_entities", state)
+    logger.error("[LP-15] Cannot delete %s " % (num_flowcontrol) +
+                 "FlowControllers from delete_contained_entities")
 
 
-# pylint: disable=W0613
-def on_invalid_transport_discovery(match, state):
+def on_invalid_transport_discovery(match, state, logger):
     """It happens for inconsistencies in the discovery configuration."""
-    log_error("Inconsistent transport/discovery configuration", state)
+    logger.error("Inconsistent transport/discovery configuration")
 
 
 # --------------------------------------------------------------------------- #
 # -- Discover remote or local entities                                     -- #
 # --------------------------------------------------------------------------- #
-def on_eds_disabled(match, state):
+def on_eds_disabled(match, state, logger):
     """It happens if Enterprise Discovery Service is disabled."""
-    log_cfg("Enterprise Discovery Service is disabled", state, 2)
+    logger.cfg("Enterprise Discovery Service is disabled", 2)
 
 
-def on_discover_participant(match, state):
+def on_discover_participant(match, state, logger):
     """It happens for discovered participants."""
     local_address = parse_guid(state, match[0], match[1])
     full_addr = parse_guid(state, match[0], match[1], match[2])
     full_addr = " ".join(full_addr.split())
-    log_process(local_address, "", "Discovered new participant (%s)" %
-                full_addr, state)
+    logger.process(local_address, "", "Discovered new participant (%s)" %
+                   full_addr)
 
 
-def on_update_remote_participant(match, state):
+def on_update_remote_participant(match, state, logger):
     """It happens when updating remote participant."""
     local_address = parse_guid(state, match[0], match[1])
     full_addr = parse_guid(state, match[0], match[1], match[2])
     full_addr = " ".join(full_addr.split())
     part_oid = get_oid(match[3])
-    log_process(local_address, "", "Discovered/Updated participant (%s - %s)" %
-                (full_addr, part_oid), state, 1)
+    logger.process(local_address, "",
+                   "Discovered/Updated participant (%s - %s)"
+                   % (full_addr, part_oid), 1)
 
 
-def on_announce_local_participant(match, state):
+def on_announce_local_participant(match, state, logger):
     """It happens when announcing participant."""
     guid = hex2ip(match[0]) + " " + str(int(match[1], 16)).zfill(5)
-    set_local_address(guid, state)
+    set_local_address(guid, state, logger)
 
 
-def on_discover_publication(match, state):
+def on_discover_publication(match, state, logger):
     """It happens for discovered writers."""
     remote_addr = parse_guid(state, match[0], match[1], match[2])
     pub_oid = get_oid(match[3])
-    log_process(remote_addr, "",
-                "Discovered new publication %s" % pub_oid,
-                state)
+    logger.process(remote_addr, "",
+                   "Discovered new publication %s" % pub_oid)
 
 
-def on_update_endpoint(match, state):
+def on_update_endpoint(match, state, logger):
     """It happens when updating an endpoint."""
     remote_addr = parse_guid(state, match[0], match[1], match[2])
     pub_oid = get_oid(match[3])
-    log_process(remote_addr, "", "Discovered/Updated publication %s" % pub_oid,
-                state, 1)
+    logger.process(remote_addr, "",
+                   "Discovered/Updated publication %s" % pub_oid, 1)
 
 
-def on_announce_local_publication(match, state):
+def on_announce_local_publication(match, state, logger):
     """It happens when announcing a writer."""
     local_addr = parse_guid(state, match[0], match[1], match[2])
     pub_oid = get_oid(match[3])
-    log_process(local_addr, "", "Announcing new writer %s" % pub_oid, state)
+    logger.process(local_addr, "", "Announcing new writer %s" % pub_oid)
 
 
-def on_announce_local_publication_sed(match, state):
+def on_announce_local_publication_sed(match, state, logger):
     """It happens when announcing a writer."""
     local_addr = parse_guid(state, match[0], match[1], match[2])
     pub_oid = get_oid(match[3])
-    log_process(local_addr, "", "Announcing new writer %s" % pub_oid, state, 2)
+    logger.process(local_addr, "", "Announcing new writer %s" % pub_oid, 2)
 
 
-def on_announce_local_subscription(match, state):
+def on_announce_local_subscription(match, state, logger):
     """It happens when announcing a reader."""
     local_addr = parse_guid(state, match[0], match[1], match[2])
     sub_oid = get_oid(match[3])
-    log_process(local_addr, "", "Announcing new reader %s" % sub_oid, state)
+    logger.process(local_addr, "", "Announcing new reader %s" % sub_oid)
 
 
-def on_announce_local_subscription_sed(match, state):
+def on_announce_local_subscription_sed(match, state, logger):
     """It happens when announcing a reader too."""
     local_addr = parse_guid(state, match[0], match[1], match[2])
     sub_oid = get_oid(match[3])
-    log_process(local_addr, "", "Announcing new reader %s" % sub_oid, state, 2)
+    logger.process(local_addr, "", "Announcing new reader %s" % sub_oid, 2)
 
 
-# pylint: disable=W0613
-def on_participant_ignore_itself(match, state):
+def on_participant_ignore_itself(match, state, logger):
     """It happens when ignoring itself."""
-    log_process("", "", "Participant is ignoring itself", state)
+    logger.process("", "", "Participant is ignoring itself")
 
 
-def on_lose_discovery_samples(match, state):
+def on_lose_discovery_samples(match, state, logger):
     """It happens when losing discovery samples."""
     entity_type = match[0]
     entity_oid = get_oid(match[1])
     total = match[2]
     delta = match[3]
-    log_warning("%s discovery samples lost for %s %s (%s in total)" %
-                (delta, entity_type, entity_oid, total), state)
+    logger.warning("%s discovery samples lost for %s %s (%s in total)" %
+                   (delta, entity_type, entity_oid, total))
 
 
 # --------------------------------------------------------------------------- #
@@ -387,75 +380,72 @@ def on_lose_discovery_samples(match, state):
 # --------------------------------------------------------------------------- #
 def on_match_entity(entity2, kind):
     """It happens when an entity is matched."""
-    def match_entity(match, state):
+    def match_entity(match, state, logger):
         """It happens when a specific entity is matched."""
         entity2_addr = parse_guid(state, match[0], match[1], match[2])
         entity2_oid = get_oid(match[3])
         entity1_oid = get_oid(match[4])
         verb = 1 if is_builtin_entity(match[4]) else 0
         reliable = match[5]  # Best-Effort or Reliable
-        log_process(entity2_addr, entity1_oid, "Discovered %s %s %s %s" %
-                    (kind, reliable, entity2, entity2_oid),
-                    state,
-                    verb)
+        logger.process(entity2_addr, entity1_oid, "Discovered %s %s %s %s" %
+                       (kind, reliable, entity2, entity2_oid),
+                       verb)
     return match_entity
 
 
-def on_different_type_names(match, state):
+def on_different_type_names(match, state, logger):
     """It happens when there isn't TypeObject and type names are different."""
     topic = get_topic_name(match[0], state)
     type1 = get_type_name(match[1], state)
     type2 = get_type_name(match[2], state)
-    log_error("[LP-18] Cannot match remote entity in topic '%s': " % (topic) +
-              "Different type names found ('%s', '%s')" % (type1, type2),
-              state)
+    logger.error("[LP-18] Cannot match remote entity in topic '%s': "
+                 % (topic) + "Different type names found ('%s', '%s')"
+                 % (type1, type2))
 
 
-def on_typeobject_received(match, state):
+def on_typeobject_received(match, state, logger):
     """It happens for discovered entities when comparing TypeObjects."""
-    log_process("", "", "TypeObject %s" % match[0], state, 2)
+    logger.process("", "", "TypeObject %s" % match[0], 2)
 
 
 # --------------------------------------------------------------------------- #
 # -- Bad usage of the API                                                  -- #
 # --------------------------------------------------------------------------- #
-# pylint: disable=W0613
-def on_register_unkeyed_instance(match, state):
+def on_register_unkeyed_instance(match, state, logger):
     """It happens when registering unkeyed instances."""
-    log_warning("[LP-4] Try to register instance with no key field.", state)
+    logger.warning("[LP-4] Try to register instance with no key field.")
 
 
-# pylint: disable=W0613
-def on_get_unkeyed_key(match, state):
+def on_get_unkeyed_key(match, state, logger):
     """It happens when getting key from unkeyed sample."""
-    log_error("[LP-5] Try to get key from unkeyed type.", state)
+    logger.error("[LP-5] Try to get key from unkeyed type.",)
 
 
-def on_unregister_unkeyed_instance(match, state):
+def on_unregister_unkeyed_instance(match, state, logger):
     """It happens when unregistering unkeyed sample."""
-    log_warning("[LP-6] Try to unregister instance with no key field.", state)
+    logger.warning("[LP-6] Try to unregister instance with no key field.")
 
 
 # --------------------------------------------------------------------------- #
 # -- General information                                                   -- #
 # --------------------------------------------------------------------------- #
-def on_library_version(match, state):
+def on_library_version(match, state, logger):
     """It happens for the library version."""
-    log_cfg("Version of %s is %s" % (match[0], match[1]), state)
+    logger.cfg("Version of %s is %s" % (match[0], match[1]))
 
 
-def on_participant_initial_peers(match, state):
+def on_participant_initial_peers(match, state, logger):
     """It happens for the initial peers."""
     initial_peers = [get_locator(peer, state) for peer in match[0].split(",")]
     state['initial_peers'] = initial_peers
-    log_cfg("Initial peers: %s" % ", ".join(initial_peers), state)
+    logger.cfg("Initial peers: %s" % ", ".join(initial_peers))
 
 
-def on_envvar_file_not_found(match, state):
+def on_envvar_file_not_found(match, state, logger):
     """It happens when the middleware cannot find an env var or file."""
-    log_cfg("%s %s not found" % (match[0].capitalize(), match[1]), state)
+    logger.cfg("%s %s not found" % (match[0].capitalize(), match[1]))
 
 
-def on_envvar_file_found(match, state):
+def on_envvar_file_found(match, state, logger):
     """It happens when the middleware found an env var or file."""
-    log_cfg("%s %s found" % (match[0].capitalize(), match[1]), state)
+    logger.cfg("%s %s found" % (match[0].capitalize(), match[1]))

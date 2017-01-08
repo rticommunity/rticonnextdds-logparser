@@ -15,5 +15,6 @@
 #   limitations under the License.
 """Module to manage the I/O devices and some predefined devices."""
 
-__all__ = ["formatdevice", "inputdevices", "logger",
-           "markdownformatdevice", "outputdevices"]
+# pylint: disable=E0603
+__all__ = ("formatdevice", "inputdevices",
+           "markdownformatdevice", "outputdevices")

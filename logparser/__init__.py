@@ -18,4 +18,5 @@
 __version__ = "1.3a0"
 __license__ = "Apache"
 __copyright__ = "Copyright 2016 Real-Time Innovations, Inc."
-__all__ = ["devices", "logparser", "logs", "utils"]
+# pylint: disable=E0603
+__all__ = ("devices", "logger", "logparser", "logs", "utils")

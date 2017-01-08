@@ -127,11 +127,12 @@ The tool can be extended to implement custom parsers by following these steps:
 regex.append([custom.FUNCTION_NAME_TO_CALL_IF_MATCHED, LOG_REGEX])
 ```
 
-2. Implement the function that will be called if the regular expression is matched. This function should call methods from the *logger* file like `log_send` for messages related to sending data. For instance:
+2. Implement the function that will be called if the regular expression is matched. This function should call methods from the *logger* class like `send` for messages related to sending data. For instance:
 ```python
-def on_accept_data(match, state):
+def on_accept_data(match, state, logger):
     # match is an array with the regular expression matched groups.
     # state is a dictionary where you can store and retrieve variables.
+    # logger the logger that process the messages
     seqnum = parse_sn(match[0])
-    log_process("", "", "Reader accepted DATA (%d)" % seqnum, state, 1)
+    logger.process("", "", "Reader accepted DATA (%d)" % seqnum, 1)
 ```

@@ -30,10 +30,10 @@ from sys import exc_info
 from traceback import extract_tb
 
 from logparser.devices.inputdevices import InputConsoleDevice, InputFileDevice
-from logparser.devices.logger import log_error, log_warning
 from logparser.devices.markdownformatdevice import MarkdownFormatDevice
 from logparser.devices.outputdevices import (OutputConsoleDevice,
                                              OutputFileDevice)
+from logparser.logger import Logger
 from logparser.logs.logs import create_regex_list
 from logparser.utils import compare_times
 
@@ -57,23 +57,24 @@ class LogParser(object):
         self.state = {}
         self._initialize_state(args)
         self.formatter = self.state['format_device']
+        self._logger = Logger(self.state)
+        self._initialize_logger(args)
         self.expressions = create_regex_list(self.state)
 
-    @staticmethod
-    def _check_time_distance(new_clocks, old_clocks, state):
+    def _check_time_distance(self, new_clocks, old_clocks):
         """Check that the distance between logs it's not large."""
         MAX_TIME_SEC = 60
         result = compare_times(old_clocks[1], new_clocks[1],
                                timedelta(seconds=MAX_TIME_SEC))
         if result:
-            log_warning("System clock went %s by %s." %
-                        (result[0], result[1]), state)
+            self._logger.warning("System clock went %s by %s." %
+                                 (result[0], result[1]))
 
         if new_clocks[0]:
             result = compare_times(old_clocks[0], new_clocks[0], MAX_TIME_SEC)
             if result:
-                log_warning("Monotonic clock went %s by %.3f." %
-                            (result[0], result[1]), state)
+                self._logger.warning("Monotonic clock went %s by %.3f." %
+                                     (result[0], result[1]))
 
     @staticmethod
     def _get_urandom():
@@ -87,17 +88,13 @@ class LogParser(object):
 
     def _initialize_state(self, args):
         """Initialize the state dictionary."""
-        self.state['verbosity'] = args.v or 0
         self.state['warnings'] = {}
         self.state['errors'] = {}
         self.state['config'] = {}
-        self.state['inline'] = not args.no_inline
-        self.state['ignore_packets'] = args.no_network
         self.state['no_timestamp'] = not args.show_timestamp
         self.state['obfuscate'] = args.obfuscate
         self.state['salt'] = args.salt or LogParser._get_urandom()
         self.state['assign_names'] = not args.show_ip
-        self.state['no_colors'] = not args.colors
         self.state['no_stats'] = args.no_stats
         self.state['show_progress'] = not args.no_progress
         self.state['show_lines'] = args.show_lines
@@ -106,9 +103,9 @@ class LogParser(object):
         self.state['input_line'] = 0
         self.state['debug'] = args.debug
         if args.highlight:
-            self.state['highlight'] = re.compile(args.highlight)
+            self._logger.highlight = re.compile(args.highlight)
         if args.only:
-            self.state['onlyIf'] = re.compile(args.only)
+            self._logger.onlyIf = re.compile(args.only)
         if args.local_host:
             self.state['local_address'] = tuple(args.local_host.split(","))
         if args.output:
@@ -124,7 +121,14 @@ class LogParser(object):
                 InputFileDevice(args.input, self.state)
         else:
             self.state['input_device'] = InputConsoleDevice(self.state)
+        self.state['verbosity'] = args.v or 0
         self.state['format_device'] = MarkdownFormatDevice(self.state)
+
+    def _initialize_logger(self, args):
+        self._logger.verbosity = args.v or 0
+        self._logger.inline = not args.no_inline
+        self._logger.ignorePackets = args.no_network
+        self._logger.colors = args.colors
 
     def process(self):
         """Process all the logs."""
@@ -133,7 +137,7 @@ class LogParser(object):
         try:
             self._parse_log()
         except KeyboardInterrupt:
-            log_warning("Catched SIGINT", self.state)
+            self._logger.warning("Catched SIGINT")
 
             # Parse logs again in case this process was piping the output from
             # another and there are some remaining logs. Also we will be able
@@ -144,7 +148,7 @@ class LogParser(object):
             except KeyboardInterrupt:
                 # Catch again the SIGNIT in case the user wants to abort the
                 # log parsing but show the final summary
-                log_warning("Catched SIGINT", self.state)
+                self._logger.warning("Catched SIGINT")
 
     def _parse_log(self):
         """Parse a log."""
@@ -181,9 +185,9 @@ class LogParser(object):
             except Exception as ex:  # pylint: disable=W0703
                 exc_traceback = exc_info()[2]
                 stacktraces = extract_tb(exc_traceback)
-                log_error("[ScriptError] %s %s - log line %d" %
-                          (str(stacktraces[-1]), ex, self.state['input_line']),
-                          self.state)
+                self._logger.error(
+                    "[ScriptError] %s %s - log line %d" %
+                    (str(stacktraces[-1]), ex, self.state['input_line']))
 
     def _match_line(self, line):
         """Try to match a log line with the regular expressions."""
@@ -191,7 +195,7 @@ class LogParser(object):
         for expr in self.expressions:
             match = expr[1].search(line)
             if match:
-                expr[0](match.groups(), self.state)
+                expr[0](match.groups(), self.state, self._logger)
                 break
 
     def _match_date(self, line):
@@ -224,8 +228,7 @@ class LogParser(object):
 
         new_clocks = (monotonic, system)
         if 'clocks' in self.state:
-            self._check_time_distance(new_clocks, self.state['clocks'],
-                                      self.state)
+            self._check_time_distance(new_clocks, self.state['clocks'])
 
         self.state['clocks'] = new_clocks
 
