@@ -30,10 +30,10 @@ from sys import exc_info
 from traceback import extract_tb
 
 from logparser.devices.inputdevices import InputConsoleDevice, InputFileDevice
-from logparser.logger import Logger
 from logparser.devices.markdownformatdevice import MarkdownFormatDevice
 from logparser.devices.outputdevices import (OutputConsoleDevice,
                                              OutputFileDevice)
+from logparser.logger import Logger
 from logparser.logs.logs import create_regex_list
 from logparser.utils import compare_times
 
@@ -186,8 +186,7 @@ class LogParser(object):
                 exc_traceback = exc_info()[2]
                 stacktraces = extract_tb(exc_traceback)
                 self._logger.error(
-                    "[ScriptError] %s %s" % (str(stacktraces[-1]), ex),
-                    self.state)
+                    "[ScriptError] %s %s" % (str(stacktraces[-1]), ex))
 
     def _match_line(self, line):
         """Try to match a log line with the regular expressions."""
