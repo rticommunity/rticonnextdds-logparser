@@ -321,7 +321,7 @@ class Logger(object):
             self._log(content, level)
 
     @staticmethod
-    def countset_add_element(countset, el):
+    def _countset_add_element(countset, el):
         """Add an element to the countset.
 
         Args:
