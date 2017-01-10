@@ -155,6 +155,14 @@ def on_new_thread_affinity(match, state, logger):
     name = match[0]
     tid = int(match[1])
     affinity = match[2]
+    if "threads" not in state:
+        state['threads'] = {}
+    if name not in state['threads']:
+        state['threads'][name] = {
+            'name': name,
+            'kind': 'unknown',
+            'priority': -1,
+            'stack_size': -1}
     state['threads'][name]['tid'] = tid
     state['threads'][name]['affinity'] = affinity
 
