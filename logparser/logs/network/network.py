@@ -364,7 +364,8 @@ def on_receive_data(match, state, logger):
         # the warning summary.
         for _ in range(diff - 1):
             logger.warning("Missing packet for %s" % full_id)
-    state['last_sn'][full_id] = seqnum
+    if full_id not in state['last_sn'] or state['last_sn'][full_id] < seqnum:
+        state['last_sn'][full_id] = seqnum
 
     # Show the message after any possible warning.
     verb = 1 if is_builtin_entity(remote[3]) else 0
