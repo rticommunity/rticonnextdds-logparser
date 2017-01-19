@@ -26,7 +26,6 @@ from __future__ import absolute_import, print_function
 from os import fstat
 from sys import stdin, stdout
 from time import time
-from logparser.devices.outputdevices import OutputConsoleDevice
 
 
 class InputDevice(object):
@@ -39,8 +38,7 @@ class InputDevice(object):
 
     def __init__(self, state):
         """Initialize the device."""
-        self.show_progress = state['show_progress'] and \
-            isinstance(state['output_device'], OutputConsoleDevice)
+        self.show_progress = state['show_progress']
 
     def read_line(self):
         """Read and return the next DDS log message from the device.
