@@ -24,6 +24,10 @@ Functions:
 from __future__ import absolute_import
 
 
+# Disable warnings about unused arguments
+# pylint: disable=W0613
+
+
 # --------------------------------------------------------------------------- #
 # -- Configuration                                                         -- #
 # --------------------------------------------------------------------------- #
