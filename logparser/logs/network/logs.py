@@ -65,6 +65,10 @@ def get_regex_list():
                   r"DISCEndpointDiscoveryPlugin_unregisterRemoteReader:" +
                   r"remote endpoint not previously asserted by plugin: " +
                   r"0X(\w+),0X(\w+),0X(\w+),0X(\w+)"])
+    regex.append([network.on_send_participant_announcement,
+                  r"DISCSimpleParticipantDiscoveryPlugin_" +
+                  r"remoteParticipantDiscovered:re-announcing participant " +
+                  r"self: 0X(\w+),0X(\w+),0X(\w+),0X(\w+)"])
 
     # Messages from write entity.
     regex.append([network.on_schedule_data,
@@ -79,9 +83,9 @@ def get_regex_list():
                   r"\(0x(\w+),0x(\w+),0x(\w+),0x(\w+)\), sn " +
                   r"\[\(([\d,]+)\)\]"])
     regex.append([network.on_send_periodic_data,
-                  r"COMMENDAnonWriterService_onBroadcastEvent:writing " +
-                  r"periodic keyed data: SN=0x(\d+), key=\(16\)(\w+), " +
-                  r"\d+ bytes"])
+                  r"COMMENDAnonWriterService_on(?:Domain)?BroadcastEvent:" +
+                  r"writing periodic keyed data: SN=0x(\d+), " +
+                  r"key=\(16\)(\w+), \d+ bytes"])
     regex.append([network.on_send_gap,
                   r"COMMENDSrWriterService_sendGapToLocator: writer oid " +
                   r"0x(\w+) sends GAP to reader " +
@@ -135,6 +139,9 @@ def get_regex_list():
     regex.append([network.on_batch_serialize_failure,
                   r"PRESPsWriter_writeBatchInternal:!error serializing " +
                   r"batch sample"])
+    regex.append([network.on_ignore_ack,
+                  r"COMMENDSrWriterService_onSubmessage:!ACK ignored: " +
+                  r"number of active RR is > 1, but sum of RR at is 0"])
 
     # Messages from read entity.
     regex.append([network.on_receive_data,

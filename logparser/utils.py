@@ -384,6 +384,25 @@ def set_local_address(guid, state, logger):
     logger.cfg("Local address: %s %s" % (address[0], address[1]))
 
 
+def get_interface_props(props):
+    """Get the interface properties."""
+    FLAGS = {
+        0x01: "UP", 0x02: "BROADCAST", 0x04: "LOOPBACK", 0x08: "POINTOPOINT",
+        0x10: "MULTICAST", 0x20: "RUNNING"}
+    flag = int(props, 16)
+    flag_name = ""
+    for bit in FLAGS:
+        if flag & bit != 0:
+            flag_name += FLAGS[bit] + "|"
+    return flag_name
+
+
+def get_ip(ip, state, hexadecimal=True, reverse=True):
+    """Get the IP address obfuscated if needed."""
+    ip = hex2ip(ip, reverse) if hexadecimal else ip
+    return obfuscate(ip, state)[:15] if state['obfuscate'] else ip
+
+
 def hex2ip(host_id, reverse=False):
     """Convert the hexadecimal host ID into an IP address."""
     host_id = int(host_id, 16)
@@ -414,3 +433,13 @@ def parse_sn(seqnum, base=10):
     high_sn = int(seqnum[0], base)
     low_sn = int(seqnum[1], base)
     return (high_sn << 32) | (low_sn)
+
+
+def get_transport_name(class_id):
+    """Get the transport name from the class ID."""
+    TRANSPORTS = {1: "UDPv4", 2: "UDPv6", 3: "INTRA", 5: "UDPv6@510",
+                  6: "DTLS", 7: "WAN", 8: "TCPv4LAN", 9: "TCPv4WAN",
+                  10: "TLSv4LAN", 11: "TLSV4WAN", 12: "PCIE", 13: "ITP",
+                  0x01000000: "SHMEM"}
+    class_id = int(class_id)
+    return TRANSPORTS[class_id] if class_id in TRANSPORTS else "UNKNOWN"

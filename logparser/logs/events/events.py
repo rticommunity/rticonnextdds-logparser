@@ -54,8 +54,9 @@ Functions:
   + on_envvar_file_found: it happens when it finds an env var or file.
 """
 from __future__ import absolute_import
-from logparser.utils import (get_locator, get_oid, get_participant,
-                             get_topic_name, get_type_name, hex2ip,
+from logparser.utils import (get_interface_props, get_ip, get_locator, get_oid,
+                             get_port_name, get_port_number, get_topic_name,
+                             get_transport_name, get_type_name, hex2ip,
                              is_builtin_entity, parse_guid, set_local_address)
 
 # Disable warnings about unused arguments
@@ -67,16 +68,8 @@ from logparser.utils import (get_locator, get_oid, get_participant,
 # --------------------------------------------------------------------------- #
 def on_query_udpv4_interfaces(match, state, logger):
     """It happens when it queries the interfaces."""
-    flags = {
-        0x01: "UP", 0x02: "BROADCAST", 0x04: "LOOPBACK", 0x08: "POINTOPOINT",
-        0x10: "MULTICAST", 0x20: "RUNNING"}
-
-    addr = get_participant(hex2ip(match[0], True), state)
-    flag = int(match[1], 16)
-    flag_name = ""
-    for bit in flags:
-        if flag & bit != 0:
-            flag_name += flags[bit] + "|"
+    addr = get_ip(match[0], state)
+    flag_name = get_interface_props(match[1])
     logger.event("Interface: %s is %s" % (addr, flag_name[:-1]), 2)
 
 
@@ -87,15 +80,39 @@ def on_find_valid_interface(match, state, logger):
 
 def on_get_valid_interface(match, state, logger):
     """It happens when a valid interface is queried."""
-    if match[2] == "1":
-        multicast = "with" if match[3] == "1" else "no"
-        logger.cfg("Valid interface: %s (%s multicast)"
-                   % (match[1], multicast))
+    name = match[1]
+    status = "Enabled" if match[2] == "1" else "Disabled"
+    multicast = "with" if match[3] == "1" else "no"
+    logger.cfg("%s interface: %s (%s multicast)" % (status, name, multicast))
 
 
-def on_skipped_interface(match, state, logger):
-    """It happens when an interface is skipped."""
-    logger.event("Skipped interface: %s" % match[0], 2)
+def on_initialize_interface(match, state, logger):
+    """It happens when initializing an interface."""
+    ip = get_ip(match[0], state)
+    props = get_interface_props(match[1])
+    logger.event("Initializing interface %s (%s)" % (ip, props[:-1]), 2)
+
+
+def on_invalid_listening_port(match, state, logger):
+    """It happens when the listening port is in use."""
+    port = int(match[0], 16)
+    port_num = get_port_number(str(port), state)
+    port_name = get_port_name(port)
+    logger.event("Cannot listen on port %s (%s), probably in use" % (
+        port_num, port_name), 2)
+
+
+def on_valid_listening_port(match, state, logger):
+    """It happens when listening on a port."""
+    port = int(match[0], 16)
+    port_num = get_port_number(str(port), state)
+    port_name = get_port_name(port)
+    logger.event("Listening on port %s (%s)" % (port_num, port_name), 2)
+
+
+def on_multicast_disabled(match, state, logger):
+    """It happens when multicast is disabled."""
+    logger.cfg("Multicast is disabled")
 
 
 def on_recv_buffer_size_mismatch(match, state, logger):
@@ -198,6 +215,12 @@ def on_create_cft(match, state, logger):
     logger.event("Created ContentFilteredTopic, name: '%s'" % topic)
 
 
+def on_create_builtin_topic(match, state, logger):
+    """It happens for new builtin topics."""
+    topic = match[0]
+    logger.event("Created built-in topic '%s'" % topic)
+
+
 def on_delete_topic(match, state, logger):
     """It happens for deleted topics."""
     topic = get_topic_name(match[0], state)
@@ -245,6 +268,12 @@ def on_create_reader(match, state, logger):
     """It happens for new DataReader."""
     topic = get_topic_name(match[0], state)
     logger.event("Created reader for topic '%s'" % topic)
+
+
+def on_create_builtin_reader(match, state, logger):
+    """It happens for new builtin DataReaders."""
+    topic = match[0]
+    logger.event("Created built-on reader for topic '%s'" % topic)
 
 
 def on_enable_reader(match, state, logger):
@@ -309,12 +338,23 @@ def on_discover_participant(match, state, logger):
 
 def on_update_remote_participant(match, state, logger):
     """It happens when updating remote participant."""
-    local_address = parse_guid(state, match[0], match[1])
+    remote_address = parse_guid(state, match[0], match[1])
+    full_addr = parse_guid(state, match[0], match[1], match[2])
+    full_addr = " ".join(full_addr.split())
+    part_oid = " " + get_oid(match[3]) if len(match) == 4 else ""
+    logger.process(remote_address, "",
+                   "Assert participant (%s%s)"
+                   % (full_addr, part_oid), 1)
+
+
+def on_accept_remote_participant(match, state, logger):
+    """It happens when it accepts a new participant."""
+    remote_address = parse_guid(state, match[0], match[1])
     full_addr = parse_guid(state, match[0], match[1], match[2])
     full_addr = " ".join(full_addr.split())
     part_oid = get_oid(match[3])
-    logger.process(local_address, "",
-                   "Discovered/Updated participant (%s - %s)"
+    logger.process(remote_address, "",
+                   "Accepted participant (%s %s)"
                    % (full_addr, part_oid), 1)
 
 
@@ -329,7 +369,15 @@ def on_discover_publication(match, state, logger):
     remote_addr = parse_guid(state, match[0], match[1], match[2])
     pub_oid = get_oid(match[3])
     logger.process(remote_addr, "",
-                   "Discovered new publication %s" % pub_oid)
+                   "Discovered new writer %s" % pub_oid)
+
+
+def on_discover_subscription(match, state, logger):
+    """It happens for discovered readers."""
+    remote_addr = parse_guid(state, match[0], match[1], match[2])
+    sub_oid = get_oid(match[3])
+    logger.process(remote_addr, "",
+                   "Discovered new reader %s" % sub_oid)
 
 
 def on_update_endpoint(match, state, logger):
@@ -337,7 +385,7 @@ def on_update_endpoint(match, state, logger):
     remote_addr = parse_guid(state, match[0], match[1], match[2])
     pub_oid = get_oid(match[3])
     logger.process(remote_addr, "",
-                   "Discovered/Updated publication %s" % pub_oid, 1)
+                   "Assert entity %s" % pub_oid, 1)
 
 
 def on_announce_local_publication(match, state, logger):
@@ -383,6 +431,13 @@ def on_lose_discovery_samples(match, state, logger):
                    (delta, entity_type, entity_oid, total))
 
 
+def on_cannot_reach_multicast(match, state, logger):
+    """It happens when a multicast locator cannot be reached."""
+    transport = get_transport_name(match[1])
+    logger.warning("[LP-12] Transport %s discovered entity " % transport +
+                   r"using a non-addressable multicast locator", 2)
+
+
 # --------------------------------------------------------------------------- #
 # -- Match remote or local entities                                        -- #
 # --------------------------------------------------------------------------- #
@@ -414,6 +469,15 @@ def on_different_type_names(match, state, logger):
 def on_typeobject_received(match, state, logger):
     """It happens for discovered entities when comparing TypeObjects."""
     logger.process("", "", "TypeObject %s" % match[0], 2)
+
+
+def on_reader_incompatible_durability(match, state, logger):
+    """It happens when the durability between reader and write is invalid."""
+    DURABILITY = ["Volatile", "TransientLocal", "Transient", "Persistent"]
+    writer_qos = DURABILITY[int(match[0])]
+    reader_qos = DURABILITY[int(match[1])]
+    logger.error("Durability QoS for local reader (%s) " % (reader_qos) +
+                 "is incompatible with remote writer (%s)" % (writer_qos))
 
 
 # --------------------------------------------------------------------------- #

@@ -89,6 +89,9 @@ def get_regex_list():
                   r"frequency \d+ Hz"])
 
     regex.append([debug.on_ignored_message,
+                  r"DDS_StringSeq_ensure_length:memory allocation: " +
+                  r"original \d+, new \d+"])
+    regex.append([debug.on_ignored_message,
                   r"DDS_PropertySeq_ensure_length:memory allocation: " +
                   r"original \d+, new \d+"])
     regex.append([debug.on_ignored_message,
@@ -110,6 +113,33 @@ def get_regex_list():
                   r"NDDS_Transport_Shmem_receive_rEA:\w+ woke up"])
     regex.append([debug.on_ignored_message,
                   r"NDDS_Transport_UDPv4_receive_rEA:\w+ blocking on 0X\w+"])
+    regex.append([debug.on_ignored_message,
+                  r"RTIOsapi_getFirstValidInterface:found address for " +
+                  r"interface .+ \(address family = \d+\)"])
+    regex.append([debug.on_ignored_message,
+                  r"RTIOsapi_getFirstValidInterface:skipped interface .+, " +
+                  r"\(not valid address family \([\w/]+\)\)"])
+    regex.append([debug.on_ignored_message,
+                  r"RTIOsapi_getFirstValidInterface:skipped interface .+, " +
+                  r"\(loopback interface\)"])
+    regex.append([debug.on_ignored_message,
+                  r"RTINetioReceiver_removeEntryport:NetioReceiver_" +
+                  r"Entryport ref count \d+"])
+    regex.append([debug.on_ignored_message,
+                  r"NDDS_Transport_UDPv4_SocketFactory_create_" +
+                  r"receive_socket:invalid port (\d+)"])
+    regex.append([debug.on_ignored_message,
+                  r"NDDS_Transport_UDPv4_create_recvresource_rrEA:" +
+                  r"Created receive resource for port (\d+)"])
+    regex.append([debug.on_ignored_message,
+                  r"NDDS_Transport_UDPv4_create_sendresource_srEA:Created " +
+                  r"send resource for 0X\w+:\d+"])
+    regex.append([debug.on_ignored_message,
+                  r"NDDS_Transport_UDPv4_query_interfaces:" +
+                  r"skipped (\w+)"])
+    regex.append([debug.on_ignored_message,
+                  r"NDDS_Transport_UDPv4_create_recvresource_rrEA:" +
+                  r"!create socket"])
 
     regex.append([debug.on_ignored_message,
                   r"DDS_DomainParticipantFactory_create_participant_" +
@@ -164,6 +194,10 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"DDS_DomainParticipant_delete_contained_entities:" +
                   r"!delete contained entitie"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCSimpleParticipantDiscoveryPluginReaderListener_" +
+                  r"onDataAvailable:discovered modified participant: " +
+                  r"host=0x\w+, app=0x\w+, instance=0x\w+"])
 
     regex.append([debug.on_ignored_message,
                   r"PRESPsService_onWriterResendEvent:writer resend event: " +
@@ -209,13 +243,36 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"MIGGeneratorContext_addData:!space assert"])
 
+    regex.append([debug.on_ignored_message,
+                  r"This can occur if multicast is not enabled in the local " +
+                  r"participant."])
+    regex.append([debug.on_ignored_message,
+                  r"See https://community.rti.com/kb/what-does-cant-reach-" +
+                  r"locator-error-message-mean for additional info."])
+    regex.append([debug.on_ignored_message,
+                  r"can't reach:"])
+    regex.append([debug.on_ignored_message,
+                  r"transport: \d+ \([\w\d]+\)"])
+    regex.append([debug.on_ignored_message,
+                  r"address: [\d\.]+"])
+    regex.append([debug.on_ignored_message,
+                  r"Recv Resource:"])
+    regex.append([debug.on_ignored_message,
+                  r"Send Resource:"])
+    regex.append([debug.on_ignored_message,
+                  r"RTINetioSender_addDestination:!create NetioSender_" +
+                  r"SendResource"])
+    regex.append([debug.on_ignored_message,
+                  r"RTINetioReceiver_addEntryport:!create NetioReceiver_" +
+                  r"ReceiveResource"])
+
     regex.append([debug.on_ignored_message, r"^send failed: $"])
     regex.append([debug.on_ignored_message, r"^\s*locator:\s*$"])
     regex.append([debug.on_ignored_message, r"^\s*transport: \d+$"])
     regex.append([debug.on_ignored_message, r"^\s*address: [\d:]+$"])
     regex.append([debug.on_ignored_message, r"^[\d:]+$"])
     regex.append([debug.on_ignored_message, r"^\s*port: \d+$"])
-    regex.append([debug.on_ignored_message, r"^\s{6}encapsulation:$"])
+    regex.append([debug.on_ignored_message, r"^\s*encapsulation:$"])
     regex.append([debug.on_ignored_message, r"^\s{3}transport_priority: \d+$"])
     regex.append([debug.on_ignored_message, r'^\s{3}aliasList: ""$'])
     regex.append([debug.on_ignored_message,

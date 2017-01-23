@@ -123,7 +123,7 @@ def on_error_no_transport_available(match, state, logger):
 
 
 # --------------------------------------------------------------------------- #
-# -- Write entity                                                          -- #
+# -- Participant entity                                                    -- #
 # --------------------------------------------------------------------------- #
 def on_unregister_not_asserted_entity(entity):
     """It happens unregistering the entity."""
@@ -135,6 +135,13 @@ def on_unregister_not_asserted_entity(entity):
                        "remote %s not previsouly asserted" % entity,
                        2)
     return on_unregister_given_not_asserted_entity
+
+
+def on_send_participant_announcement(match, state, logger):
+    """It happens when sending participant announcements."""
+    addr = parse_guid(state, match[0], match[1], match[2])
+    part_oid = get_oid(match[3])
+    logger.send("", part_oid, "Sent participant announcement for %s" % addr, 1)
 
 
 # --------------------------------------------------------------------------- #
@@ -366,6 +373,11 @@ def on_write_max_blocking_time_expired(match, state, logger):
 def on_batch_serialize_failure(match, state, logger):
     """It happens when the batch serialization fails."""
     logger.error("Cannot serialize batch sample")
+
+
+def on_ignore_ack(match, state, logger):
+    """It happens when the ACK is ignored."""
+    logger.process("", "", "Ignored ACK")
 
 
 # --------------------------------------------------------------------------- #
