@@ -37,15 +37,53 @@ def get_regex_list():
                   r"NDDS_Transport_UDPv4_InterfaceListener_onInterface:" +
                   r"interface ([\d\.]+) \((\w+)\), enabled=(\d), " +
                   r"multicast=(\d)"])
-    regex.append([events.on_skipped_interface,
-                  r"NDDS_Transport_UDPv4_query_interfaces:" +
-                  r"skipped (\w+)"])
+    regex.append([events.on_initialize_interface,
+                  r"NDDS_Transport_UDPv4_initialize_interfaces:interface " +
+                  r"0X(\w+), flag 0X(\w+)"])
+    regex.append([events.on_valid_listening_port,
+                  r"NDDS_Transport_UDPv4_Socket_bindWithIp:bound to 0X(\w+)"])
+    regex.append([events.on_invalid_listening_port,
+                  r"NDDS_Transport_UDPv4_Socket_bindWithIp:0X(\w+) in use"])
+    regex.append([events.on_multicast_disabled,
+                  r"COMMENDAnonWriterService_setWriterProperty:"
+                  r"!create domain broadcast multicast destination"])
+    regex.append([events.on_recv_buffer_size_mismatch,
+                  r"NDDS_Transport_UDPv4_SocketFactory_create_receive_socket" +
+                  r":The specified recv_socket_buffer_size, (\d+), " +
+                  r"was not set. The actual receive socket buffer size " +
+                  r"is (\d+)"])
+    regex.append([events.on_msg_size_reduced,
+                  r"NDDS_Transport_(UDPv4)_newI: Reducing message_size_max " +
+                  r"from (\d+) to (\d+), for protocol_overhead_max (\d+)"])
 
     # Create or delete entities
+    regex.append([events.on_new_thread,
+                  r"RTIOsapiThread_initializeWithStack"])
+    regex.append([events.on_new_thread,
+                  r"RTIOsapiThread_new:spawning thread"])
+    regex.append([events.on_new_thread_with_config,
+                  r"RTIEventActiveDatabase_new:(database) gc thread starting" +
+                  r" up: name=(\w+), priority=([-\d]+), stack=([-\w]+)"])
+    regex.append([events.on_new_thread_with_config,
+                  r"RTIEventActiveGenerator_new:(event) thread starting up: " +
+                  r"name=(\w+), priority=([-\d]+), stack=([-\w]+)"])
+    regex.append([events.on_new_thread_with_config,
+                  r"COMMENDActiveFacade_addReceiverThread:(receive) thread " +
+                  r"starting up: name=(\w+), priority=([-\d]+), " +
+                  r"stack=([-\w]+)"])
+    regex.append([events.on_new_thread_with_config,
+                  r"RTIEventJobDispatcher_createThread:(job dispatcher) " +
+                  r"thread starting up: name=(\w+), priority=([-\d]+), " +
+                  r"stack=([-\w]+)"])
+    regex.append([events.on_new_thread_affinity,
+                  r"RTIOsapiThread_logCpuAffinity:thread '(\w+)' \((\d+)\) " +
+                  r"affinity: (.+),"])
     regex.append([events.on_create_participant,
                   r"DDS_DomainParticipantPresentation_reserve_participant_" +
                   r"index_entryports:Domain (\d+):" +
                   r"USING PARTICIPANT INDEX=(\d+)"])
+    regex.append([events.on_enable_participant,
+                  r"DDS_DomainParticipant_enableI:enabled"])
     regex.append([events.on_delete_participant,
                   r"DDS_DomainParticipantFactory_delete_participant:deleted " +
                   r"participant: domain=(\d+), index=(\d+)"])
@@ -57,15 +95,37 @@ def get_regex_list():
                   r"DDS_DomainParticipant_create_contentfilteredtopic_" +
                   r"with_filter:(?:RTI0x\w+:)?created topic: topic=(.+)" +
                   r", type="])
+    regex.append([events.on_create_builtin_topic,
+                  r"DDS_DomainParticipant_create_builtin_topic_disabledI:" +
+                  r"created topic: topic=(.+), type=(.+)"])
     regex.append([events.on_delete_topic,
                   r"DDS_DomainParticipant_delete_topic:deleted topic: " +
                   r"topic=(.+), type=(.+)"])
+    regex.append([events.on_enable_topic,
+                  r"DDS_Topic_enable:enabled"])
+    regex.append([events.on_create_publisher,
+                  r"DDS_DomainParticipant_create_publisher_disabledI:" +
+                  r"created publisher"])
+    regex.append([events.on_enable_publisher,
+                  r"DDS_Publisher_enable:enabled"])
+    regex.append([events.on_create_subscriber,
+                  r"DDS_DomainParticipant_create_subscriber_disabledI:" +
+                  r"created subscriber"])
+    regex.append([events.on_enable_subscriber,
+                  r"DDS_Subscriber_enable:enabled"])
     regex.append([events.on_create_writer,
                   r"DDS_Publisher_create_datawriter_disabledI:(?:RTI0x\w+:)?" +
                   r"created writer: topic=(.+)"])
+    regex.append([events.on_enable_writer,
+                  r"DDS_DataWriter_enableI:enabled"])
     regex.append([events.on_create_reader,
                   r"DDS_Subscriber_create_datareader_disabledI:" +
                   r"(?:RTI0x\w+:)?created reader: topic=(.+)"])
+    regex.append([events.on_create_builtin_reader,
+                  r"DDS_Subscriber_create_builtin_datareader_disabledI:" +
+                  r"created reader: topic=(.+)"])
+    regex.append([events.on_enable_reader,
+                  r"DDS_DataReader_enableI:enabled"])
     regex.append([events.on_delete_writer,
                   r"DDS_Publisher_delete_datawriter:(?:RTI0x\w+:)?" +
                   r"deleted writer: topic=(.+)"])
@@ -81,12 +141,15 @@ def get_regex_list():
     regex.append([events.on_fail_delete_flowcontrollers,
                   r"PRESParticipant_destroyOneFlowControllerWithCursor:" +
                   r"has (\d+) writers on flowcontroller"])
-    regex.append([events.on_inconsistent_transport_discovery_configuration,
+    regex.append([events.on_invalid_transport_discovery,
                   r"DDS_DomainParticipant_enableI:Automatic participant " +
                   r"index failed to initialize\. PLEASE VERIFY CONSISTENT " +
                   r"TRANSPORT \/ DISCOVERY CONFIGURATION\."])
 
     # Discover remote or local entities
+    regex.append([events.on_eds_disabled,
+                  r"DDS_DomainParticipantDiscovery_initialize:" +
+                  r"builtin discovery plugin PA Client disabled"])
     regex.append([events.on_discover_participant,
                   r"DISCSimpleParticipantDiscoveryPluginReaderListener_" +
                   r"onDataAvailable:(?:RTI0x\w+:)?discovered new " +
@@ -95,8 +158,11 @@ def get_regex_list():
     regex.append([events.on_update_remote_participant,
                   r"DISCParticipantDiscoveryPlugin_assertRemoteParticipant:" +
                   r"(?:RTI0x\w+:)?plugin discovered/updated remote " +
-                  r"participant: 0X([0-9A-Z]+),0X([0-9A-Z]+),0X([0-9A-Z]+)," +
-                  r"0X([0-9A-Z]+)"])
+                  r"participant: 0X(\w+),0X(\w+),0X(\w+),0X(\w+)"])
+    regex.append([events.on_accept_remote_participant,
+                  r"DISCPluginManager_activateEdpListenersFor" +
+                  r"RemoteParticipant:plugin accepted new remote " +
+                  r"participant: 0X(\w+),0X(\w+),0X(\w+),0X(\w+)"])
     regex.append([events.on_announce_local_participant,
                   r"DISCPluginManager_onAfterLocalParticipantEnabled:" +
                   r"announcing new local participant: " +
@@ -106,6 +172,11 @@ def get_regex_list():
                   r"publicationReaderListenerOnDataAvailable:" +
                   r"(?:RTI0x\w+:)?discovered publication: 0X([0-9A-Z]+)," +
                   r"0X([0-9A-Z]+),0X([0-9A-Z]+),0X([0-9A-Z]+)"])
+    regex.append([events.on_discover_subscription,
+                  r"DISCSimpleEndpointDiscoveryPlugin_" +
+                  r"subscriptionReaderListenerOnDataAvailable:" +
+                  r"(?:RTI0x\w+:)?discovered subscription: 0X(\w+),0X(\w+)," +
+                  r"0X(\w+),0X(\w+)"])
     regex.append([events.on_update_endpoint,
                   r"DISCEndpointDiscoveryPlugin_assertRemoteEndpoint:" +
                   r"(?:RTI0x\w+:)?plugin discovered/updated remote endpoint:" +
@@ -114,9 +185,17 @@ def get_regex_list():
                   r"DISCPluginManager_onAfterLocalEndpointEnabled:" +
                   r"(?:RTI0x\w+:)?announcing new local publication: " +
                   r"0X(\w+),0X(\w+),0X(\w+),0X(\w+)"])
+    regex.append([events.on_announce_local_publication_sed,
+                  r"DISCSimpleEndpointDiscoveryPluginPDFListener_" +
+                  r"onAfterLocalWriterEnabled:announcing new publication: " +
+                  r"0X(\w+),0X(\w+),0X(\w+),0X(\w+)"])
     regex.append([events.on_announce_local_subscription,
                   r"DISCPluginManager_onAfterLocalEndpointEnabled:" +
                   r"(?:RTI0x\w+:)?announcing new local subscription: " +
+                  r"0X(\w+),0X(\w+),0X(\w+),0X(\w+)"])
+    regex.append([events.on_announce_local_subscription_sed,
+                  r"DISCSimpleEndpointDiscoveryPluginPDFListener_" +
+                  r"onAfterLocalReaderEnabled:announcing new subscription: " +
                   r"0X(\w+),0X(\w+),0X(\w+),0X(\w+)"])
     regex.append([events.on_participant_ignore_itself,
                   r"PRESPsService_destroyLocalEndpointWithCursor:" +
@@ -125,6 +204,10 @@ def get_regex_list():
                   r"DISCSimpleEndpointDiscoveryPlugin_" +
                   r"(subscription|publication)OnSampleLost: (\w+); " +
                   r"total (\w+), delta (\w+)"])
+    regex.append([events.on_cannot_reach_multicast,
+                  r"COMMEND(Sr|Be)WriterService_assertRemoteReader:" +
+                  r"Discovered remote reader using a non-addressable " +
+                  r"multicast locator for a transport with class ID (\d+)\."])
 
     # Match remote or local entities.
     regex.append([events.on_match_entity("reader", "remote"),
@@ -150,6 +233,9 @@ def get_regex_list():
     regex.append([events.on_typeobject_received,
                   r"PRESPsService_assertRemoteEndpoint:TypeObject " +
                   r"(succesfully stored|could not be stored|not received)"])
+    regex.append([events.on_reader_incompatible_durability,
+                  r"PRESPsService_isRemoteWriterLocalReaderCompatible:" +
+                  r"incompatible durability: writer (\d+) reader (\d+)"])
 
     # Bad usage of the API
     regex.append([events.on_register_unkeyed_instance,

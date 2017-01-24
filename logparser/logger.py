@@ -204,12 +204,12 @@ class Logger(object):
         content['output_line'] = self._state['output_line'] + 1
 
         # Apply the filter
-        if 'onlyIf' in self._state and not self._dict_regex_search(
+        if 'onlyIf' in self._state and not Logger._dict_regex_search(
                 content, self._state['onlyIf']):
             return
 
         # Highlight the message if match
-        if 'highlight' in self._state and self._dict_regex_search(
+        if 'highlight' in self._state and Logger._dict_regex_search(
                 content, self._highlight):
             content['kind'] = content.get('kind', "") + "|IMPORTANT"
 
@@ -315,12 +315,14 @@ class Logger(object):
         """
         if self._verbosity < level:
             return
+
         self._state['errors'].add(text)
         if self._inline:
             content = {'description': "Error: " + text, 'kind': 'ERROR'}
             self._log(content, level)
 
-    def _dict_regex_search(self, content, regex):
+    @staticmethod
+    def _dict_regex_search(content, regex):
         """Apply the regex over all the fields of the content.
 
         Args:

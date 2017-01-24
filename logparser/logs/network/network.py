@@ -60,6 +60,9 @@ from logparser.utils import (add_statistics_bandwidth, add_statistics_packet,
                              get_participant, get_port_name, get_port_number,
                              hex2ip, is_builtin_entity, parse_guid, parse_sn)
 
+# Disable warnings about unused arguments
+# pylint: disable=W0613
+
 
 # --------------------------------------------------------------------------- #
 # -- Parser entity                                                         -- #
@@ -107,7 +110,6 @@ def on_shmem_receive(match, state, logger):
     add_statistics_bandwidth("SHMEM", 'receive', qty, state)
 
 
-# pylint: disable=W0613
 def on_error_unreachable_network(match, state, logger):
     """It happens when the network is unreachable."""
     logger.warning("Unreachable network for previous send", 1)
@@ -121,7 +123,7 @@ def on_error_no_transport_available(match, state, logger):
 
 
 # --------------------------------------------------------------------------- #
-# -- Write entity                                                          -- #
+# -- Participant entity                                                    -- #
 # --------------------------------------------------------------------------- #
 def on_unregister_not_asserted_entity(entity):
     """It happens unregistering the entity."""
@@ -133,6 +135,13 @@ def on_unregister_not_asserted_entity(entity):
                        "remote %s not previsouly asserted" % entity,
                        2)
     return on_unregister_given_not_asserted_entity
+
+
+def on_send_participant_announcement(match, state, logger):
+    """It happens when sending participant announcements."""
+    addr = parse_guid(state, match[0], match[1], match[2])
+    part_oid = get_oid(match[3])
+    logger.send("", part_oid, "Sent participant announcement for %s" % addr, 1)
 
 
 # --------------------------------------------------------------------------- #
@@ -179,6 +188,20 @@ def on_resend_data(match, state, logger):
                 verb)
 
 
+def on_send_periodic_data(match, state, logger):
+    """It happens when writing periodic data."""
+    seqnum = int(match[0])
+    key = match[1]
+    local_part = parse_guid(state, key[0:8], key[8:16], key[16:24])
+    oid = get_oid(key[24:32])
+    data_name = get_data_packet_name(key[24:32])
+    verb = 1 if is_builtin_entity(key[24:32]) else 0
+    logger.send("", oid,
+                "Sent periodic %s [%d] for %s" %
+                (data_name, seqnum, local_part),
+                verb)
+
+
 def on_send_gap(match, state, logger):
     """It happens when the writer send a GAP message."""
     writer_oid = get_oid(match[0])
@@ -189,12 +212,12 @@ def on_send_gap(match, state, logger):
     verb = 1 if is_builtin_entity(match[0]) else 0
     logger.send(remote_part, writer_oid,
                 "Sent GAP to reader %s for samples in [%d, %d]" %
-                (reader_oid, sn_start, sn_end), state, verb)
+                (reader_oid, sn_start, sn_end), verb)
     add_statistics_packet(writer_oid, 'send', 'GAP', state)
 
     # Check for large sequence number issues.
     if sn_end - sn_start >= (1 << 31):
-        logger.warning("[LP-1] Large Sequence Number difference in GAP.")
+        logger.warning("[LP-1] Large Sequence Number difference in GAP")
 
     # Check for reliable packet lost
     if 'packets_lost' not in state:
@@ -232,6 +255,19 @@ def on_send_preemptive_hb(match, state, logger):
                 writer_oid,
                 "Sent preemptive HB to let know about samples in [%d, %d]" %
                 (sn_start, sn_end),
+                verb)
+
+
+def on_send_periodic_hb(match, state, logger):
+    """It happens when sending a periodic HB message."""
+    writer_oid = get_oid(match[0])
+    sn_start = parse_sn(match[1])
+    sn_end = parse_sn(match[2])
+    epoch = int(match[3])
+    verb = 1 if is_builtin_entity(match[0]) else 0
+    logger.send("", writer_oid,
+                "Sent periodic HB [%d] for samples in [%d, %d]" %
+                (epoch, sn_start, sn_end),
                 verb)
 
 
@@ -339,6 +375,11 @@ def on_batch_serialize_failure(match, state, logger):
     logger.error("Cannot serialize batch sample")
 
 
+def on_ignore_ack(match, state, logger):
+    """It happens when the ACK is ignored."""
+    logger.process("", "", "Ignored ACK")
+
+
 # --------------------------------------------------------------------------- #
 # -- Read entity                                                           -- #
 # --------------------------------------------------------------------------- #
@@ -373,6 +414,25 @@ def on_receive_data(match, state, logger):
                 "Received %s [%d] from writer %s (%s)" %
                 (packet, seqnum, writer_oid, comm),
                 verb)
+
+
+def on_receive_fragment(match, state, logger):
+    """It happens when a DATA fragment is received."""
+    reader_oid = get_oid(match[0])
+    frag_start = int(match[1])
+    frag_end = int(match[2])
+    seqnum = parse_sn(match[3])
+    logger.recv("", reader_oid,
+                "Received DATA fragments %d to %d for sample %d" %
+                (frag_start, frag_end, seqnum))
+
+
+def on_complete_fragment(match, state, logger):
+    """It happens when the fragment is complete."""
+    reader_oid = get_oid(match[0])
+    seqnum = parse_sn(match[1])
+    logger.process("", reader_oid,
+                   "Fragmented sample %d is complete" % seqnum)
 
 
 def on_receive_out_order_data(match, state, logger):
@@ -455,10 +515,28 @@ def on_send_nack(match, state, logger):
                 verb)
 
 
+def on_send_nack_frag(match, state, logger):
+    """It happens when sending a NACK_FRAG."""
+    reader_oid = get_oid(match[0])
+    seqnum = parse_sn(match[1])
+    verb = 1 if is_builtin_entity(match[0]) else 0
+    logger.send("", reader_oid,
+                "Sent NACK_FRAG for sample %d" % seqnum,
+                verb)
+
+
+def on_suppress_hb(match, state, logger):
+    """It happens when the HB is suppressed."""
+    reader_oid = get_oid(match[0])
+    verb = 1 if is_builtin_entity(match[0]) else 0
+    logger.process("", reader_oid,
+                   "Ignored HB due to heartbeat_suppression_duration QoS",
+                   verb)
+
+
 def on_sample_received_from_deleted_writer(match, state, logger):
     """It happens when the remote writer is deleted."""
-    logger.warning("Sample received from an already gone remote DataWriter.",
-                   1)
+    logger.warning("Sample received from an already gone remote DataWriter", 1)
 
 
 def on_deserialize_failure(match, state, logger):
@@ -475,7 +553,6 @@ def on_shmem_queue_full(match, state, logger):
     max_size = match[2]
     logger.cfg("ShareMemory limits for queue" +
                "%s (%s) are: max_num=%s, max_size=%s"
-               % (port, port_name, count_max, max_size),
-               state)
+               % (port, port_name, count_max, max_size))
     logger.error("[LP-19] Sample dropped because ShareMemory queue %s is full."
                  % port)

@@ -12,6 +12,8 @@ This document contains a detailed description of the messages from the Log Parse
     - [LP-10: DataWriter exceeded resource limits](#lp-10-datawriter-exceeded-resource-limits)
     - [LP-11: DataReader exceeded resource limits](#lp-11-datareader-exceeded-resource-limits)
     - [LP-12: No transport available to reach locator](#lp-12-no-transport-available-to-reach-locator)
+    - [LP-20: The OS limits the receive socket buffer size from X to Y](#lp-20-the-os-limits-the-receive-socket-buffer-size-from-X-to-Y)
+    - [LP-21: Decreased message_size_max for UDPv4 from 65530 to 65507](#lp-21-decreased-message-size_max-for-UDPv4-from-65530-to-65507)
 
 - [Errors](#errors)
     - [LP-2: Topic name already in use by another topic](#lp-2-topic-name-already-in-use-by-another-topic)
@@ -64,6 +66,18 @@ The DataReader reached its maximum number of entries. The received sample cannot
 
 ### LP-12: No transport available to reach locator
 The participant hasn't any transport available to communicate with the given locator. This usually means that the participant has some transport disable and a remote host is announcing itself in these transports. This warning is expected for instance after disabling ShareMemory only in one application.
+More information available in the following Knowledge Base article [What does the "can't reach: locator" error message mean?](https://community.rti.com/kb/what-does-cant-reach-locator-error-message-mean)
+
+### LP-20: The OS limits the receive socket buffer size from X to Y bytes
+Some operative systems may limit the maximum size of the receive socket buffser size. For this reason, the actual value of the buffer size may be smaller than the specified in the property QoS: *dds.transport.UDPv4.builtin.recv_socket_buffer_size*.
+
+In Unix systems the command `sysctl` can change the value of this limitation as follow:
+```
+sysctl net.core.rmem_max=MaximumSizeInBytes
+```
+
+### LP-21: Decreased message_size_max for X from Y to Z
+The transport `X` reduced the value for the property `message_size_max` from `Y` to `Z`. The reason is that the property is greater than the maximum payload possible for the transport. For instance, consider the UDPv4 protocol, the maximum payload is `65535 - 8 (UDP header) - 20 (min IP header) = 65507`. The middleware gets the protocols overheads from the property `protocol_overhead_max`.
 
 
 ## Errors

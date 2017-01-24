@@ -134,5 +134,5 @@ def on_accept_data(match, state, logger):
     # state is a dictionary where you can store and retrieve variables.
     # logger the logger that process the messages
     seqnum = parse_sn(match[0])
-    logger.process("", "", "Reader accepted DATA (%d)" % seqnum, state, 1)
+    logger.process("", "", "Reader accepted DATA (%d)" % seqnum, 1)
 ```

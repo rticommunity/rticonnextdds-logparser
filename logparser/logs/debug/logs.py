@@ -30,8 +30,37 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"^\s*$"])
     regex.append([debug.on_ignored_message,
+                  r"DDS_Registry_lock:Locking the storage service"])
+    regex.append([debug.on_ignored_message,
+                  r"DDS_Registry_unlock:Unlocking the storage service"])
+    regex.append([debug.on_ignored_message,
+                  r"RTIEventActiveDatabaseThread_loop:created \w+"])
+    regex.append([debug.on_ignored_message,
+                  r"RTIEventActiveGeneratorThread_loop:created \w+"])
+    regex.append([debug.on_ignored_message,
+                  r"COMMENDActiveFacadeReceiver_loop:created \w+"])
+    regex.append([debug.on_ignored_message,
+                  r"COMMENDActiveFacade_threadStarted:thread count ref " +
+                  r"count \d+"])
+    regex.append([debug.on_ignored_message,
+                  r"COMMENDActiveFacade_addReceiverThread:thread count ref " +
+                  r"count \d+"])
+    regex.append([debug.on_ignored_message,
+                  r"COMMENDActiveFacade_new:active object count ref " +
+                  r"count \d+"])
+    regex.append([debug.on_ignored_message,
+                  r"RTIEventJobDispatcher_distributeTokens: \d+ agents " +
+                  r"at priority [-\d]+"])
+    regex.append([debug.on_ignored_message,
+                  r"RTIEventJobDispatcher_updateAgentPriorities:agent:" +
+                  r"0x\w+ priority set to [-\d]+"])
+    regex.append([debug.on_ignored_message,
+                  r"NDDS_Transport_UDPv4_receive_rEA:\w+ woke up"])
+    regex.append([debug.on_ignored_message,
                   r"RTIEventJobDispatcher_scheduleJob:agent:\w+ job:\w+ " +
                   r"scheduled at priority \d+"])
+    regex.append([debug.on_ignored_message,
+                  r"RTIOsapiThread_sleep: nanosleep\(\d+.\d+ s\)"])
     regex.append([debug.on_ignored_message,
                   r"RTIEventActiveGeneratorThread_loop:\w+ gathering events"])
     regex.append([debug.on_ignored_message,
@@ -55,7 +84,16 @@ def get_regex_list():
                   r"priority \d+"])
     regex.append([debug.on_ignored_message,
                   r"RTIOsapiThread_sleep: Sleep\(\d+ ms\)"])
+    regex.append([debug.on_ignored_message,
+                  r"RTISystemClock_init:epoch range \{\w+,\w+\}, " +
+                  r"frequency \d+ Hz"])
 
+    regex.append([debug.on_ignored_message,
+                  r"DDS_StringSeq_ensure_length:memory allocation: " +
+                  r"original \d+, new \d+"])
+    regex.append([debug.on_ignored_message,
+                  r"DDS_PropertySeq_ensure_length:memory allocation: " +
+                  r"original \d+, new \d+"])
     regex.append([debug.on_ignored_message,
                   r"RTINetioReceiver_addEntryport:" +
                   r"NetioReceiver_Entryport reused"])
@@ -75,7 +113,37 @@ def get_regex_list():
                   r"NDDS_Transport_Shmem_receive_rEA:\w+ woke up"])
     regex.append([debug.on_ignored_message,
                   r"NDDS_Transport_UDPv4_receive_rEA:\w+ blocking on 0X\w+"])
+    regex.append([debug.on_ignored_message,
+                  r"RTIOsapi_getFirstValidInterface:found address for " +
+                  r"interface .+ \(address family = \d+\)"])
+    regex.append([debug.on_ignored_message,
+                  r"RTIOsapi_getFirstValidInterface:skipped interface .+, " +
+                  r"\(not valid address family \([\w/]+\)\)"])
+    regex.append([debug.on_ignored_message,
+                  r"RTIOsapi_getFirstValidInterface:skipped interface .+, " +
+                  r"\(loopback interface\)"])
+    regex.append([debug.on_ignored_message,
+                  r"RTINetioReceiver_removeEntryport:NetioReceiver_" +
+                  r"Entryport ref count \d+"])
+    regex.append([debug.on_ignored_message,
+                  r"NDDS_Transport_UDPv4_SocketFactory_create_" +
+                  r"receive_socket:invalid port (\d+)"])
+    regex.append([debug.on_ignored_message,
+                  r"NDDS_Transport_UDPv4_create_recvresource_rrEA:" +
+                  r"Created receive resource for port (\d+)"])
+    regex.append([debug.on_ignored_message,
+                  r"NDDS_Transport_UDPv4_create_sendresource_srEA:Created " +
+                  r"send resource for 0X\w+:\d+"])
+    regex.append([debug.on_ignored_message,
+                  r"NDDS_Transport_UDPv4_query_interfaces:" +
+                  r"skipped (\w+)"])
+    regex.append([debug.on_ignored_message,
+                  r"NDDS_Transport_UDPv4_create_recvresource_rrEA:" +
+                  r"!create socket"])
 
+    regex.append([debug.on_ignored_message,
+                  r"DDS_DomainParticipantFactory_create_participant_" +
+                  r"disabledI:created participant: domain=\d+, index=-1"])
     regex.append([debug.on_ignored_message,
                   r"DDS_DomainParticipantPresentation_reserve_participant_" +
                   r"index_entryports:Domain \d+:Trying to reserve " +
@@ -83,6 +151,36 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"DISCPluginManager_onAfterLocalEndpointEnabled:at " +
                   r"\{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCSimpleEndpointDiscoveryPluginPDFListener_" +
+                  r"onAfterLocalWriterEnabled:at \{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCSimpleEndpointDiscoveryPlugin_" +
+                  r"subscriptionReaderListenerOnDataAvailable:at \{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCPluginManager_onAfterLocalParticipantEnabled:at " +
+                  r"\{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCEndpointDiscoveryPlugin_assertRemoteEndpoint:at " +
+                  r"\{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCPluginManager_activateEdpListenersFor" +
+                  r"RemoteParticipant:at \{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCParticipantDiscoveryPlugin_assertRemoteParticipant:" +
+                  r"at \{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCSimpleParticipantDiscoveryPluginReaderListener_" +
+                  r"onDataAvailable:at \{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCSimpleParticipantDiscoveryPlugin_" +
+                  r"remoteParticipantDiscovered:at \{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCSimpleEndpointDiscoveryPlugin_publicationReader" +
+                  r"ListenerOnDataAvailable:at \{\w+,\w+\}"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCSimpleEndpointDiscoveryPluginPDFListener_" +
+                  r"onAfterLocalReaderEnabled:at \{\w+,\w+\}"])
     regex.append([debug.on_ignored_message,
                   r"DDS_Topic_createI:!create presentation topic"])
     regex.append([debug.on_ignored_message,
@@ -96,6 +194,10 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"DDS_DomainParticipant_delete_contained_entities:" +
                   r"!delete contained entitie"])
+    regex.append([debug.on_ignored_message,
+                  r"DISCSimpleParticipantDiscoveryPluginReaderListener_" +
+                  r"onDataAvailable:discovered modified participant: " +
+                  r"host=0x\w+, app=0x\w+, instance=0x\w+"])
 
     regex.append([debug.on_ignored_message,
                   r"PRESPsService_onWriterResendEvent:writer resend event: " +
@@ -138,6 +240,31 @@ def get_regex_list():
                   r"PRESPsReaderQueue_storeSampleToEntry:!store sample data"])
     regex.append([debug.on_ignored_message,
                   r"PRESPsReaderQueue_newData:!get entries"])
+    regex.append([debug.on_ignored_message,
+                  r"MIGGeneratorContext_addData:!space assert"])
+
+    regex.append([debug.on_ignored_message,
+                  r"This can occur if multicast is not enabled in the local " +
+                  r"participant."])
+    regex.append([debug.on_ignored_message,
+                  r"See https://community.rti.com/kb/what-does-cant-reach-" +
+                  r"locator-error-message-mean for additional info."])
+    regex.append([debug.on_ignored_message,
+                  r"can't reach:"])
+    regex.append([debug.on_ignored_message,
+                  r"transport: \d+ \([\w\d]+\)"])
+    regex.append([debug.on_ignored_message,
+                  r"address: [\d\.]+"])
+    regex.append([debug.on_ignored_message,
+                  r"Recv Resource:"])
+    regex.append([debug.on_ignored_message,
+                  r"Send Resource:"])
+    regex.append([debug.on_ignored_message,
+                  r"RTINetioSender_addDestination:!create NetioSender_" +
+                  r"SendResource"])
+    regex.append([debug.on_ignored_message,
+                  r"RTINetioReceiver_addEntryport:!create NetioReceiver_" +
+                  r"ReceiveResource"])
 
     regex.append([debug.on_ignored_message, r"^send failed: $"])
     regex.append([debug.on_ignored_message, r"^\s*locator:\s*$"])
@@ -145,7 +272,7 @@ def get_regex_list():
     regex.append([debug.on_ignored_message, r"^\s*address: [\d:]+$"])
     regex.append([debug.on_ignored_message, r"^[\d:]+$"])
     regex.append([debug.on_ignored_message, r"^\s*port: \d+$"])
-    regex.append([debug.on_ignored_message, r"^\s{6}encapsulation:$"])
+    regex.append([debug.on_ignored_message, r"^\s*encapsulation:$"])
     regex.append([debug.on_ignored_message, r"^\s{3}transport_priority: \d+$"])
     regex.append([debug.on_ignored_message, r'^\s{3}aliasList: ""$'])
     regex.append([debug.on_ignored_message,

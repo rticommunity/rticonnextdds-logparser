@@ -89,7 +89,7 @@ def check_periodic(state, name, logger, msg=""):
     result = compare_times(previous_period, period, tolerance)
     if result:
         logger.warning("%s not periodic (%s by %s) %s" %
-                       (name, result[0], result[1], msg), state)
+                       (name, result[0], result[1], msg))
 
 
 def compare_times(past, future, tolerance):
@@ -219,7 +219,8 @@ def get_data_packet_name(oid):
     entity_name = get_oid(oid)
     PACKET_NAMES = {
         "SED_PUB_WRITER": "DATA(w)", "SED_SUB_WRITER": "DATA(r)",
-        "SPD_PART_WRITER": "DATA(p)", "MESSAGE_WRITER": "DATA(m)"}
+        "SPD_PART_WRITER": "DATA(p)", "MESSAGE_WRITER": "DATA(m)",
+        "PARTICIPANT": "DATA(p)"}
     return PACKET_NAMES[entity_name] if entity_name in PACKET_NAMES else "DATA"
 
 
@@ -383,6 +384,25 @@ def set_local_address(guid, state, logger):
     logger.cfg("Local address: %s %s" % (address[0], address[1]))
 
 
+def get_interface_props(props):
+    """Get the interface properties."""
+    FLAGS = {
+        0x01: "UP", 0x02: "BROADCAST", 0x04: "LOOPBACK", 0x08: "POINTOPOINT",
+        0x10: "MULTICAST", 0x20: "RUNNING"}
+    flag = int(props, 16)
+    flag_name = ""
+    for bit in FLAGS:
+        if flag & bit != 0:
+            flag_name += FLAGS[bit] + "|"
+    return flag_name
+
+
+def get_ip(ip, state, hexadecimal=True, reverse=True):
+    """Get the IP address obfuscated if needed."""
+    ip = hex2ip(ip, reverse) if hexadecimal else ip
+    return obfuscate(ip, state)[:15] if state['obfuscate'] else ip
+
+
 def hex2ip(host_id, reverse=False):
     """Convert the hexadecimal host ID into an IP address."""
     host_id = int(host_id, 16)
@@ -413,3 +433,13 @@ def parse_sn(seqnum, base=10):
     high_sn = int(seqnum[0], base)
     low_sn = int(seqnum[1], base)
     return (high_sn << 32) | (low_sn)
+
+
+def get_transport_name(class_id):
+    """Get the transport name from the class ID."""
+    TRANSPORTS = {1: "UDPv4", 2: "UDPv6/SHMEM@510", 3: "INTRA", 5: "UDPv6@510",
+                  6: "DTLS", 7: "WAN", 8: "TCPv4LAN", 9: "TCPv4WAN",
+                  10: "TLSv4LAN", 11: "TLSV4WAN", 12: "PCIE", 13: "ITP",
+                  0x01000000: "SHMEM"}
+    class_id = int(class_id)
+    return TRANSPORTS[class_id] if class_id in TRANSPORTS else "UNKNOWN"

@@ -21,6 +21,10 @@ Functions:
 from __future__ import absolute_import
 
 
+# Disable warnings about unused arguments
+# pylint: disable=W0613
+
+
 def on_custom_log(match, state, logger):
     """Parse a log with a custom prefix."""
     logger.event("[App] " + match[0])

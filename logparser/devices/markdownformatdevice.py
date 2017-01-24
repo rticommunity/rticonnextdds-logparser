@@ -38,6 +38,7 @@ class MarkdownFormatDevice(FormatDevice):
       + write_statistics_bandwidth: write the bandwidth statistics.
       + write_throughput: write the throughput information.
       + write_statistics_packets: write the packet statistics.
+      + write_threads_info: write the threads information.
       + bytes_to_string: convert a byte unit value into string.
     """
 
@@ -70,8 +71,8 @@ class MarkdownFormatDevice(FormatDevice):
         self.write()
 
         self.write("## Network Data Flow and Application Events")
-        header = " In/Out  | Remote Address         | Local Entity   | Message"
-        headln = "---------|:----------------------:|:--------------:|--------"
+        header = " Remote Address         | In/Out  | Local Entity   | Message"
+        headln = ":----------------------:|---------|:--------------:|--------"
         if self.show_timestamp:
             header = "Timestamp".ljust(28) + "|" + header
             headln = "-".ljust(28, "-") + "|" + headln
@@ -97,7 +98,7 @@ class MarkdownFormatDevice(FormatDevice):
             description = "*" + description + "*"
         remote = content.get('remote', '').center(24)
         entity = content.get('entity', '').center(16)
-        msg = "%s|%s|%s| %s" % (inout, remote, entity, description)
+        msg = "%s|%s|%s| %s" % (remote, inout, entity, description)
 
         # Add the optional columns
         if self.show_timestamp:
@@ -128,6 +129,8 @@ class MarkdownFormatDevice(FormatDevice):
             self.write_statistics_bandwidth(state)
         if 'statistics_packet' in state and not state['no_stats']:
             self.write_statistics_packets(state)
+        if 'threads' in state and not state['no_stats']:
+            self.write_threads_info(state)
         self.write_countset(state['config'], 'Config')
 
     def write_countset(self, items, title):
@@ -241,6 +244,33 @@ class MarkdownFormatDevice(FormatDevice):
                     self.write("        * %s: %d (%.1f%%)" %
                                (packet, qty, qty / total * 100))
         self.write()
+
+    def write_threads_info(self, state):
+        """Write the threads information."""
+        self.write("### Threads Information:")
+
+        info = state['threads']
+        num_threads = info['all'] if 'all' in info else len(info)
+        self.write("* Number of threads: %d" % num_threads)
+
+        group_info = {}
+        for thread_name in info:
+            if thread_name == 'all':
+                continue
+            thread = info[thread_name]
+            if thread['kind'] not in group_info:
+                group_info[thread['kind']] = []
+            group_info[thread['kind']] += [thread]
+
+        for group in group_info:
+            self.write("* %s threads" % group.capitalize())
+            self.write("    * Number of threads: %d" % len(group_info[group]))
+            for thread in group_info[group]:
+                self.write("    * Thread name: %s" % thread['name'])
+                self.write("        * ID: %d" % thread['tid'])
+                self.write("        * Priority: %d" % thread['priority'])
+                self.write("        * Stack size: %d" % thread['stack_size'])
+                self.write("        * Affinity: %s" % thread['affinity'])
 
     @staticmethod
     def bytes_to_string(qty):

@@ -62,7 +62,7 @@ class LogParser(object):
         self._initialize_logger(args)
         self.expressions = create_regex_list(self.state)
 
-    def _check_time_distance(self, new_clocks, old_clocks, state):
+    def _check_time_distance(self, new_clocks, old_clocks):
         """Check that the distance between logs it's not large."""
         MAX_TIME_SEC = 60
         result = compare_times(old_clocks[1], new_clocks[1],
@@ -187,7 +187,8 @@ class LogParser(object):
                 exc_traceback = exc_info()[2]
                 stacktraces = extract_tb(exc_traceback)
                 self._logger.error(
-                    "[ScriptError] %s %s" % (str(stacktraces[-1]), ex))
+                    "[ScriptError] %s %s - log line %d" %
+                    (str(stacktraces[-1]), ex, self.state['input_line']))
 
     def _match_line(self, line):
         """Try to match a log line with the regular expressions."""
@@ -228,8 +229,7 @@ class LogParser(object):
 
         new_clocks = (monotonic, system)
         if 'clocks' in self.state:
-            self._check_time_distance(new_clocks, self.state['clocks'],
-                                      self.state)
+            self._check_time_distance(new_clocks, self.state['clocks'])
 
         self.state['clocks'] = new_clocks
 
