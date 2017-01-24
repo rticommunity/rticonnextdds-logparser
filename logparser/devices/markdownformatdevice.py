@@ -134,8 +134,8 @@ class MarkdownFormatDevice(FormatDevice):
         """Write a generic log message list."""
         self.write("----------------------")
         self.write("## %s:" % title)
-        for i, msg in enumerate(sorted(items.keys(), key=lambda m: m[0])):
-            self.write("%2d. %dx %s" % (i, items[msg][1], msg))
+        for i, msg, count in items.elements():
+            self.write("%2d. %dx %s" % (i, count, msg))
         self.write()
 
     def write_locators(self, state):

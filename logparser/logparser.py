@@ -29,6 +29,7 @@ from os import urandom
 from sys import exc_info
 from traceback import extract_tb
 
+from logparser.countset import CountSet
 from logparser.devices.inputdevices import InputConsoleDevice, InputFileDevice
 from logparser.devices.markdownformatdevice import MarkdownFormatDevice
 from logparser.devices.outputdevices import (OutputConsoleDevice,
@@ -88,9 +89,9 @@ class LogParser(object):
 
     def _initialize_state(self, args):
         """Initialize the state dictionary."""
-        self.state['warnings'] = {}
-        self.state['errors'] = {}
-        self.state['config'] = {}
+        self.state['warnings'] = CountSet()
+        self.state['errors'] = CountSet()
+        self.state['config'] = CountSet()
         self.state['no_timestamp'] = not args.show_timestamp
         self.state['obfuscate'] = args.obfuscate
         self.state['salt'] = args.salt or LogParser._get_urandom()
