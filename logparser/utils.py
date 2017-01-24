@@ -437,7 +437,7 @@ def parse_sn(seqnum, base=10):
 
 def get_transport_name(class_id):
     """Get the transport name from the class ID."""
-    TRANSPORTS = {1: "UDPv4", 2: "UDPv6", 3: "INTRA", 5: "UDPv6@510",
+    TRANSPORTS = {1: "UDPv4", 2: "UDPv6/SHMEM@510", 3: "INTRA", 5: "UDPv6@510",
                   6: "DTLS", 7: "WAN", 8: "TCPv4LAN", 9: "TCPv4WAN",
                   10: "TLSv4LAN", 11: "TLSV4WAN", 12: "PCIE", 13: "ITP",
                   0x01000000: "SHMEM"}
