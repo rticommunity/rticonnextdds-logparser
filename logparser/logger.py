@@ -279,7 +279,7 @@ class Logger(object):
         """
         if self._verbosity < level:
             return
-        self._countset_add_element(self._state['config'], text)
+        self._state['config'].add(text)
 
     def event(self, text, level=0):
         """Log an application event.
@@ -301,7 +301,7 @@ class Logger(object):
         if self._verbosity < level:
             return
 
-        self._countset_add_element(self._state['warnings'], text)
+        self._state['warnings'].add(text)
         if self._inline:
             content = {'description': "Warning: " + text, 'kind': 'WARNING'}
             self._log(content, level)
@@ -315,21 +315,10 @@ class Logger(object):
         """
         if self._verbosity < level:
             return
-        self._countset_add_element(self._state['errors'], text)
+        self._state['errors'].add(text)
         if self._inline:
             content = {'description': "Error: " + text, 'kind': 'ERROR'}
             self._log(content, level)
-
-    def _countset_add_element(self, countset, el):
-        """Add an element to the countset.
-
-        Args:
-            countset (:obj:`list` of `str`): set of messages
-            el (str): new element to add to the countset
-        """
-        if el not in countset:
-            countset[el] = [len(countset), 0]
-        countset[el][1] += 1
 
     def _dict_regex_search(self, content, regex):
         """Apply the regex over all the fields of the content.
