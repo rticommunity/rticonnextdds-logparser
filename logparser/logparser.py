@@ -103,10 +103,6 @@ class LogParser(object):
         self.state['output_line'] = 0
         self.state['input_line'] = 0
         self.state['debug'] = args.debug
-        if args.highlight:
-            self._logger.highlight = re.compile(args.highlight)
-        if args.only:
-            self._logger.onlyIf = re.compile(args.only)
         if args.local_host:
             self.state['local_address'] = tuple(args.local_host.split(","))
         if args.output:
@@ -130,6 +126,10 @@ class LogParser(object):
         self._logger.inline = not args.no_inline
         self._logger.ignorePackets = args.no_network
         self._logger.colors = args.colors
+        if args.highlight:
+            self._logger.highlight = re.compile(args.highlight)
+        if args.only:
+            self._logger.onlyIf = re.compile(args.only)
 
     def process(self):
         """Process all the logs."""
