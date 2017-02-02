@@ -183,7 +183,8 @@ def get_oid(oid):
         0xff0200c2: "MSG_SEC_WRITER", 0xff0200c7: "MSG_SEC_READER",
         0x000201c2: "MSG_STA_SEC_WRITER", 0x000201c7: "MSG_STA_SEC_READER",
         0xff0202c2: "MSG_VOL_SEC_WRITER", 0xff0202c7: "MSG_VOL_SEC_READER"}
-    ENTITY_ORIGINS = {0x00: "USER", 0x40: "VEND", 0xc0: "BUILTIN"}
+    ENTITY_ORIGINS = {0x00: "USER", 0x40: "VEND", 0xc0: "BT-IN",
+                      0x80: "VE_BT"}  # Not-yet in specs
     ENTITY_KINDS = {
         0x00: "UNK", 0x01: "PART",
         0x02: "W+K", 0x03: "W-K",
@@ -197,7 +198,7 @@ def get_oid(oid):
     origin = ENTITY_ORIGINS[entity_kind & 0xC0]
     kind = ENTITY_KINDS[entity_kind & 0x3F]
 
-    if origin == "BUILTIN":
+    if origin == "BT-IN":
         name = BUILTIN_NAMES[oid_num]
     elif origin == "USER":
         name = kind + "_" + hex(oid_num >> 8)[2:].zfill(6)
