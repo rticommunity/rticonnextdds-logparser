@@ -37,7 +37,7 @@ class FormatDevice(object):
         """Write the header if any."""
         raise NotImplementedError("write_header not implemented")
 
-    def write_message(self, content, state):
+    def write_message(self, content):
         """Write the message.
 
         The content argument is a dictionary with at least 'description' item.

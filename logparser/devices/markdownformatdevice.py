@@ -82,7 +82,7 @@ class MarkdownFormatDevice(FormatDevice):
         self.write(header)
         self.write(headln)
 
-    def write_message(self, content, state):
+    def write_message(self, content):
         """Write the message."""
         # Create the standard message
         if 'inout' not in content:

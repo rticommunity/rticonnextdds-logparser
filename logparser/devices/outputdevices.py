@@ -51,14 +51,15 @@ class OutputConsoleDevice(OutputDevice):
       + close: Do nothing, no need to close device.
     """
 
-    def __init__(self, state):
+    def __init__(self, state, appInfo):
         """Initialize the device."""
         self.support_ansi = state['show_progress']
         self.state = state
+        self._appInfo = appInfo
 
     def write(self, text=""):
         """Write the log into the standard output."""
-        self.state['output_line'] += 1
+        self._appInfo.current_output_index += 1
         # 33[k is an ANSI code to clear the line
         # We need it to clear the optional progress bar.
         if self.support_ansi:
@@ -87,15 +88,16 @@ class OutputFileDevice(OutputDevice):
       + close: Close the file stream.
     """
 
-    def __init__(self, state, file_path, overwrite):
+    def __init__(self, state, appInfo, file_path, overwrite):
         """Initialize the device with the specified file path."""
         open_mode = "w" if overwrite else "a"
         self.stream = open(file_path, open_mode)
         self.state = state
+        self._appInfo = appInfo
 
     def write(self, text=""):
         """Write the log into a file stream."""
-        self.state['output_line'] += 1
+        self._appInfo.current_output_index += 1
         self.stream.write(text + "\n")
 
     def close(self):

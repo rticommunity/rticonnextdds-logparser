@@ -29,7 +29,7 @@ from os import urandom
 from sys import exc_info
 from traceback import extract_tb
 
-from logparser.countset import CountSet
+from logparser.applicationinfo import ApplicationInformation
 from logparser.devices.inputdevices import InputConsoleDevice, InputFileDevice
 from logparser.devices.markdownformatdevice import MarkdownFormatDevice
 from logparser.devices.outputdevices import (OutputConsoleDevice,
@@ -58,21 +58,23 @@ class LogParser(object):
         self.state = {}
         self._initialize_state(args)
         self.formatter = self.state['format_device']
-        self._logger = Logger(self.state)
+        self._appInfo = ApplicationInformation()
+        self._logger = Logger(self.formatter, self.state)
         self._initialize_logger(args)
         self.expressions = create_regex_list(self.state)
 
-    def _check_time_distance(self, new_clocks, old_clocks):
+    def _check_time_distance(self, newSystemClock, newMonotonicClock):
         """Check that the distance between logs it's not large."""
         MAX_TIME_SEC = 60
-        result = compare_times(old_clocks[1], new_clocks[1],
+        result = compare_times(self._appInfo.system_clock, newSystemClock,
                                timedelta(seconds=MAX_TIME_SEC))
         if result:
             self._logger.warning("System clock went %s by %s." %
                                  (result[0], result[1]))
 
-        if new_clocks[0]:
-            result = compare_times(old_clocks[0], new_clocks[0], MAX_TIME_SEC)
+        if newMonotonicClock:
+            result = compare_times(
+                self._appInfo.monotonic_clock, newMonotonicClock, MAX_TIME_SEC)
             if result:
                 self._logger.warning("Monotonic clock went %s by %.3f." %
                                      (result[0], result[1]))
@@ -89,9 +91,6 @@ class LogParser(object):
 
     def _initialize_state(self, args):
         """Initialize the state dictionary."""
-        self.state['warnings'] = CountSet()
-        self.state['errors'] = CountSet()
-        self.state['config'] = CountSet()
         self.state['no_timestamp'] = not args.show_timestamp
         self.state['obfuscate'] = args.obfuscate
         self.state['salt'] = args.salt or LogParser._get_urandom()
@@ -100,19 +99,18 @@ class LogParser(object):
         self.state['show_progress'] = not args.no_progress
         self.state['show_lines'] = args.show_lines
         self.state['write_original'] = args.write_original
-        self.state['output_line'] = 0
-        self.state['input_line'] = 0
         self.state['debug'] = args.debug
         if args.local_host:
             self.state['local_address'] = tuple(args.local_host.split(","))
         if args.output:
-            self.state['output_device'] = \
-                OutputFileDevice(self.state, args.output, False)
+            self.state['output_device'] = OutputFileDevice(
+                self.state, self._appInfo, args.output, False)
         elif args.overwrite_output:
-            self.state['output_device'] = \
-                OutputFileDevice(self.state, args.overwrite_output, True)
+            self.state['output_device'] = OutputFileDevice(
+                self.state, self._appInfo, args.overwrite_output, True)
         else:
-            self.state['output_device'] = OutputConsoleDevice(self.state)
+            self.state['output_device'] = OutputConsoleDevice(
+                self.state, self._appInfo)
         if args.input:
             self.state['input_device'] = \
                 InputFileDevice(args.input, self.state)
@@ -157,6 +155,7 @@ class LogParser(object):
 
         if self.state['write_original']:
             originalOutput = OutputFileDevice(self.state,
+                                              self._appInfo,
                                               self.state['write_original'],
                                               True)
 
@@ -164,7 +163,7 @@ class LogParser(object):
         line = ""
         while line is not None:
             # If the line contains non-UTF8 chars it could raise an exception.
-            self.state['input_line'] += 1
+            self._appInfo.current_log_index += 1
             line = device.read_line()
 
             # Remove end of lines
@@ -185,10 +184,10 @@ class LogParser(object):
                 self._match_line(line)
             except Exception as ex:  # pylint: disable=W0703
                 exc_traceback = exc_info()[2]
-                stacktraces = extract_tb(exc_traceback)
+                stacktrace = extract_tb(exc_traceback)
                 self._logger.error(
                     "[ScriptError] %s %s - log line %d" %
-                    (str(stacktraces[-1]), ex, self.state['input_line']))
+                    (str(stacktrace[-1]), ex, self._appInfo.current_log_index))
 
     def _match_line(self, line):
         """Try to match a log line with the regular expressions."""
@@ -220,18 +219,18 @@ class LogParser(object):
 
         # Get clocks
         if two_clocks:
-            system = datetime.strptime(clocks.group(1), "%m/%d/%Y %H:%M:%S.%f")
             monotonic = float(clocks.group(2))
+            system = datetime.strptime(clocks.group(1), "%m/%d/%Y %H:%M:%S.%f")
         else:
-            system = datetime.utcfromtimestamp(int(clocks.group(1)))
-            system += timedelta(microseconds=int(clocks.group(2)))
             monotonic = None
+            system = datetime.utcfromtimestamp(int(clocks.group(1))) + \
+                timedelta(microseconds=int(clocks.group(2)))
 
-        new_clocks = (monotonic, system)
-        if 'clocks' in self.state:
-            self._check_time_distance(new_clocks, self.state['clocks'])
+        if self._appInfo.system_clock:
+            self._check_time_distance(system, monotonic)
 
-        self.state['clocks'] = new_clocks
+        self._appInfo.system_clock = system
+        self._appInfo.monotonic_clock = monotonic
 
     def write_summary(self):
         """Write results of config, errors and warnings."""

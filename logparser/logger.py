@@ -17,6 +17,7 @@
 
 The module contains the class to log the messages.
 """
+from logparser.countset import CountSet
 
 
 class Logger(object):
@@ -25,7 +26,7 @@ class Logger(object):
     Attributes:
         COLORS: colors to use in the logs
         KIND_TO_COLOR: logs messages to color
-        state (dict): information about the parse process
+        appInfo (:ob:`ApplicationInfo`): information about the parse process
         verbosity (int): verbosity level of the log
         inline (bool): show warnings/erros in network logs
         ignorePackets (bool): ignore network events
@@ -35,7 +36,7 @@ class Logger(object):
         onlyIf (:obj:`compiled re`): show only regex matched logs
     """
 
-    def __init__(self, state):
+    def __init__(self, formatDevice, appInfo):
         """Constructor of the class."""
         self._COLORS = {
             'RED': '\033[91m',
@@ -56,12 +57,15 @@ class Logger(object):
             'IMPORTANT': 'BOLD'
         }
 
-        self._state = state
+        self._appInfo = appInfo
+        self._warnings = CountSet()
+        self._errors = CountSet()
+        self._configurations = CountSet()
         self._verbosity = 0
         self._inline = True
         self._ignorePackets = False
         self._showColors = False
-        self._formatDevice = self._state['format_device']
+        self._formatDevice = formatDevice
         self._highlight = None
         self._onlyIf = None
 
@@ -195,13 +199,13 @@ class Logger(object):
             return
 
         # Add the clock if available
-        if 'clocks' in self._state and self._state['clocks'][1]:
-            content['timestamp'] = \
-                " %s " % self._state['clocks'][1].isoformat()
+        if self._appInfo.system_clock:
+            content['timestamp'] = " %s " % (
+                self._appInfo.system_clock.isoformat())
         # Add the current line
-        content['input_line'] = self._state['input_line']
+        content['input_line'] = self._appInfo.current_log_index
         # This message count
-        content['output_line'] = self._state['output_line'] + 1
+        content['output_line'] = self._appInfo.current_output_index + 1
 
         # Apply the filter
         if self.onlyIf and not Logger._dict_regex_search(content, self.onlyIf):
@@ -223,7 +227,7 @@ class Logger(object):
                     self._COLORS['END']
 
         # Write the message
-        self._formatDevice.write_message(content, self._state)
+        self._formatDevice.write_message(content)
 
     def recv(self, addr, entity, text, level=0):
         """Log a received packet.
@@ -278,7 +282,7 @@ class Logger(object):
         """
         if self._verbosity < level:
             return
-        self._state['config'].add(text)
+        self._configurations.add(text)
 
     def event(self, text, level=0):
         """Log an application event.
@@ -300,7 +304,7 @@ class Logger(object):
         if self._verbosity < level:
             return
 
-        self._state['warnings'].add(text)
+        self._warnings.add(text)
         if self._inline:
             content = {'description': "Warning: " + text, 'kind': 'WARNING'}
             self._log(content, level)
@@ -315,7 +319,7 @@ class Logger(object):
         if self._verbosity < level:
             return
 
-        self._state['errors'].add(text)
+        self._errors.add(text)
         if self._inline:
             content = {'description': "Error: " + text, 'kind': 'ERROR'}
             self._log(content, level)
