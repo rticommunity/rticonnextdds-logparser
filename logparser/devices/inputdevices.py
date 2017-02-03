@@ -124,6 +124,8 @@ class InputFileDevice(InputDevice):
         """Print a terminal progress bar."""
         # Based on @Greenstick's reply (https://stackoverflow.com/a/34325723)
         iteration = self.stream.tell()
+        if iteration > self.file_size:
+            return
         total = self.file_size
         if total == 0:
             return
