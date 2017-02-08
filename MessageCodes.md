@@ -88,7 +88,7 @@ The error happens when the user tries to create a second topic with a name alrea
 *C++ API Information:*
 > **Preconditions**
 >
->The application is not allowed to create two DDSTopic objects with the same `topic_name` attached to the same DDSDomainParticipant. If the application attempts this, this method will fail and return a NULL topic. 
+>The application is not allowed to create two DDSTopic objects with the same `topic_name` attached to the same DDSDomainParticipant. If the application attempts this, this method will fail and return a NULL topic.
 
 ### LP-3: Cannot write unregistered instance
 The error happens when the user tries to write a sample with an instance handle that is not registered in the DataWriter. Common situations are: to try to write a sample after it has been unregistered, to dispose unregistered instances, to unregister twice an instance or to unregister a non-registered instance. Triggered by functions: `write`, `write_w_timestamp`, `write_w_params`, `unregister_instance`, `unregister_instance_w_timestamp`,  `unregister_instance_w_params`, `dispose`, `dispose_w_timestamp` and `dispose_w_params`.
@@ -120,7 +120,7 @@ This error denotes a potential known bug (RTI Issue ID `CORE-6511`). It was fixe
 >All flow controllers are now deleted after the built-in DataWriters are deleted, allowing participant destruction to complete successfully.
 
 ### LP-16: Cannot initialize Monitoring: string too long in the RS configuration
-This error happens when the Routing Service configuration contains a string element larger than the maximum supported. As a consequence, the monitoring information cannot be initialized for this route and, the route creation process will fail. Data will not be forwarded in this route. 
+This error happens when the Routing Service configuration contains a string element larger than the maximum supported. As a consequence, the monitoring information cannot be initialized for this route and, the route creation process will fail. Data will not be forwarded in this route.
 
 This can happen for the following configuration settings:
 * *Configuration Name* larger than 64 characters.
@@ -143,7 +143,7 @@ More information is available in the following Knowled-Base solution:
 It happens when a remote entity cannot be matched because of a type mismatch. The TypeObject information is not available for one or both entities so the type name fields are checked. In this case, the name of the types are different and as a consequence, the match is not possible. To fix the issue, please ensure that Y is equals to Z.
 
 ### LP-19: Sample dropped because ShareMemory queue X is full
-This error happens when a received is dropped because there isn't enough space in the ShareMemory queue. The queue is limited by a maximum number of messages and a maximum size in bytes. You can find the limits for the ShareMemory queue in port `X` in the configuration message:
+This error happens when a received sample is dropped because there isn't enough space in the ShareMemory queue. The queue is limited by a maximum number of messages and a maximum size in bytes. You can find the limits for the ShareMemory queue in port `X` in the configuration message:
 > ShareMemory limits for queue X (X) are: max_num=Y, max_size=Z
 
 You can configure these limits by changing the following properties:
