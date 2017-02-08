@@ -59,8 +59,6 @@ def read_arguments():
                         help="apply colors to log messages (e.g.: warnings)")
     parser.add_argument("--highlight",
                         help="show in bold regex matched logs, requires -c")
-    parser.add_argument("--local-host",
-                        help="set the local address")
     parser.add_argument("--no-network", action='store_true',
                         help="do not show the network related logs")
     parser.add_argument("--no-inline", action='store_true',

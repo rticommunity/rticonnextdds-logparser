@@ -33,7 +33,7 @@ class FormatDevice(object):
       + write_errors: write the error messages.
     """
 
-    def write_header(self, state):
+    def write_header(self):
         """Write the header if any."""
         raise NotImplementedError("write_header not implemented")
 
@@ -52,14 +52,14 @@ class FormatDevice(object):
         """
         raise NotImplementedError("write_message not implemented")
 
-    def write_configurations(self, state):
+    def write_configurations(self):
         """Write the configuration messages."""
         raise NotImplementedError("write_configurations not implemented")
 
-    def write_warnings(self, state):
+    def write_warnings(self):
         """Write the warning messages."""
         raise NotImplementedError("write_warnings not implemented")
 
-    def write_errors(self, state):
+    def write_errors(self):
         """Write the error messages."""
         raise NotImplementedError("write_errors not implemented")

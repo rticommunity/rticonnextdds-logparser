@@ -33,7 +33,7 @@ def add_regex(log_list, method, regex):
     log_list.append((method, re.compile(regex)))
 
 
-def create_regex_list(state):
+def create_regex_list(config):
     """Create the list of regular expressions and functions."""
     # pylint: disable=W0106
     expressions = []
@@ -42,7 +42,7 @@ def create_regex_list(state):
     [add_regex(expressions, expr[0], expr[1]) for expr in routing_regex()]
     [add_regex(expressions, expr[0], expr[1]) for expr in custom_regex()]
 
-    if state['debug']:
+    if config.debug:
         [add_regex(expressions, expr[0], expr[1]) for expr in debug_regex()]
 
     return expressions

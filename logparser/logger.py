@@ -31,12 +31,12 @@ class Logger(object):
         inline (bool): show warnings/erros in network logs
         ignorePackets (bool): ignore network events
         showColors (bool): show colors in the log
-        formatDevice (:obj:`FormatDevice`): format device to print the logs
+        config (:obj:`Configuration`): format device to print the logs
         highlight (:obj:`compiled re`): show in bold regex matched logs
         onlyIf (:obj:`compiled re`): show only regex matched logs
     """
 
-    def __init__(self, formatDevice, appInfo):
+    def __init__(self, config, appInfo):
         """Constructor of the class."""
         self._COLORS = {
             'RED': '\033[91m',
@@ -65,7 +65,7 @@ class Logger(object):
         self._inline = True
         self._ignorePackets = False
         self._showColors = False
-        self._formatDevice = formatDevice
+        self._formatDevice = config.formatDevice
         self._highlight = None
         self._onlyIf = None
 
@@ -176,6 +176,33 @@ class Logger(object):
             value (:obj:`compiled re`): regex to match logs
         """
         self._onlyIf = value
+
+    @property
+    def warnings(self):
+        """Get the warning messages.
+
+        Returns:
+            :obj:`CountSet`: the warnings
+        """
+        return self._warnings
+
+    @property
+    def errors(self):
+        """Get the errors messages.
+
+        Returns:
+            :obj:`CountSet`: the errors
+        """
+        return self._errors
+
+    @property
+    def configurations(self):
+        """Get the configurations messages.
+
+        Returns:
+            :obj:`CountSet`: the configurations
+        """
+        return self._configurations
 
     def _log(self, content, level):
         """Log the given message.

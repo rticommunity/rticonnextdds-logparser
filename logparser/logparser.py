@@ -30,6 +30,7 @@ from sys import exc_info
 from traceback import extract_tb
 
 from logparser.applicationinfo import ApplicationInformation
+from logparser.configuration import Configuration
 from logparser.devices.inputdevices import InputConsoleDevice, InputFileDevice
 from logparser.devices.markdownformatdevice import MarkdownFormatDevice
 from logparser.devices.outputdevices import (OutputConsoleDevice,
@@ -47,7 +48,7 @@ class LogParser(object):
       + write_summary: write results of config, errors and warnings.
       + _check_time_distance_: check that the distance between logs.
       + _get_urandom: get a cryptographic random value.
-      + _initialize_state: initialize the state dictionary.
+      + _initialize_config: initialize the configuration.
       + _parse_log: parse a log file.
       + _match_line: try to match a log line with the regular expressions.
       + _match_data: try to match the log date.
@@ -55,13 +56,13 @@ class LogParser(object):
 
     def __init__(self, args):
         """Initialize the rtilogparser."""
-        self.state = {}
-        self._initialize_state(args)
-        self.formatter = self.state['format_device']
+        self._config = Configuration()
+        self._initialize_config(args)
+        self._formatter = self._config.formatter
         self._appInfo = ApplicationInformation()
-        self._logger = Logger(self.formatter, self.state)
+        self._logger = Logger(self._config, self._appInfo)
         self._initialize_logger(args)
-        self.expressions = create_regex_list(self.state)
+        self._expressions = create_regex_list(self._config)
 
     def _check_time_distance(self, newSystemClock, newMonotonicClock):
         """Check that the distance between logs it's not large."""
@@ -89,35 +90,34 @@ class LogParser(object):
             rnd = "".join("%02X" % ord(x) for x in rnd)
         return rnd
 
-    def _initialize_state(self, args):
-        """Initialize the state dictionary."""
-        self.state['no_timestamp'] = not args.show_timestamp
-        self.state['obfuscate'] = args.obfuscate
-        self.state['salt'] = args.salt or LogParser._get_urandom()
-        self.state['assign_names'] = not args.show_ip
-        self.state['no_stats'] = args.no_stats
-        self.state['show_progress'] = not args.no_progress
-        self.state['show_lines'] = args.show_lines
-        self.state['write_original'] = args.write_original
-        self.state['debug'] = args.debug
-        if args.local_host:
-            self.state['local_address'] = tuple(args.local_host.split(","))
+    def _initialize_config(self, args):
+        """Initialize the configuration class."""
+        self._config.showTimestamp = args.show_timestamp
+        self._config.obfuscate = args.obfuscate
+        self._config.salt = args.salt or LogParser._get_urandom()
+        self._config.showIp = args.show_ip
+        self._config.showStats = not args.no_stats
+        self._config.showProgress = not args.no_progress
+        self._config.showLines = args.show_lines
+        self._config.writeOriginal = args.write_original
+        self._config.debug = args.debug
         if args.output:
-            self.state['output_device'] = OutputFileDevice(
-                self.state, self._appInfo, args.output, False)
+            self._config.outputDevice = OutputFileDevice(
+                self._appInfo, args.output, False)
         elif args.overwrite_output:
-            self.state['output_device'] = OutputFileDevice(
-                self.state, self._appInfo, args.overwrite_output, True)
+            self._config.outputDevice = OutputFileDevice(
+                self._appInfo, args.overwrite_output, True)
         else:
-            self.state['output_device'] = OutputConsoleDevice(
-                self.state, self._appInfo)
+            self._config.outputDevice = OutputConsoleDevice(
+                self._config, self._appInfo)
         if args.input:
-            self.state['input_device'] = \
-                InputFileDevice(args.input, self.state)
+            self._config.inputDevice = InputFileDevice(
+                args.input, self._config)
         else:
-            self.state['input_device'] = InputConsoleDevice(self.state)
-        self.state['verbosity'] = args.v or 0
-        self.state['format_device'] = MarkdownFormatDevice(self.state)
+            self._config.inputDevice = InputConsoleDevice(self._config)
+        self._config.verbosity = args.v or 0
+        self._config.formatDevice = MarkdownFormatDevice(
+            self._config, self._logger)
 
     def _initialize_logger(self, args):
         self._logger.verbosity = args.v or 0
@@ -132,7 +132,7 @@ class LogParser(object):
     def process(self):
         """Process all the logs."""
         # Read log file and parse
-        self.formatter.write_header(self.state)
+        self._formatter.write_header()
         try:
             self._parse_log()
         except KeyboardInterrupt:
@@ -151,13 +151,11 @@ class LogParser(object):
 
     def _parse_log(self):
         """Parse a log."""
-        device = self.state['input_device']
+        device = self._config.inputDevice
 
-        if self.state['write_original']:
-            originalOutput = OutputFileDevice(self.state,
-                                              self._appInfo,
-                                              self.state['write_original'],
-                                              True)
+        if self._config.writeOriginal:
+            originalOutput = OutputFileDevice(
+                self._appInfo, self._config.writeOriginal, True)
 
         # While there is a new line, parse it.
         line = ""
@@ -175,7 +173,7 @@ class LogParser(object):
                 continue
 
             # Write original log if needed
-            if self.state['write_original']:
+            if self._config.writeOriginal:
                 originalOutput.write(line)
 
             # We can get exceptions if the file contains output from two
@@ -192,10 +190,10 @@ class LogParser(object):
     def _match_line(self, line):
         """Try to match a log line with the regular expressions."""
         self._match_date(line)
-        for expr in self.expressions:
+        for expr in self._expressions:
             match = expr[1].search(line)
             if match:
-                expr[0](match.groups(), self.state, self._logger)
+                expr[0](match.groups(), {}, self._logger)
                 break
 
     def _match_date(self, line):
@@ -234,6 +232,6 @@ class LogParser(object):
 
     def write_summary(self):
         """Write results of config, errors and warnings."""
-        self.formatter.write_configurations(self.state)
-        self.formatter.write_warnings(self.state)
-        self.formatter.write_errors(self.state)
+        self._formatter.write_configurations(self.state)
+        self._formatter.write_warnings()
+        self._formatter.write_errors()

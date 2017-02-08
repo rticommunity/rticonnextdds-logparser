@@ -36,9 +36,9 @@ class InputDevice(object):
         + close: Close the device.
     """
 
-    def __init__(self, state):
+    def __init__(self, config):
         """Initialize the device."""
-        self.show_progress = state['show_progress']
+        self.show_progress = config.showProgress
 
     def read_line(self):
         """Read and return the next DDS log message from the device.
@@ -61,9 +61,9 @@ class InputConsoleDevice(InputDevice):
       + close: Close the file stream.
     """
 
-    def __init__(self, state):
+    def __init__(self, config):
         """Initialize the device."""
-        super(InputConsoleDevice, self).__init__(state)
+        super(InputConsoleDevice, self).__init__(config)
         self.start_time = time()
         self.current_time = -1
 
@@ -113,9 +113,9 @@ class InputFileDevice(InputDevice):
       + close: Close the file stream.
     """
 
-    def __init__(self, file_path, state):
+    def __init__(self, file_path, config):
         """Initialize the device with the specified file path."""
-        super(InputFileDevice, self).__init__(state)
+        super(InputFileDevice, self).__init__(config)
         self.stream = open(file_path, "r")
         self.file_size = fstat(self.stream.fileno()).st_size
         self.progress = -1

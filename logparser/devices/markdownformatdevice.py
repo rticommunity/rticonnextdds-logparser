@@ -42,13 +42,14 @@ class MarkdownFormatDevice(FormatDevice):
       + bytes_to_string: convert a byte unit value into string.
     """
 
-    def __init__(self, state):
+    def __init__(self, config, logger):
         """Initialize the device."""
-        self.write = state['output_device'].write
-        self.show_timestamp = not state['no_timestamp']
-        self.show_lines = state['show_lines']
+        self.write = config.outputDevice.write
+        self.show_timestamp = config.showTimestamp
+        self.show_lines = config.showLines
+        self._logger = logger
 
-    def write_header(self, state):
+    def write_header(self):
         """Write the header."""
         self.write("# Log Parser for RTI Connext ~ " + __version__)
         self.write()
@@ -110,13 +111,13 @@ class MarkdownFormatDevice(FormatDevice):
 
         self.write(msg)
 
-    def write_warnings(self, state):
+    def write_warnings(self):
         """Write the warning messages."""
-        self.write_countset(state['warnings'], "Warnings")
+        self.write_countset(self._logger.warnings, "Warnings")
 
-    def write_errors(self, state):
+    def write_errors(self):
         """Write the warning messages."""
-        self.write_countset(state['errors'], "Errors")
+        self.write_countset(self._logger.errors, "Errors")
 
     def write_configurations(self, state):
         """Write the configuration messages."""
