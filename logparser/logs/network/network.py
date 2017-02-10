@@ -404,7 +404,7 @@ def on_receive_data(match, state, logger):
         # Add a warning message per missing packet to have a good count in
         # the warning summary.
         for _ in range(diff - 1):
-            logger.warning("Missing packet for %s" % full_id)
+            logger.warning("Missing packet from %s" % full_id)
     if full_id not in state['last_sn'] or state['last_sn'][full_id] < seqnum:
         state['last_sn'][full_id] = seqnum
 
