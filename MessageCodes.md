@@ -27,7 +27,7 @@ This document contains a detailed description of the messages from the Log Parse
     - [LP-16: Cannot initialize Monitoring: string too long in the RS configuration](#lp-16-cannot-initialize-monitoring-string-too-long-in-the-rs-configuration)
     - [LP-17: Cannot deserialize sample](#lp-17-cannot-deserialize-sample)
     - [LP-18: Cannot match remote entity in topic 'X': Different type names found ('Y', 'Z')](#lp-18-cannot-match-remote-entity-in-topic-x-different-type-names-found-y-z)
-    - [LP-19: Sample dropped because ShareMemory queue X is full](#lp-19-sample-dropped-because-sharememory-queue-x-is-full)
+    - [LP-19: Sample dropped because SharedMemory queue X is full](#lp-19-sample-dropped-because-sharedmemory-queue-x-is-full)
 
 ## Warnings
 
@@ -65,7 +65,7 @@ The DataWriter reached its maximum number of entries. The sample cannot be added
 The DataReader reached its maximum number of entries. The received sample cannot be added to the entity queue and it will be rejected.
 
 ### LP-12: No transport available to reach locator
-The participant hasn't any transport available to communicate with the given locator. This usually means that the participant has some transport disable and a remote host is announcing itself in these transports. This warning is expected for instance after disabling ShareMemory only in one application.
+The participant hasn't any transport available to communicate with the given locator. This usually means that the participant has some transport disable and a remote host is announcing itself in these transports. This warning is expected for instance after disabling SharedMemory only in one application.
 More information available in the following Knowledge Base article [What does the "can't reach: locator" error message mean?](https://community.rti.com/kb/what-does-cant-reach-locator-error-message-mean)
 
 ### LP-20: The OS limits the receive socket buffer size from X to Y bytes
@@ -142,9 +142,9 @@ More information is available in the following Knowled-Base solution:
 ### LP-18: Cannot match remote entity in topic 'X': Different type names found ('Y', 'Z')
 It happens when a remote entity cannot be matched because of a type mismatch. The TypeObject information is not available for one or both entities so the type name fields are checked. In this case, the name of the types are different and as a consequence, the match is not possible. To fix the issue, please ensure that Y is equals to Z.
 
-### LP-19: Sample dropped because ShareMemory queue X is full
-This error happens when a received sample is dropped because there isn't enough space in the ShareMemory queue. The queue is limited by a maximum number of messages and a maximum size in bytes. You can find the limits for the ShareMemory queue in port `X` in the configuration message:
-> ShareMemory limits for queue X (X) are: max_num=Y, max_size=Z
+### LP-19: Sample dropped because SharedMemory queue X is full
+This error happens when a received sample is dropped because there isn't enough space in the SharedMemory queue. The queue is limited by a maximum number of messages and a maximum size in bytes. You can find the limits for the SharedMemory queue in port `X` in the configuration message:
+> SharedMemory limits for queue X (X) are: max_num=Y, max_size=Z
 
 You can configure these limits by changing the following properties:
 * Maximum number of messages (`Y` value): dds.transport.shmem.builtin.received_message_count_max (default 64)
