@@ -19,8 +19,8 @@ Functions:
   + on_parse_packet: it happens when an RTPS message is parsed.
   + on_udpv4_send: it happens when sending an RTPS packet via UDPv4.
   + on_udpv4_receive: it happens when receiving an RTPS packet via UDPv4.
-  + on_shmem_send: it happens when sending an RTPS packet via ShareMemory.
-  + on_shmem_receive: it happens when receiving an RTPS packet via ShareMemory.
+  + on_shmem_send: it happens when sending an RTPS packet via SharedMemory.
+  + on_shmem_receive: it happens when receiving an RTPS packet via SharedMemory.
   + on_error_unreachable_network: it happens when the network is unreachable.
   + on_error_no_transport_available: it happens when there isn't transport.
   + on_unregister_not_asserted_entity: it happens unregistering the entity.
@@ -52,7 +52,7 @@ Functions:
   + on_send_nack: it happens when a NACK message is sent.
   + on_sample_received_from_deleted_writer: it happens when no remote writer.
   + on_deserialize_failure: it happens when deserialization fails.
-  + on_shmem_queue_full: it happens when the ShareMemory queue is full.
+  + on_shmem_queue_full: it happens when the SharedMemory queue is full.
 """
 from __future__ import absolute_import
 from logparser.utils import (add_statistics_bandwidth, add_statistics_packet,
@@ -98,13 +98,13 @@ def on_udpv4_receive(match, state, logger):
 
 
 def on_shmem_send(match, state, logger):
-    """It happens when sending an RTPS packet through ShareMemory."""
+    """It happens when sending an RTPS packet through SharedMemory."""
     addr = "SHMEM:(%s)" % get_port_name(int(match[0], 16))
     logger.send(addr, "", "Sent data", 2)
 
 
 def on_shmem_receive(match, state, logger):
-    """It happens when receiving an RTPS packet through ShareMemory."""
+    """It happens when receiving an RTPS packet through SharedMemory."""
     qty = int(match[0])
     logger.recv("SHMEM", "", "Received %d bytes" % qty, 2)
     add_statistics_bandwidth("SHMEM", 'receive', qty, state)
@@ -404,7 +404,7 @@ def on_receive_data(match, state, logger):
         # Add a warning message per missing packet to have a good count in
         # the warning summary.
         for _ in range(diff - 1):
-            logger.warning("Missing packet for %s" % full_id)
+            logger.warning("Missing sample from %s" % full_id)
     if full_id not in state['last_sn'] or state['last_sn'][full_id] < seqnum:
         state['last_sn'][full_id] = seqnum
 
@@ -546,13 +546,13 @@ def on_deserialize_failure(match, state, logger):
 
 
 def on_shmem_queue_full(match, state, logger):
-    """It happens when the ShareMemory queue is full and data is dropped."""
+    """It happens when the SharedMemory queue is full and data is dropped."""
     port = get_port_number(match[0], state)
     port_name = get_port_name(int(match[0], 16))
     count_max = match[1]
     max_size = match[2]
-    logger.cfg("ShareMemory limits for queue" +
+    logger.cfg("SharedMemory limits for queue " +
                "%s (%s) are: max_num=%s, max_size=%s"
                % (port, port_name, count_max, max_size))
-    logger.error("[LP-19] Sample dropped because ShareMemory queue %s is full."
+    logger.error("[LP-19] Sample dropped because SharedMemory queue %s is full."
                  % port)
