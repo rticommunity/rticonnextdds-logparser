@@ -13,10 +13,18 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-"""Log parsing functions for Micro."""
+"""Create the dictionary for log functions related to RTI Micro.
 
+Functions:
+  + get_regex_list: Get the regular expressions and function list.
+"""
 from __future__ import absolute_import
-import json
+import logparser.logs.micro.micro as micro
 
-def on_micro_error(match, state, logger):
-    """Error on Micro was thrown"""
+
+def get_regex_list():
+    """Return the regular expressions and functions list for this module."""
+    regex = []
+    # Parser entity.
+    regex.append([micro.on_micro_error,
+                  r"---------"])
