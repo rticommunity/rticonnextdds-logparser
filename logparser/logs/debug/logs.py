@@ -278,8 +278,11 @@ def get_regex_list():
     regex.append([debug.on_ignored_message,
                   r"DDS_DomainParticipantFactory_initializeI:Welcome to NDDS"])
     regex.append([debug.on_ignored_message,
-                  r"DDS_DiscoveryQosPolicy_get_default:no environment" +
-                  r"variable or file NDDS_DISCOVERY_PEERS"])
+                  r"DDS_DiscoveryQosPolicy_get_default:"])
+    regex.append([debug.on_ignored_message,
+                  r"Creating domain participant..."])
+    regex.append([debug.on_ignored_message,
+                  r"loading QoS ..."])
 
     # The rest of unmatched message will be saved into a file to analyze them.
     regex.append([debug.on_unmatched_message, r"(.*)"])
