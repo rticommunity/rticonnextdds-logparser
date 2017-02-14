@@ -16,4 +16,4 @@
 """Log parsing functions for Micro."""
 
 # pylint: disable=E0603
-__all__ = ("network", "logs")
+__all__ = ("micro", "logs")
