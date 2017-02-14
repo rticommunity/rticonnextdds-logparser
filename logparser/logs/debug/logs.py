@@ -266,7 +266,7 @@ def get_regex_list():
                   r"RTINetioReceiver_addEntryport:!create NetioReceiver_" +
                   r"ReceiveResource"])
 
-    regex.append([debug.on_ignored_message, r"send failed:"])
+    regex.append([debug.on_ignored_message, r"^\s*send failed:\s*$"])
     regex.append([debug.on_ignored_message, r"^\s*locator:\s*$"])
     regex.append([debug.on_ignored_message, r"^\s*transport: \d+$"])
     regex.append([debug.on_ignored_message, r"^\s*address: [\d:]+$"])
