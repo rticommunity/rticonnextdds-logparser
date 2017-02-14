@@ -34,7 +34,9 @@ def on_micro_error(match, state, logger):
     error_id = match[3]
     errors = state["json_errors"]
 
-    error_description = errors[module_id][error_id]["description"]
-    error_name = errors[module_id][error_id]["name"]
-
-    logger.error("[" + error_name + "] " + error_description)
+    if module_id in errors:
+        module = errors[module_id]
+        if error_id in module:
+            error_description = module[error_id]["description"]
+            error_name = module[error_id]["name"]
+            logger.error("[" + error_name + "] " + error_description)
