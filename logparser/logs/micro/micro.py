@@ -15,17 +15,17 @@
 #   limitations under the License.
 """Log parsing functions for Micro."""
 from __future__ import absolute_import
+from io import BytesIO, StringIO
 from json import load as json_load
-from pkg_resources import resource_filename
+from pkg_resources import resource_stream
 
 
 def init(state):
     """Init Micro logs."""
-    filename = resource_filename(
-        'logparser.logs.micro', 'error_logs.json')
-
-    with open(filename) as json_errors:
-        state["json_errors"] = json_load(json_errors)
+    with resource_stream('logparser.logs.micro', 'error_logs.json') as errors:
+        if isinstance(errors, BytesIO):   # Python 3.x
+            errors = StringIO(errors.getvalue().decode("utf-8"))
+        state["json_errors"] = json_load(errors)
 
 
 def on_micro_error(match, state, logger):

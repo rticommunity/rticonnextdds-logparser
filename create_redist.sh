@@ -6,7 +6,7 @@ pushd "$SCRIPT_DIR"
 # Create a zip file with all the python files.
 # The python interpreter is able to read zip files and it will execute the
 # content from __main__.py
-zip -r "${OUT_FILE}.zip" . -i '*.py'
+zip -r "${OUT_FILE}.zip" . -i '*.py' -i '*.json'
 zip "${OUT_FILE}.zip" LICENSE
 
 echo '#!/usr/bin/env python' | cat - "${OUT_FILE}.zip" > "${OUT_FILE}"
