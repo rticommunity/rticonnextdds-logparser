@@ -137,6 +137,17 @@ def on_msg_size_reduced(match, state, logger):
                (transport, actual))
 
 
+def on_set_default_initial_peers(match, state, logger):
+    """Default initial peers depending on the enabled transports."""
+    if "udpv4" not in match[0]:
+        logger.cfg("Builtin UDPv4 is not enabled in the architecture", 5)
+    if "udpv4://239" not in match[0]:
+        logger.cfg("Builtin UDPv4 Multicast is not enabled " +
+                   "in the architecture", 5)
+    if "shmem" not in match[0]:
+        logger.cfg("Builtin SHMEM is not enabled in the architecture", 5)
+
+
 # --------------------------------------------------------------------------- #
 # -- Create or delete entities                                             -- #
 # --------------------------------------------------------------------------- #

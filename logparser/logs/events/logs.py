@@ -55,6 +55,9 @@ def get_regex_list():
     regex.append([events.on_msg_size_reduced,
                   r"NDDS_Transport_(UDPv4)_newI: Reducing message_size_max " +
                   r"from (\d+) to (\d+), for protocol_overhead_max (\d+)"])
+    regex.append([events.on_set_default_initial_peers,
+                  r"DDS_DiscoveryQosPolicy_get_default:value of: " +
+                  r"initial_peers=\"(.+)\""])
 
     # Create or delete entities
     regex.append([events.on_new_thread,
