@@ -22,65 +22,69 @@ The module contains the class to store the information from the logged app..
 class ApplicationInformation(object):
     """Class to store the information from the logged app."""
 
-    def __init__(self):
+    def __init__(self, config):
         """Constructor of the class."""
+        self._configuration = config
         self._current_log_index = 0
         self._current_output_index = 0
         self._monotonic_clock = None
         self._system_clock = None
 
-    @property
-    def current_log_index(self):
-        """Get the current log line number.
+    # pylint: disable=E0211,W0612,W0212,C0111
+    def configuration():
+        """The current application configuration."""
+        doc = "The current application configuration."
 
-        Returns:
-            int: Current log line number.
-        """
-        return self._current_log_index
+        def fget(self):
+            return self._configuration
+        return locals()
+    configuration = property(**configuration())
 
-    @current_log_index.setter
-    def current_log_index(self, value):
-        """Set the current log line number.
+    def current_log_index():
+        """The current log line number."""
+        doc = "The current log line number"
 
-        Args:
-            value (int): Current log line number.
-        """
-        self._current_log_index = value
+        def fget(self):
+            return self._current_log_index
 
-    @property
-    def current_output_index(self):
-        """Get the current output line number.
+        def fset(self, value):
+            self._current_log_index = value
+        return locals()
+    current_log_index = property(**current_log_index())
 
-        Returns:
-            int: Current output line number.
-        """
-        return self._current_output_index
+    def current_output_index():
+        """The current output line number."""
+        doc = "The current output line number."
 
-    @current_output_index.setter
-    def current_output_index(self, value):
-        """Set the current output line number.
+        def fget(self):
+            return self._current_output_index
 
-        Args:
-            value (int): Current output line number.
-        """
-        self._current_output_index = value
+        def fset(self, value):
+            self._current_output_index = value
+        return locals()
+    current_output_index = property(**current_output_index())
 
-    @property
-    def monotonic_clock(self):
-        """Get the monotonic clock."""
-        return self._monotonic_clock
+    def monotonic_clock():
+        """The monotonic clock."""
+        doc = "The monotonic clock."
 
-    @monotonic_clock.setter
-    def monotonic_clock(self, value):
-        """Set the current value of the monotonic clock."""
-        self._monotonic_clock = value
+        def fget(self):
+            return self._monotonic_clock
 
-    @property
-    def system_clock(self):
-        """Get the system clock."""
-        return self._system_clock
+        def fset(self, value):
+            self._monotonic_clock = value
+        return locals()
+    monotonic_clock = property(**monotonic_clock())
 
-    @system_clock.setter
-    def system_clock(self, value):
-        """Set the current value of the system clock."""
-        self._system_clock = value
+    def system_clock():
+        """The system clock."""
+        doc = "The system clock."
+
+        def fget(self):
+            return self._system_clock
+
+        def fset(self, value):
+            self._system_clock = value
+        return locals()
+    system_clock = property(**system_clock())
+    # pylint: enable=E0211,W0612,W0212,C0111

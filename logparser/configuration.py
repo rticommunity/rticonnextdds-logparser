@@ -27,158 +27,160 @@ class ApplicationInformation(object):
         self._verbosity = 0
         self._formatter = None
 
-    def verbosity():                          # pylint: disable=E0211
+    # pylint: disable=E0211,W0612,W0212,C0111
+    def verbosity():
         """Define the verbosity property."""
-        doc = "The verbosity property."       # pylint: disable=W0612
+        doc = "The verbosity property."
 
-        def fget(self):                       # pylint: disable=W0612,C0111
-            return self._verbosity            # pylint: disable=W0212
+        def fget(self):
+            return self._verbosity
 
-        def fset(self, value):                # pylint: disable=W0612,C0111
-            self._verbosity = value           # pylint: disable=W0212
+        def fset(self, value):
+            self._verbosity = value
         return locals()
     verbosity = property(**verbosity())
 
-    def inputDevice():  # pylint: disable=E0211
+    def inputDevice():
         """The input device property."""
-        doc = "The input device property."  # pylint: disable=W0612
+        doc = "The input device property."
 
-        def fget(self):  # pylint: disable=W0612,C0111
-            return self._inputDevice  # pylint: disable=W0212
+        def fget(self):
+            return self._inputDevice
 
-        def fset(self, value):  # pylint: disable=W0612,C0111
-            self._inputDevice = value  # pylint: disable=W0212
+        def fset(self, value):
+            self._inputDevice = value
         return locals()
     inputDevice = property(**inputDevice())
 
-    def outputDevice():  # pylint: disable=E0211
+    def outputDevice():
         """The output device property."""
-        doc = "The output device property."  # pylint: disable=W0612
+        doc = "The output device property."
 
-        def fget(self):  # pylint: disable=W0612,C0111
-            return self._outputDevice  # pylint: disable=W0212
+        def fget(self):
+            return self._outputDevice
 
-        def fset(self, value):  # pylint: disable=W0612,C0111
-            self._outputDevice = value  # pylint: disable=W0212
+        def fset(self, value):
+            self._outputDevice = value
         return locals()
     outputDevice = property(**outputDevice())
 
-    def formatDevice():  # pylint: disable=E0211
+    def formatDevice():
         """The format device property."""
-        doc = "The format device property."  # pylint: disable=W0612
+        doc = "The format device property."
 
-        def fget(self):  # pylint: disable=W0612,C0111
-            return self._formatDevice  # pylint: disable=W0212
+        def fget(self):
+            return self._formatDevice
 
-        def fset(self, value):  # pylint: disable=W0612,C0111
-            self._formatDevice = value  # pylint: disable=W0212
+        def fset(self, value):
+            self._formatDevice = value
         return locals()
     formatDevice = property(**formatDevice())
 
-    def writeOriginal():  # pylint: disable=E0211
+    def writeOriginal():
         """The writeOriginal property."""
-        doc = "The writeOriginal property."  # pylint: disable=W0612
+        doc = "The writeOriginal property."
 
-        def fget(self):  # pylint: disable=W0612,C0111
-            return self._writeOriginal  # pylint: disable=W0212
+        def fget(self):
+            return self._writeOriginal
 
-        def fset(self, value):  # pylint: disable=W0612,C0111
-            self._writeOriginal = value  # pylint: disable=W0212
+        def fset(self, value):
+            self._writeOriginal = value
         return locals()
     writeOriginal = property(**writeOriginal())
 
-    def showTimestamp():  # pylint: disable=E0211
+    def showTimestamp():
         """The showTimestamp property."""
-        doc = "The showTimestamp property."  # pylint: disable=W0612
+        doc = "The showTimestamp property."
 
-        def fget(self):  # pylint: disable=W0612,C0111
-            return self._showTimestamp  # pylint: disable=W0212
+        def fget(self):
+            return self._showTimestamp
 
-        def fset(self, value):  # pylint: disable=W0612,C0111
-            self._showTimestamp = value  # pylint: disable=W0212
+        def fset(self, value):
+            self._showTimestamp = value
         return locals()
     showTimestamp = property(**showTimestamp())
 
-    def showStats():  # pylint: disable=E0211
+    def showStats():
         """The showStats property."""
-        doc = "The showStats property."  # pylint: disable=W0612
+        doc = "The showStats property."
 
-        def fget(self):  # pylint: disable=W0612,C0111
-            return self._showStats  # pylint: disable=W0212
+        def fget(self):
+            return self._showStats
 
-        def fset(self, value):  # pylint: disable=W0612,C0111
-            self._showStats = value  # pylint: disable=W0212
+        def fset(self, value):
+            self._showStats = value
         return locals()
     showStats = property(**showStats())
 
-    def showProgress():  # pylint: disable=E0211
+    def showProgress():
         """The showProgress property."""
-        doc = "The showProgress property."  # pylint: disable=W0612
+        doc = "The showProgress property."
 
-        def fget(self):  # pylint: disable=W0612,C0111
-            return self._showProgress  # pylint: disable=W0212
+        def fget(self):
+            return self._showProgress
 
-        def fset(self, value):  # pylint: disable=W0612,C0111
-            self._showProgress = value  # pylint: disable=W0212
+        def fset(self, value):
+            self._showProgress = value
         return locals()
     showProgress = property(**showProgress())
 
-    def showLines():  # pylint: disable=E0211
+    def showLines():
         """The showLines property."""
-        doc = "The showLines property."  # pylint: disable=W0612
+        doc = "The showLines property."
 
-        def fget(self):  # pylint: disable=W0612,C0111
-            return self._showLines  # pylint: disable=W0212
+        def fget(self):
+            return self._showLines
 
-        def fset(self, value):  # pylint: disable=W0612,C0111
-            self._showLines = value  # pylint: disable=W0212
+        def fset(self, value):
+            self._showLines = value
         return locals()
     showLines = property(**showLines())
 
-    def showIp():  # pylint: disable=E0211
+    def showIp():
         """The showIp property."""
-        doc = "The showIp property."  # pylint: disable=W0612
+        doc = "The showIp property."
 
-        def fget(self):  # pylint: disable=W0612,C0111
-            return self._showIp  # pylint: disable=W0212
+        def fget(self):
+            return self._showIp
 
-        def fset(self, value):  # pylint: disable=W0612,C0111
-            self._showIp = value  # pylint: disable=W0212
+        def fset(self, value):
+            self._showIp = value
         return locals()
     showIp = property(**showIp())
 
-    def obfuscate():  # pylint: disable=E0211
+    def obfuscate():
         """The obfuscate property."""
-        doc = "The obfuscate property."  # pylint: disable=W0612
+        doc = "The obfuscate property."
 
-        def fget(self):  # pylint: disable=W0612,C0111
-            return self._obfuscate  # pylint: disable=W0212
+        def fget(self):
+            return self._obfuscate
 
-        def fset(self, value):  # pylint: disable=W0612,C0111
-            self._obfuscate = value  # pylint: disable=W0212
+        def fset(self, value):
+            self._obfuscate = value
         return locals()
     obfuscate = property(**obfuscate())
 
-    def salt():  # pylint: disable=E0211
+    def salt():
         """The salt property."""
-        doc = "The salt property."  # pylint: disable=W0612
+        doc = "The salt property."
 
-        def fget(self):  # pylint: disable=W0612,C0111
-            return self._salt  # pylint: disable=W0212
+        def fget(self):
+            return self._salt
 
-        def fset(self, value):  # pylint: disable=W0612,C0111
-            self._salt = value  # pylint: disable=W0212
+        def fset(self, value):
+            self._salt = value
         return locals()
     salt = property(**salt())
 
-    def debug():  # pylint: disable=E0211
+    def debug():
         """The debug property."""
-        doc = "The debug property."  # pylint: disable=W0612
+        doc = "The debug property."
 
-        def fget(self):  # pylint: disable=W0612,C0111
-            return self._debug  # pylint: disable=W0212
+        def fget(self):
+            return self._debug
 
-        def fset(self, value):  # pylint: disable=W0612,C0111
-            self._debug = value  # pylint: disable=W0212
+        def fset(self, value):
+            self._debug = value
         return locals()
     debug = property(**debug())
+    # pylint: enable=E0211,W0612,W0212,C0111
