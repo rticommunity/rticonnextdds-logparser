@@ -27,6 +27,7 @@ def get_regex_list():
     regex = []
     # Parser entity.
     regex.append([micro.on_micro_error,
-                  r"ERROR: ModuleID=(\d+) Errcode=(\d+)"])
+                  r"(ERROR|WARNING|INFO|PRECOND): ModuleID=(\d+) "
+                  r"Errcode=(\d+)"])
 
     return regex

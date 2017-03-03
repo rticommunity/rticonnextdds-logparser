@@ -30,8 +30,9 @@ def init(state):
 
 def on_micro_error(match, state, logger):
     """Error on Micro was thrown."""
-    module_id = match[0]
-    error_id = match[1]
+    kind = match[0]
+    module_id = match[1]
+    error_id = match[2]
     errors = state["json_errors"]
 
     if module_id in errors:
@@ -39,4 +40,12 @@ def on_micro_error(match, state, logger):
         if error_id in module:
             error_description = module[error_id]["description"]
             error_name = module[error_id]["name"]
-            logger.error("[" + error_name + "] " + error_description)
+            message = "[" + error_name + "] " + error_description
+            if kind == "ERROR":
+                logger.error(message)
+            elif kind == "WARNING":
+                logger.warning(message)
+            elif kind == "INFO":
+                logger.event(message)
+            elif kind == "PRECOND":
+                logger.error(message)
