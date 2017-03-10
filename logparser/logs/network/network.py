@@ -132,7 +132,7 @@ def on_unregister_not_asserted_entity(entity):
         remote_part = parse_guid(state, match[0], match[1], match[2])
         remote_oid = get_oid(match[3])
         logger.warning("%s %s is unregistering " % (remote_part, remote_oid) +
-                       "remote %s not previsouly asserted" % entity,
+                       "remote %s not previously asserted" % entity,
                        2)
     return on_unregister_given_not_asserted_entity
 
