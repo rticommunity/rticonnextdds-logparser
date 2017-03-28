@@ -92,9 +92,10 @@ class MarkdownFormatDevice(FormatDevice):
         else:
             inout = " <---".center(9)
         description = content['description']
-        if content.get('kind') in ['ERROR', 'IMPORTANT']:
+        kinds = content.get('kind').split("|") if 'kind' in content else [""]
+        if 'ERROR' in kinds or 'IMPORTANT' in kinds:
             description = "**" + description + "**"
-        elif content.get('kind') == 'WARNING':
+        elif 'WARNING' in kinds:
             description = "*" + description + "*"
         remote = content.get('remote', '').center(24)
         entity = content.get('entity', '').center(16)

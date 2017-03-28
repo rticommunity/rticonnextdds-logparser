@@ -204,13 +204,12 @@ class Logger(object):
         content['output_line'] = self._state['output_line'] + 1
 
         # Apply the filter
-        if 'onlyIf' in self._state and not Logger._dict_regex_search(
-                content, self._state['onlyIf']):
+        if self.onlyIf and not Logger._dict_regex_search(content, self.onlyIf):
             return
 
         # Highlight the message if match
-        if 'highlight' in self._state and Logger._dict_regex_search(
-                content, self._highlight):
+        if self.highlight and Logger._dict_regex_search(
+                content, self.highlight):
             content['kind'] = content.get('kind', "") + "|IMPORTANT"
 
         # Apply color if specified
