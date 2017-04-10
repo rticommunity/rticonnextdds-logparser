@@ -172,6 +172,11 @@ def get_regex_list():
                   r"oid 0x(\w+) received (HB|HB_BATCH|HB_SESSION) for " +
                   r"sn \(([\d,]+)\)-\(([\d,]+)\), epoch\((\d+)\) " +
                   r"from writer 0x([\w\.]+)"])
+    regex.append([network.on_received_gap,
+                  r"COMMENDSrReaderService_onSubmessage:\[\d+,\d+\] reader " +
+                  r"oid 0x(\w+) received GAP for sn \(([\d,]+)\) to lead " +
+                  r"\(([\d,]+)\) bit count (\d+) from writer " +
+                  r"0x([\w\.]+)"])
     regex.append([network.on_send_ack,
                   r"COMMENDSrReaderService_onSubmessage:\[\d+,\d+\] reader " +
                   r"oid 0x(\w+) sent ACK of bitmap lead\(([\d,]+)\), " +

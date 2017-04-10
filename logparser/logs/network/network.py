@@ -20,7 +20,7 @@ Functions:
   + on_udpv4_send: it happens when sending an RTPS packet via UDPv4.
   + on_udpv4_receive: it happens when receiving an RTPS packet via UDPv4.
   + on_shmem_send: it happens when sending an RTPS packet via SharedMemory.
-  + on_shmem_receive: it happens when receiving an RTPS packet via SharedMemory.
+  + on_shmem_receive: it happens when receiving an RTPS packet via SharedMemory
   + on_error_unreachable_network: it happens when the network is unreachable.
   + on_error_no_transport_available: it happens when there isn't transport.
   + on_unregister_not_asserted_entity: it happens unregistering the entity.
@@ -481,6 +481,23 @@ def on_receive_hb(match, state, logger):
                 verb)
 
 
+def on_received_gap(match, state, logger):
+    """It happens when the reader receives a GAP."""
+    reader_oid = get_oid(match[0])
+    seqnum = parse_sn(match[1])
+    lead = parse_sn(match[2])
+    bitcount = int(match[3])
+    remote = match[4].split('.')
+    writer_addr = parse_guid(state, remote[0], remote[1], remote[2])
+    writer_oid = get_oid(remote[3])
+    verb = 1 if is_builtin_entity(remote[3]) else 0
+    logger.recv(writer_addr,
+                reader_oid,
+                "Received GAP from writer %s for [%d, %d] (+%d)" %
+                (writer_oid, seqnum, lead, bitcount),
+                verb)
+
+
 def on_send_ack(match, state, logger):
     """It happens when a ACK message is sent."""
     reader_oid = get_oid(match[0])
@@ -554,5 +571,5 @@ def on_shmem_queue_full(match, state, logger):
     logger.cfg("SharedMemory limits for queue " +
                "%s (%s) are: max_num=%s, max_size=%s"
                % (port, port_name, count_max, max_size))
-    logger.error("[LP-19] Sample dropped because SharedMemory queue %s is full."
+    logger.error("[LP-19] Sample dropped because SharedMemory queue %s is full"
                  % port)
