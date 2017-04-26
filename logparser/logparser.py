@@ -61,6 +61,7 @@ class LogParser(object):
         self._logger = Logger(self.state)
         self._initialize_logger(args)
         self.expressions = create_regex_list(self.state)
+        self.originalOutput = None
 
     def _check_time_distance(self, new_clocks, old_clocks):
         """Check that the distance between logs it's not large."""
@@ -133,6 +134,13 @@ class LogParser(object):
 
     def process(self):
         """Process all the logs."""
+        # Create the original log file
+        if self.state['write_original']:
+            self.originalOutput = OutputFileDevice(
+                self.state,
+                self.state['write_original'],
+                True)
+
         # Read log file and parse
         self.formatter.write_header(self.state)
         try:
@@ -151,14 +159,12 @@ class LogParser(object):
                 # log parsing but show the final summary
                 self._logger.warning("Catched SIGINT")
 
+        if self.originalOutput:
+            self.originalOutput.close()
+
     def _parse_log(self):
         """Parse a log."""
         device = self.state['input_device']
-
-        if self.state['write_original']:
-            originalOutput = OutputFileDevice(self.state,
-                                              self.state['write_original'],
-                                              True)
 
         # While there is a new line, parse it.
         line = ""
@@ -177,7 +183,7 @@ class LogParser(object):
 
             # Write original log if needed
             if self.state['write_original']:
-                originalOutput.write(line)
+                self.originalOutput.write(line)
 
             # We can get exceptions if the file contains output from two
             # different applications since the logs are messed up.
