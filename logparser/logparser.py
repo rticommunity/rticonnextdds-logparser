@@ -203,8 +203,8 @@ class LogParser(object):
         """Try to match the log date."""
         DATE_REGEX = re.compile(r'\[(\d{2}/\d{2}/\d{4} ' +
                                 r'\d{2}:\d{2}:\d{2}.\d{6})\]' +
-                                r'\[(\d{10}.\d{6})\]')
-        SINGLE_DATE_REGEX = re.compile(r'\[(\d{10}).(\d{6,9})\]')
+                                r'\[(\d{10}\.\d{6})\]')
+        SINGLE_DATE_REGEX = re.compile(r'\[(\d{10})\.(\d{6})\]')
 
         # Try to match the two clock format.
         clocks = DATE_REGEX.search(line)

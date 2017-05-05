@@ -101,8 +101,7 @@ def compare_times(past, future, tolerance):
         return ["forward", diff_positive]
     elif diff_negative > tolerance:
         return ["backward", diff_negative]
-    else:
-        return None
+    return None
 
 
 def add_statistics_packet(guid, typ, packet, state):
@@ -261,7 +260,7 @@ def get_port_name(port):
 
     if "Mu" in nature:
         return "%d %s" % (domain_id, nature)
-    else:
+    elif "Un" in nature:
         return "%d.%d %s" % (domain_id, participant_idx, nature)
 
 

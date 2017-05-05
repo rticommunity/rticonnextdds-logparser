@@ -218,7 +218,7 @@ class Logger(object):
             for kind in filter(None, content.get('kind', '').split("|")):
                 for subkind in self._KIND_TO_COLOR[kind].split("|"):
                     color += self._COLORS[subkind]
-            if len(color):
+            if color:
                 content['description'] = color + content['description'] + \
                     self._COLORS['END']
 

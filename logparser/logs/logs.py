@@ -21,13 +21,13 @@ Functions:
 """
 from __future__ import absolute_import
 import re
-from logparser.logs.micro.logs import get_regex_list as micro_regex
 from logparser.logs.custom.logs import get_regex_list as custom_regex
 from logparser.logs.debug.logs import get_regex_list as debug_regex
 from logparser.logs.events.logs import get_regex_list as events_regex
+from logparser.logs.micro.logs import get_regex_list as micro_regex
+from logparser.logs.micro.micro import init as init_micro
 from logparser.logs.network.logs import get_regex_list as network_regex
 from logparser.logs.routing.logs import get_regex_list as routing_regex
-from logparser.logs.micro.micro import init as init_micro
 
 
 def add_regex(log_list, method, regex):
