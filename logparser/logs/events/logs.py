@@ -19,6 +19,7 @@ Functions:
   + get_regex_list: Get the regular expressions and function list.
 """
 from __future__ import absolute_import
+
 import logparser.logs.events.events as events
 
 
@@ -211,6 +212,10 @@ def get_regex_list():
                   r"COMMEND(Sr|Be)WriterService_assertRemoteReader:" +
                   r"Discovered remote reader using a non-addressable " +
                   r"multicast locator for a transport with class ID (\d+)\."])
+    regex.append([events.on_ignore_participant,
+                  r"DISCParticipantDiscoveryPlugin_assertRemoteParticipant:" +
+                  r"remote entity ignored by user: 0X(\w+),0X(\w+),0X(\w+)," +
+                  r"0X(\w+)"])
 
     # Match remote or local entities.
     regex.append([events.on_match_entity("reader", "remote"),

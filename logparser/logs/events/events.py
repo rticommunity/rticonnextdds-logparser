@@ -54,6 +54,7 @@ Functions:
   + on_envvar_file_found: it happens when it finds an env var or file.
 """
 from __future__ import absolute_import
+
 from logparser.utils import (get_interface_props, get_ip, get_locator, get_oid,
                              get_port_name, get_port_number, get_topic_name,
                              get_transport_name, get_type_name, hex2ip,
@@ -447,6 +448,13 @@ def on_cannot_reach_multicast(match, state, logger):
     transport = get_transport_name(match[1])
     logger.warning("[LP-12] Transport %s discovered entity " % transport +
                    r"using a non-addressable multicast locator", 2)
+
+
+def on_ignore_participant(match, state, logger):
+    """It happens when the user ignores a participant."""
+    guid = parse_guid(state, match[0], match[1], match[2])
+    oid = get_oid(match[3])
+    logger.process("", "", "Ignored %s %s" % (oid.lower(), guid))
 
 
 # --------------------------------------------------------------------------- #
