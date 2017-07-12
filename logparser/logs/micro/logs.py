@@ -19,6 +19,7 @@ Functions:
   + get_regex_list: Get the regular expressions and function list.
 """
 from __future__ import absolute_import
+
 import logparser.logs.micro.micro as micro
 
 
@@ -27,7 +28,7 @@ def get_regex_list():
     regex = []
     # Parser entity.
     regex.append([micro.on_micro_error,
-                  r"(ERROR|WARNING|INFO|PRECOND): ModuleID=(\d+) "
+                  r"(ERROR|WARNING|INFO|PRECOND)\s*:\s+ModuleID=(\d+)\s+"
                   r"Errcode=(\d+)"])
 
     return regex
