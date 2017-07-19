@@ -69,7 +69,7 @@ The participant hasn't any transport available to communicate with the given loc
 More information available in the following Knowledge Base article [What does the "can't reach: locator" error message mean?](https://community.rti.com/kb/what-does-cant-reach-locator-error-message-mean)
 
 ### LP-20: The OS limits the receive socket buffer size from X to Y bytes
-Some operative systems may limit the maximum size of the receive socket buffser size. For this reason, the actual value of the buffer size may be smaller than the specified in the property QoS: *dds.transport.UDPv4.builtin.recv_socket_buffer_size*.
+Some operating systems may limit the maximum size of the receive socket buffer size. For this reason, the actual value of the buffer size may be smaller than the specified in the property QoS: *dds.transport.UDPv4.builtin.recv_socket_buffer_size*.
 
 In Unix systems the command `sysctl` can change the value of this limitation as follow:
 ```
