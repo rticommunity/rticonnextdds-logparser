@@ -177,6 +177,10 @@ class LogParser(object):
             if line:
                 line = line.rstrip("\r\n")
 
+            # Remove strange character
+            if line:
+                line = line.replace("\x00", " ")
+
             # Skip if EOF or empty line
             if not line:
                 continue
