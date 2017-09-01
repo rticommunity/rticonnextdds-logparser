@@ -44,10 +44,10 @@ Constants:
   + VIEW_STATES: View states for an instance.
 """
 from __future__ import absolute_import
+
 from calendar import timegm
 from datetime import timedelta
 from hashlib import md5
-
 
 INSTANCE_STATES = ["invalid", "alive", "disposed", "", "no_writers"]
 VIEW_STATES = ["invalid", "new", "not_new"]

@@ -54,6 +54,7 @@ Functions:
   + on_envvar_file_found: it happens when it finds an env var or file.
 """
 from __future__ import absolute_import
+
 from logparser.utils import (get_interface_props, get_ip, get_locator, get_oid,
                              get_port_name, get_port_number, get_topic_name,
                              get_transport_name, get_type_name, hex2ip,

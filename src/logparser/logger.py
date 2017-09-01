@@ -31,12 +31,11 @@ class Logger(object):
         inline (bool): show warnings/erros in network logs
         ignorePackets (bool): ignore network events
         showColors (bool): show colors in the log
-        config (:obj:`Configuration`): format device to print the logs
         highlight (:obj:`compiled re`): show in bold regex matched logs
         onlyIf (:obj:`compiled re`): show only regex matched logs
     """
 
-    def __init__(self, config, appInfo):
+    def __init__(self, appInfo):
         """Constructor of the class."""
         self._COLORS = {
             'RED': '\033[91m',
@@ -65,7 +64,7 @@ class Logger(object):
         self._inline = True
         self._ignorePackets = False
         self._showColors = False
-        self._formatDevice = config.formatDevice
+        self._formatDevice = appInfo.configuration.formatDevice
         self._highlight = None
         self._onlyIf = None
 

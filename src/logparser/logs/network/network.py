@@ -55,6 +55,7 @@ Functions:
   + on_shmem_queue_full: it happens when the ShareMemory queue is full.
 """
 from __future__ import absolute_import
+
 from logparser.utils import (add_statistics_bandwidth, add_statistics_packet,
                              get_data_packet_name, get_locator, get_oid,
                              get_participant, get_port_name, get_port_number,

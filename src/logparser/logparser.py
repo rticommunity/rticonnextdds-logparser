@@ -23,6 +23,7 @@ Classes:
   + LogParser: parse a set of logs into human-redable format.
 """
 from __future__ import absolute_import
+
 import re
 from datetime import datetime, timedelta
 from os import urandom
@@ -59,8 +60,8 @@ class LogParser(object):
         self._config = Configuration()
         self._initialize_config(args)
         self._formatter = self._config.formatter
-        self._appInfo = ApplicationInformation()
-        self._logger = Logger(self._config, self._appInfo)
+        self._appInfo = ApplicationInformation(self._config)
+        self._logger = Logger(self._appInfo)
         self._initialize_logger(args)
         self._expressions = create_regex_list(self._config)
 
@@ -117,7 +118,7 @@ class LogParser(object):
             self._config.inputDevice = InputConsoleDevice(self._config)
         self._config.verbosity = args.v or 0
         self._config.formatDevice = MarkdownFormatDevice(
-            self._config, self._logger)
+            self._appInfo, self._logger)
 
     def _initialize_logger(self, args):
         self._logger.verbosity = args.v or 0
@@ -232,6 +233,6 @@ class LogParser(object):
 
     def write_summary(self):
         """Write results of config, errors and warnings."""
-        self._formatter.write_configurations(self.state)
+        self._formatter.write_configurations()
         self._formatter.write_warnings()
         self._formatter.write_errors()

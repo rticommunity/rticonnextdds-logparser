@@ -23,6 +23,7 @@ Classes:
   + InputFileDevice: Reads the DDS log messages from a file.
 """
 from __future__ import absolute_import, print_function
+
 from os import fstat
 from sys import stdin, stdout
 from time import time

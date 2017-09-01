@@ -19,6 +19,7 @@ Classes:
   + MarkdownFormatDevice: Format device for Markdown.
 """
 from __future__ import absolute_import
+
 from logparser.__init__ import __version__
 from logparser.devices.formatdevice import FormatDevice
 
@@ -33,7 +34,6 @@ class MarkdownFormatDevice(FormatDevice):
       + write_errors: write the warning messages.
       + write_configurations: write the configuration messages.
       + write_countset: write a generic log message list.
-      + write_locators: write the locators if any.
       + write_host_summary: write the host summary.
       + write_statistics_bandwidth: write the bandwidth statistics.
       + write_throughput: write the throughput information.
@@ -42,12 +42,14 @@ class MarkdownFormatDevice(FormatDevice):
       + bytes_to_string: convert a byte unit value into string.
     """
 
-    def __init__(self, config, logger):
+    def __init__(self, appInfo, logger):
         """Initialize the device."""
-        self.write = config.outputDevice.write
-        self.show_timestamp = config.showTimestamp
-        self.show_lines = config.showLines
         self._logger = logger
+        self._appInfo = appInfo
+        self._config = appInfo.configuration
+        self.write = self._config.outputDevice.write
+        self.show_timestamp = self._config.showTimestamp
+        self.show_lines = self._config.showLines
 
     def write_header(self):
         """Write the header."""
@@ -111,6 +113,14 @@ class MarkdownFormatDevice(FormatDevice):
 
         self.write(msg)
 
+    def write_countset(self, items, title):
+        """Write a generic log message list."""
+        self.write("----------------------")
+        self.write("## %s:" % title)
+        for i, msg, count in items.elements():
+            self.write("%d. %dx %s" % (i, count, msg))
+        self.write()
+
     def write_warnings(self):
         """Write the warning messages."""
         self.write_countset(self._logger.warnings, "Warnings")
@@ -119,90 +129,49 @@ class MarkdownFormatDevice(FormatDevice):
         """Write the warning messages."""
         self.write_countset(self._logger.errors, "Errors")
 
-    def write_configurations(self, state):
+    def write_configurations(self):
         """Write the configuration messages."""
         self.write("----------------------")
-        if 'locators' in state:
-            self.write_locators(state)
-        if 'names' in state and 'name_table' in state:
-            self.write_host_summary(state)
-        if 'statistics' in state and not state['no_stats']:
-            self.write_statistics_bandwidth(state)
-        if 'statistics_packet' in state and not state['no_stats']:
-            self.write_statistics_packets(state)
-        if 'threads' in state and not state['no_stats']:
-            self.write_threads_info(state)
-        self.write_countset(state['config'], 'Config')
+        self.write_host_summary()
+        if self._config.showStats():
+            self.write_statistics_bandwidth()
+            self.write_statistics_packets()
+            self.write_threads_info()
+        self.write_countset(self._logger.configurations, 'Config')
 
-    def write_countset(self, items, title):
-        """Write a generic log message list."""
-        self.write("----------------------")
-        self.write("## %s:" % title)
-        for i, msg, count in items.elements():
-            self.write("%2d. %dx %s" % (i, count, msg))
-        self.write()
-
-    def write_locators(self, state):
-        """Write the locators if any."""
-        self.write("### Locators:")
-        for part in state['locators']:
-            self.write("* Participant: " + part)
-            self.write("    * Send locators:")
-            for loc in state['locators'][part]['send']:
-                self.write("        * " + loc)
-            self.write("    * Receive locators:")
-            for loc in state['locators'][part]['receive']:
-                self.write("        * " + loc)
-        self.write()
-
-    def write_host_summary(self, state):
+    def write_host_summary(self):
         """Write the host summary."""
         self.write("### Assigned names:")
 
-        apps_num = 0
-        part_num = 0
-        table = state['name_table']
-        names = state['names']
-        for host in table:
-            # Print host
-            if host in names:
-                self.write("* Host %s: %s" % (names[host], host))
-            else:
-                self.write("* Host %s" % host)
+        counter = [0, 0, 0]
+        for host in self._appInfo.hosts_info():
+            counter[0] += 1
+            self.write("* Host %s: %s" % (host.name(), host.guid()))
 
-            # For each application.
-            for app in table[host]:
-                apps_num += 1
-                addr = host + " " + app
-                if addr in names:
-                    self.write("    * App %s: %s" % (names[addr], app))
-                else:
-                    self.write("    * App %s" % app)
+            for app in host.children().values():
+                counter[1] += 1
+                self.write("%s* App %s: %s" %
+                           (" " * 4, app.name(), app.guid()))
 
-                # For each participant of the application
-                for part in table[host][app]:
-                    part_num += 1
-                    part_guid = addr + " " + part
-                    if part_guid in names:
-                        self.write("        * Participant %s: %s" %
-                                   (names[part_guid], part))
-                    else:
-                        self.write("        * Participant %s" % part)
+                for part in app.children().values():
+                    counter[2] += 1
+                    self.write("%s* Participant %s: %s" %
+                               (" " * 8, part.name(), part.guid()))
 
         # Final stats
         self.write()
-        self.write("Number of hosts: %d  " % len(table))  # Trailing SP for MD
-        self.write("Number of apps:  %d" % apps_num)
-        self.write("Number of participants: %d" % part_num)
+        self.write("* Number of hosts: %d" % counter[0])
+        self.write("* Number of apps:  %d" % counter[1])
+        self.write("* Number of participants: %d" % counter[2])
         self.write()
 
-    def write_statistics_bandwidth(self, state):
+    def write_statistics_bandwidth(self):
         """Write the bandwidth statistics."""
         self.write("### Bandwidth statistics:")
 
-        stats = state['statistics']
-        for addr in stats:
-            self.write("* Address: %s" % addr)
+        for host in self._appInfo.hosts_info():
+            self.write("* Address: %s" % host.name())
+            self.write("%s* Received: ")
             for typ in stats[addr]:
                 # If this is a port with dictionary of statistics types
                 if isinstance(stats[addr][typ], dict):
@@ -229,10 +198,10 @@ class MarkdownFormatDevice(FormatDevice):
         else:
             self.write("%s%s" % (prefix, qty))
 
-    def write_statistics_packets(self, state):
+    def write_statistics_packets(self):
         """Write the packet statistics."""
         self.write("### Packet statistics:")
-        stats = state['statistics_packet']
+        stats = self._appInfo.hosts_info()
         for guid in stats:
             self.write("* GUID: %s" % guid)
             for typ in stats[guid]:
@@ -246,7 +215,7 @@ class MarkdownFormatDevice(FormatDevice):
                                (packet, qty, qty / total * 100))
         self.write()
 
-    def write_threads_info(self, state):
+    def write_threads_info(self):
         """Write the threads information."""
         self.write("### Threads Information:")
 
@@ -274,7 +243,7 @@ class MarkdownFormatDevice(FormatDevice):
                 self.write("        * Affinity: %s" % thread['affinity'])
 
     @staticmethod
-    def bytes_to_string(qty):
+    def _bytes_to_string(qty):
         """Convert a byte unit value into string."""
         typ = ["GB", "MB", "KB", "B"]
         for i in range(len(typ) - 1, 0, -1):

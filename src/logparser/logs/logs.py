@@ -20,7 +20,9 @@ Functions:
   + create_regex_list: Create the list of regular expressions and functions.
 """
 from __future__ import absolute_import
+
 import re
+
 from logparser.logs.custom.logs import get_regex_list as custom_regex
 from logparser.logs.debug.logs import get_regex_list as debug_regex
 from logparser.logs.events.logs import get_regex_list as events_regex

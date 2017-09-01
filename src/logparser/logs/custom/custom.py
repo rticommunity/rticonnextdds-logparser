@@ -13,10 +13,17 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-"""LogParser package."""
+"""Log parsing functions for custom logs.
 
-__version__ = "1.3a0"
-__license__ = "Apache"
-__copyright__ = "Copyright 2016 Real-Time Innovations, Inc."
-# pylint: disable=E0603
-__all__ = ("devices", "countset", "logger", "logparser", "logs", "utils")
+Functions:
+  + on_custom_log: Parse a log with a custom prefix.
+"""
+from __future__ import absolute_import
+
+# Disable warnings about unused arguments
+# pylint: disable=W0613
+
+
+def on_custom_log(match, state, logger):
+    """Parse a log with a custom prefix."""
+    logger.event("[App] " + match[0])

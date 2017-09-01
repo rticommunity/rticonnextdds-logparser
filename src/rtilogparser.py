@@ -22,8 +22,10 @@ highest log verbosity is enabled. Then it will generate an output in
 human-readable format.
 """
 from __future__ import absolute_import, print_function
+
 from argparse import ArgumentParser
 from os.path import exists
+
 from logparser import __version__
 from logparser.logparser import LogParser
 

@@ -19,6 +19,7 @@ Functions:
   + get_regex_list: Get the regular expressions and function list.
 """
 from __future__ import absolute_import
+
 import logparser.logs.events.events as events
 
 
