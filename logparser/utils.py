@@ -44,10 +44,10 @@ Constants:
   + VIEW_STATES: View states for an instance.
 """
 from __future__ import absolute_import
+
 from calendar import timegm
 from datetime import timedelta
 from hashlib import md5
-
 
 INSTANCE_STATES = ["invalid", "alive", "disposed", "", "no_writers"]
 VIEW_STATES = ["invalid", "new", "not_new"]
@@ -182,7 +182,8 @@ def get_oid(oid):
         0xff0200c2: "MSG_SEC_WRITER", 0xff0200c7: "MSG_SEC_READER",
         0x000201c2: "MSG_STA_SEC_WRITER", 0x000201c7: "MSG_STA_SEC_READER",
         0xff0202c2: "MSG_VOL_SEC_WRITER", 0xff0202c7: "MSG_VOL_SEC_READER"}
-    ENTITY_ORIGINS = {0x00: "USER", 0x40: "VEND", 0xc0: "BUILTIN"}
+    ENTITY_ORIGINS = {
+        0x00: "USER", 0x40: "VEND", 0x80: "BLVD", 0xc0: "BUILTIN"}
     ENTITY_KINDS = {
         0x00: "UNK", 0x01: "PART",
         0x02: "W+K", 0x03: "W-K",
