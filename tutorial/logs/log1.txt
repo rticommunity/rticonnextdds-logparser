@@ -1,0 +1,966 @@
+[1462983921.140998] [CREATE Participant]RTIEventActiveDatabase_new:database gc thread starting up: name=rDtb20617bc01, priority=-3, stack=0B
+[1462983921.140998] RTIEventActiveDatabaseThread_loop:created rDtb20617bc01
+[1462983921.140998] RTIEventActiveDatabaseThread_loop:rDtb20617bc01 sleeping {0000003d,00000000}
+[1462983921.140998] [CREATE Participant]COMMENDActiveFacade_new:active object count ref count 1
+[1462983921.140998] [CREATE Participant]RTIEventActiveGenerator_new:event thread starting up: name=rEvt20617bc01, priority=-2, stack=0B
+RTIOsapiThread_sleep: Sleep(250 ms)
+[1462983921.140998] RTIEventActiveGeneratorThread_loop:created rEvt20617bc01
+[1462983921.140998] COMMENDActiveFacade_threadStarted:thread count ref count 1
+[1462983921.140998] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983921.140998] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983921.140998] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983921.140998] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {28cca30e,DBE78AFF}
+[1462983921.391995] [CREATE Participant]COMMENDActiveFacade_new:active object count ref count 2
+[1462983921.391995] [CREATE Participant]COMMENDActiveFacade_new:active object count ref count 3
+[1462983921.391995] [CREATE Participant]COMMENDActiveFacade_new:active object count ref count 4
+[1462983921.391995] [CREATE Participant]COMMENDActiveFacade_new:active object count ref count 5
+[1462983921.393995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983921.393995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983921.393995] [CREATE Participant]DDS_DomainParticipantDiscovery_initialize:builtin discovery plugin PA Client disabled
+[1462983921.393995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983921.393995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000001,20000000}
+[1462983921.393995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983921.393995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983921.393995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983921.393995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000001,20000000}
+[1462983921.393995] [CREATE Participant]DDS_DomainParticipantMonitoring_initializeI:monitoring not configured
+[1462983921.393995] [CREATE Participant]DDS_DomainParticipantFactory_create_participant_disabledI:created participant: domain=206, index=-1
+[1462983921.395995] [D0206|ENABLE]DDS_PropertySeq_ensure_length:memory allocation: original 0, new 32
+[1462983921.395995] [D0206|ENABLE]DDS_DiscoveryQosPolicy_to_multicast_locators:no multicast locators for: multicast address = "builtin.udpv4://239.255.0.1", transports = "", enabled_transports = ""
+[1462983921.395995] [D0206|ENABLE]DDS_DomainParticipantPresentation_reserve_participant_index_entryports:Domain 206:Trying to reserve participant index=0...
+[1462983921.395995] [D0206|ENABLE]RTIOsapiSharedMemoryMutex_create:created key 0XB0E61E
+[1462983921.395995] [D0206|ENABLE]RTIOsapiSharedMemorySegment_createOrAttach:created key 0X40E61E
+[1462983921.395995] [D0206|ENABLE]RTIOsapiSharedMemoryBinarySemaphore_create:created key 0X80E61E
+[1462983921.395995] [D0206|ENABLE]COMMENDActiveFacade_addReceiverThread:receive thread starting up: name=rR0020617bc01, priority=2, stack=0B
+[1462983921.395995] [D0206|ENABLE]COMMENDActiveFacade_addReceiverThread:thread count ref count 2
+[1462983921.395995] [D0206|ENABLE]DDS_DomainParticipantPresentation_reserve_participant_index_entryports:Domain 206:Trying to reserve participant index=0...
+[1462983921.395995] [D0206|ENABLE]RTIOsapiSharedMemoryMutex_create:created key 0XB0E61F
+[1462983921.395995] [D0206|ENABLE]RTIOsapiSharedMemorySegment_createOrAttach:created key 0X40E61F
+[1462983921.395995] COMMENDActiveFacadeReceiver_loop:created rR0020617bc01
+[1462983921.395995] [D0206|ENABLE]RTIOsapiSharedMemoryBinarySemaphore_create:created key 0X80E61F
+[1462983921.396995] [D0206|ENABLE]COMMENDActiveFacade_addReceiverThread:receive thread starting up: name=rR0120617bc01, priority=2, stack=0B
+[1462983921.396995] [D0206|ENABLE]COMMENDActiveFacade_addReceiverThread:thread count ref count 3
+[1462983921.396995] [D0206|ENABLE]DDS_DomainParticipantPresentation_reserve_participant_index_entryports:Domain 206:USING PARTICIPANT INDEX=0
+[1462983921.396995] [D0206|ENABLE]DDS_DomainParticipantDiscovery_enableI:value of: initial_peers="builtin.udpv4://239.255.0.1,builtin.udpv4://127.0.0.1,builtin.shmem://"
+[1462983921.396995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 blocking on 0XE61E
+[1462983921.396995] [D0206|ENABLE]DDS_DomainParticipantDiscovery_add_peer:no peer locators for: peer descriptor(s) = "builtin.udpv4://239.255.0.1", transports = "", enabled_transports = ""
+[1462983921.396995] [D0206|ENABLE]DDS_DomainParticipantDiscovery_add_peer:no peer locators for: peer descriptor(s) = "builtin.udpv4://127.0.0.1", transports = "", enabled_transports = ""
+[1462983921.396995] [D0206|ENABLE]DDS_DiscoveryQosPolicy_to_multicast_locators:no multicast locators for: multicast address = "builtin.udpv4://239.255.0.1", transports = "", enabled_transports = ""
+[1462983921.396995] COMMENDActiveFacadeReceiver_loop:created rR0120617bc01
+[1462983921.396995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 blocking on 0XE61F
+[1462983921.396995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983921.396995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983921.396995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983921.396995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000001,1F3B6500}
+[1462983921.396995] [D0206|ENABLE]RTINetioReceiver_addEntryport:NetioReceiver_Entryport reused
+[1462983921.396995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983921.396995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983921.396995] [D0206|ENABLE]RTINetioReceiver_addEntryport:NetioReceiver_Entryport reused
+[1462983921.396995] [D0206|ENABLE]DISCPluginManager_onAfterLocalParticipantEnabled:announcing new local participant: 0XA4602D5,0X17BC,0X1,0X1C1
+[1462983921.396995] [D0206|ENABLE]DISCPluginManager_onAfterLocalParticipantEnabled:at {57335cf1,65A17500}
+[1462983921.397995] [D0206|ENABLE]RTIOsapiSharedMemoryMutex_attach:attached key 0XB0E61E
+[1462983921.397995] [D0206|ENABLE]RTIOsapiSharedMemorySegment_attach:attached key 0X40E61E
+[1462983921.397995] [D0206|ENABLE]RTIOsapiSharedMemoryBinarySemaphore_attach:attached key 0X80E61E
+[1462983921.398995] [D0206|ENABLE]RTINetioReceiver_addEntryport:NetioReceiver_Entryport reused
+[1462983921.398995] [D0206|ENABLE]RTINetioReceiver_addEntryport:NetioReceiver_Entryport reused
+[1462983921.398995] [D0206|ENABLE]NDDS_Transport_Shmem_send:U0000000000001b68 signalling 0XE61E
+send failed: 
+[1462983921.398995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 woke up
+   [1462983921.398995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 740 bytes
+locator: 
+   [1462983921.398995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 740 bytes
+   transport: 16777216
+[1462983921.398995] RTINetioReceiver_receiveFast:rR0020617bc01 received 740 bytes
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58912
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58914
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58916
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58918
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+[1462983921.398995] [D0206|ENABLE]RTINetioReceiver_addEntryport:NetioReceiver_Entryport reused
+[1462983921.399995] [D0206|ENABLE]RTINetioReceiver_addEntryport:NetioReceiver_Entryport reused
+[1462983921.399995] [D0206|ENABLE]RTINetioReceiver_addEntryport:NetioReceiver_Entryport reused
+[1462983921.400995] [D0206|ENABLE]RTINetioReceiver_addEntryport:NetioReceiver_Entryport reused
+[1462983921.400995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983921.400995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983921.400995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983921.400995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983921.400995] MIGInterpreter_parse:INFO_TS from 0XA4602D5,0X17BC
+[1462983921.400995] [D0206|ENABLE]DDS_DomainParticipant_enableI:enabled
+[1462983921.400995] MIGInterpreter_parse:DATA from 0XA4602D5,0X17BC
+[1462983921.400995] [D0206|ENABLE]RTINetioReceiver_removeEntryport:NetioReceiver_Entryport ref count 8
+[1462983921.400995] RTIEventActiveDatabaseThread_loop:rDtb20617bc01 collecting garbage
+[1462983921.400995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983921.400995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 blocking on 0XE61E
+[1462983921.400995] PRESPsService_onWriterResendEvent:writer resend event: (a4602d5,17bc,1)
+[1462983921.400995] DDS_DomainParticipant_create_publisher_disabledI:created publisher
+[1462983921.400995] NDDS_Transport_Shmem_send:rEvt20617bc01 signalling 0XE61E
+[1462983921.400995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 woke up
+send failed: 
+[1462983921.400995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 740 bytes
+   [1462983921.400995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 740 bytes
+locator: 
+  [1462983921.400995] RTINetioReceiver_receiveFast:rR0020617bc01 received 740 bytes
+    transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58912
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58914
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58916
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58918
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+[1462983921.401995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983921.401995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,FEF9DC00}
+[1462983921.401995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983921.401995] DDS_Publisher_enable:enabled
+[1462983921.401995] MIGInterpreter_parse:INFO_TS from 0XA4602D5,0X17BC
+[1462983921.401995] MIGInterpreter_parse:DATA from 0XA4602D5,0X17BC
+[1462983921.401995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983921.401995] DDS_DomainParticipant_create_topic_disabledI:created topic: topic=Example async, type=async
+[1462983921.401995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 blocking on 0XE61E
+[1462983921.401995] DDS_Topic_enable:enabled
+[1462983921.401995] RTIEventActiveDatabaseThread_loop:rDtb20617bc01 sleeping {0000003d,00000000}
+[1462983921.401995] DDS_Publisher_create_datawriter_disabledI:created writer: topic=Example async
+[1462983921.401995] RTIEventJobDispatcher_createThread:job dispatcher thread starting up: name=rDsp20617bc01t0, priority=0, stack=0B
+[1462983921.401995] RTINetioReceiver_addEntryport:NetioReceiver_Entryport reused
+[1462983921.401995] DISCPluginManager_onAfterLocalEndpointEnabled:announcing new local publication: 0XA4602D5,0X17BC,0X1,0X80000003
+[1462983921.401995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983921.401995] DISCPluginManager_onAfterLocalEndpointEnabled:at {57335cf1,66E92200}
+[1462983921.401995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983921.401995] DISCSimpleEndpointDiscoveryPluginPDFListener_onAfterLocalWriterEnabled:announcing new publication: 0XA4602D5,0X17BC,0X1,0X80000003
+[1462983921.401995] DISCSimpleEndpointDiscoveryPluginPDFListener_onAfterLocalWriterEnabled:at {57335cf1,66E92200}
+PRESPsService_assertRemoteEndpoint:TypeObject succesfully stored (topic: 'N/A', type: 'N/A')
+[1462983921.402995] DDS_DataWriter_enableI:enabled
+#Custom: Writing async, count 0
+[1462983921.402995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983921.402995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983921.402995] COMMENDActiveFacade_threadStarted:thread count ref count 4
+[1462983921.402995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983921.402995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983921.402995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983921.402995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983921.402995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983921.402995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,FE76CA00}
+#Custom: Writing async, count 1
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983921.502994] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983921.502994] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983921.502994] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983921.502994] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,E4DD4600}
+#Custom: Writing async, count 2
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983921.603992] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983921.603992] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983921.603992] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983921.603992] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,CB023900}
+#Custom: Writing async, count 3
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983921.703991] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983921.703991] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983921.703991] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983921.703991] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,B168B500}
+#Custom: Writing async, count 4
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983921.804990] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983921.804990] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983921.804990] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983921.804990] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,978DA800}
+#Custom: Writing async, count 5
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983921.904988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983921.904988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983921.904988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983921.904988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,7DF42400}
+#Custom: Writing async, count 6
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983922.005000] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983922.005000] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983922.005000] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983922.005000] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,6459C800}
+#Custom: Writing async, count 7
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983922.104999] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983922.104999] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983922.104999] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983922.104999] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,4AC04400}
+#Custom: Writing async, count 8
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983922.204997] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983922.204997] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983922.204997] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983922.204997] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,3126C000}
+#Custom: Writing async, count 9
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983922.305996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983922.305996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983922.305996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983922.305996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,174BB300}
+[1462983922.396995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983922.396995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983922.396995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983922.396995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,01062400}
+[1462983922.400995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983922.400995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983922.400995] PRESPsService_onWriterResendEvent:writer resend event: (a4602d5,17bc,1)
+[1462983922.400995] NDDS_Transport_Shmem_send:rEvt20617bc01 signalling 0XE61E
+send failed: 
+   locator: 
+  [1462983922.400995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 woke up
+    transport: 16777216
+[1462983922.400995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 740 bytes
+    [1462983922.400995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 740 bytes
+  address: [1462983922.400995] RTINetioReceiver_receiveFast:rR0020617bc01 received 740 bytes
+0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58912
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58914
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58916
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58918
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+[1462983922.400995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983922.400995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,FEF9DC00}
+[1462983922.400995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983922.400995] MIGInterpreter_parse:INFO_TS from 0XA4602D5,0X17BC
+[1462983922.400995] MIGInterpreter_parse:DATA from 0XA4602D5,0X17BC
+[1462983922.400995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983922.401995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 blocking on 0XE61E
+#Custom: Writing async, count 10
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983922.405995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983922.405995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983922.405995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983922.405995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,FDB22F00}
+#Custom: Writing async, count 11
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983922.505993] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983922.505993] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983922.505993] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983922.505993] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,E418AB00}
+#Custom: Writing async, count 12
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983922.605992] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983922.605992] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983922.605992] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983922.605992] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,CA7F2700}
+#Custom: Writing async, count 13
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983922.706991] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983922.706991] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983922.706991] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983922.706991] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,B0A41A00}
+#Custom: Writing async, count 14
+[1462983922.806990] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983922.806990] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983922.806990] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983922.806990] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,970A9600}
+#Custom: Writing async, count 15
+[1462983922.906988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983922.906988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983922.906988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983922.906988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983922.906988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983922.906988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983922.906988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,7D711200}
+#Custom: Writing async, count 16
+[1462983923.008000] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983923.008000] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983923.008000] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983923.008000] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,63952D00}
+#Custom: Writing async, count 17
+[1462983923.108999] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983923.108999] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983923.108999] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983923.108999] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,49BA2000}
+#Custom: Writing async, count 18
+[1462983923.209997] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983923.209997] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983923.209997] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983923.209997] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,2FDF1300}
+#Custom: Writing async, count 19
+[1462983923.309996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983923.309996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983923.309996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983923.309996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,16458F00}
+[1462983923.396995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983923.396995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983923.396995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983923.396995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,01062400}
+[1462983923.400995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983923.400995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983923.400995] PRESPsService_onWriterResendEvent:writer resend event: (a4602d5,17bc,1)
+[1462983923.400995] NDDS_Transport_Shmem_send:rEvt20617bc01 signalling 0XE61E
+send failed: 
+   locator: 
+[1462983923.400995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 woke up
+      [1462983923.400995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 740 bytes
+transport: 16777216
+  [1462983923.400995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 740 bytes
+    address: [1462983923.400995] RTINetioReceiver_receiveFast:rR0020617bc01 received 740 bytes
+0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58912
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58914
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58916
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58918
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+[1462983923.401995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983923.401995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,FEF9DC00}
+[1462983923.401995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983923.401995] MIGInterpreter_parse:INFO_TS from 0XA4602D5,0X17BC
+[1462983923.401995] MIGInterpreter_parse:DATA from 0XA4602D5,0X17BC
+[1462983923.401995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983923.401995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 blocking on 0XE61E
+#Custom: Writing async, count 20
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983923.409995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983923.409995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983923.409995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983923.409995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,FCAC0B00}
+#Custom: Writing async, count 21
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983923.510993] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983923.510993] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983923.510993] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983923.510993] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,E2D0FE00}
+#Custom: Writing async, count 22
+[1462983923.611992] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983923.611992] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983923.611992] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983923.611992] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,C8F5F100}
+#Custom: Writing async, count 23
+[1462983923.711991] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983923.711991] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983923.711991] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983923.711991] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,AF5C6D00}
+#Custom: Writing async, count 24
+[1462983923.811990] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983923.811990] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983923.811990] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983923.811990] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,95C2E900}
+#Custom: Writing async, count 25
+[1462983923.912988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983923.912988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983923.912988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983923.912988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983923.912988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983923.912988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983923.912988] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,7BE7DC00}
+#Custom: Writing async, count 26
+[1462983924.013000] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983924.013000] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983924.013000] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983924.013000] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983924.013000] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983924.013000] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983924.013000] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,624D8000}
+#Custom: Writing async, count 27
+[1462983924.113999] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983924.113999] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983924.113999] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983924.113999] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983924.113999] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983924.113999] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983924.113999] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,48727300}
+#Custom: Writing async, count 28
+[1462983924.213997] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983924.213997] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983924.213997] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983924.213997] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983924.213997] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983924.213997] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983924.213997] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,2ED8EF00}
+#Custom: Writing async, count 29
+[1462983924.314996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983924.314996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983924.314996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983924.314996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983924.314996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983924.314996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983924.314996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,14FDE200}
+[1462983924.334996] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 woke up
+[1462983924.334996] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 744 bytes
+[1462983924.334996] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 744 bytes
+[1462983924.334996] RTINetioReceiver_receiveFast:rR0020617bc01 received 744 bytes
+[1462983924.334996] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983924.334996] MIGInterpreter_parse:INFO_TS from 0XA4602D5,0X4F0
+[1462983924.334996] MIGInterpreter_parse:DATA from 0XA4602D5,0X4F0
+[1462983924.334996] DISCSimpleParticipantDiscoveryPluginReaderListener_onDataAvailable:discovered new participant: host=0x0A4602D5, app=0x000004F0, instance=0x00000001
+[1462983924.334996] DISCSimpleParticipantDiscoveryPluginReaderListener_onDataAvailable:at {57335cf4,55C24700}
+[1462983924.334996] DISCParticipantDiscoveryPlugin_assertRemoteParticipant:plugin discovered/updated remote participant: 0XA4602D5,0X4F0,0X1,0X1C1
+[1462983924.334996] DISCParticipantDiscoveryPlugin_assertRemoteParticipant:at {57335cf4,55C24700}
+PRESPsService_assertRemoteEndpoint:TypeObject not received (topic: 'N/A', type: 'N/A')
+[1462983924.334996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+PRESPsService_assertRemoteEndpoint:TypeObject not received (topic: 'N/A', type: 'N/A')
+[1462983924.334996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983924.334996] DISCSimpleParticipantDiscoveryPlugin_remoteParticipantDiscovered:re-announcing participant self: 0XA4602D5,0X17BC,0X1,0X1C1
+[1462983924.334996] DISCSimpleParticipantDiscoveryPlugin_remoteParticipantDiscovered:at {57335cf4,55C24700}
+PRESPsService_assertRemoteEndpoint:TypeObject not received (topic: 'N/A', type: 'N/A')
+PRESPsService_assertRemoteEndpoint:TypeObject not received (topic: 'N/A', type: 'N/A')
+PRESPsService_assertRemoteEndpoint:TypeObject not received (topic: 'N/A', type: 'N/A')
+PRESPsService_assertRemoteEndpoint:TypeObject not received (topic: 'N/A', type: 'N/A')
+[1462983924.335996] DISCPluginManager_activateEdpListenersForRemoteParticipant:plugin accepted new remote participant: 0XA4602D5,0X4F0,0X1,0X1C1
+[1462983924.335996] DISCPluginManager_activateEdpListenersForRemoteParticipant:at {57335cf4,55C24700}
+PRESPsService_assertRemoteEndpoint:TypeObject not received (topic: 'N/A', type: 'N/A')
+[1462983924.335996] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983924.335996] PRESPsService_linkToLocalReader:assert remote 0XA4602D5,0X4F0,0X1,0X200C2, local 0x000200C7 in best effort reader service
+[1462983924.335996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983924.335996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983924.335996] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 blocking on 0XE61E
+[1462983924.335996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983924.335996] RTINetioSender_addDestination:NetioSender_Destination reused
+[1462983924.335996] PRESPsService_linkToLocalWriter:assert remote 0XA4602D5,0X4F0,0X1,0X200C7, local 0x000200C2 in best effort writer service
+[1462983924.335996] RTINetioSender_addDestination:NetioSender_Destination reused
+COMMENDSrWriterService_assertRemoteReader: writer oid 0x4c2 sends preemptive HB for sn (0000000000,00000001)-(0000000000,00000000)
+[1462983924.335996] RTIOsapiSharedMemoryMutex_attach:attached key 0XB0E620
+[1462983924.335996] RTIOsapiSharedMemorySegment_attach:attached key 0X40E620
+[1462983924.335996] RTIOsapiSharedMemoryBinarySemaphore_attach:attached key 0X80E620
+[1462983924.335996] NDDS_Transport_Shmem_send:rEvt20617bc01 signalling 0XE620
+[1462983924.335996] PRESPsService_linkToLocalWriter:assert remote 0XA4602D5,0X4F0,0X1,0X4C7, local 0x000004C2 in reliable writer service
+[1462983924.335996] RTINetioSender_addDestination:NetioSender_Destination reused
+COMMENDSrWriterService_assertRemoteReader: writer oid 0x3c2 sends preemptive HB for sn (0000000000,00000001)-(0000000000,00000001)
+[1462983924.335996] NDDS_Transport_Shmem_send:rEvt20617bc01 signalling 0XE620
+[1462983924.335996] PRESPsService_linkToLocalWriter:assert remote 0XA4602D5,0X4F0,0X1,0X3C7, local 0x000003C2 in reliable writer service
+[1462983924.335996] RTINetioSender_addDestination:NetioSender_Destination reused
+[1462983924.335996] NDDS_Transport_Shmem_send:rEvt20617bc01 signalling 0XE620
+[1462983924.336996] PRESPsService_linkToLocalReader:assert remote 0XA4602D5,0X4F0,0X1,0X4C2, local 0x000004C7 in reliable reader service
+[1462983924.336996] RTINetioSender_addDestination:NetioSender_Destination reused
+[1462983924.336996] NDDS_Transport_Shmem_send:rEvt20617bc01 signalling 0XE620
+[1462983924.336996] PRESPsService_linkToLocalReader:assert remote 0XA4602D5,0X4F0,0X1,0X3C2, local 0x000003C7 in reliable reader service
+[1462983924.336996] PRESPsService_linkToLocalReader:assert remote 0XA4602D5,0X4F0,0X1,0X100C2, local 0x000100C7 in best effort reader service
+[1462983924.336996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983924.336996] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,0F9DA500}
+[1462983924.337996] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 woke up
+[1462983924.337996] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 744 bytes
+[1462983924.337996] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 744 bytes
+[1462983924.337996] RTINetioReceiver_receiveFast:rR0020617bc01 received 744 bytes
+[1462983924.337996] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983924.337996] MIGInterpreter_parse:INFO_TS from 0XA4602D5,0X4F0
+[1462983924.337996] MIGInterpreter_parse:DATA from 0XA4602D5,0X4F0
+COMMENDBeReaderService_onSubmessage: reader oid 0x100c7 received DATA of sn(0000000000,00000001), vSn(0000000000,00000001) from writer 0xa4602d5.4f0.1.100c2
+[1462983924.337996] DISCSimpleParticipantDiscoveryPluginReaderListener_onDataAvailable:discovered modified participant: host=0x0A4602D5, app=0x000004F0, instance=0x00000001
+[1462983924.337996] DISCParticipantDiscoveryPlugin_assertRemoteParticipant:plugin discovered/updated remote participant: 0XA4602D5,0X4F0,0X1,0X1C1
+[1462983924.337996] DISCParticipantDiscoveryPlugin_assertRemoteParticipant:at {57335cf4,5686E200}
+[1462983924.337996] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983924.337996] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 blocking on 0XE61E
+[1462983924.397995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983924.397995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983924.397995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983924.397995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,00831200}
+[1462983924.399995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983924.399995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983924.399995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983924.399995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,00418900}
+[1462983924.401995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983924.401995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983924.401995] PRESPsService_onWriterResendEvent:writer resend event: (a4602d5,17bc,1)
+[1462983924.401995] NDDS_Transport_Shmem_send:rEvt20617bc01 signalling 0XE61E
+[1462983924.401995] NDDS_Transport_Shmem_send:rEvt20617bc01 signalling 0XE620
+[1462983924.401995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 woke up
+send failed: 
+   locator: 
+ [1462983924.401995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 740 bytes
+     [1462983924.401995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 740 bytes
+transport: 16777216
+     [1462983924.401995] RTINetioReceiver_receiveFast:rR0020617bc01 received 740 bytes
+ address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58914
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58916
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58918
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+[1462983924.401995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983924.401995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983924.401995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,FEF9DC00}
+[1462983924.401995] MIGInterpreter_parse:INFO_TS from 0XA4602D5,0X17BC
+[1462983924.401995] MIGInterpreter_parse:DATA from 0XA4602D5,0X17BC
+[1462983924.401995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983924.401995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 blocking on 0XE61E
+[1462983924.402995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 woke up
+[1462983924.402995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 68 bytes
+[1462983924.402995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 68 bytes
+[1462983924.402995] RTINetioReceiver_receiveFast:rR0020617bc01 received 68 bytes
+[1462983924.402995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983924.402995] MIGInterpreter_parse:INFO_DST from 0XA4602D5,0X4F0
+[1462983924.402995] MIGInterpreter_parse:HEARTBEAT from 0XA4602D5,0X4F0
+COMMENDSrReaderService_onSubmessage:[1462983924,1730849536] reader oid 0x4c7 received HB for sn (0000000000,00000001)-(0000000000,00000001), epoch(1) from writer 0xa4602d5.4f0.1.4c2
+COMMENDSrReaderService_sendAckNacks:[1462983924,1730849536] reader oid 0x4c7 sent NACK of bitmap lead(0000000000,00000001), bitcount(1), epoch(2) to writer 0xa4602d5.4f0.1.4c2
+[1462983924.402995] NDDS_Transport_Shmem_send:rR0020617bc01 signalling 0XE620
+[1462983924.402995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983924.402995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 68 bytes
+[1462983924.402995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 68 bytes
+[1462983924.402995] RTINetioReceiver_receiveFast:rR0020617bc01 received 68 bytes
+[1462983924.402995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983924.402995] MIGInterpreter_parse:INFO_DST from 0XA4602D5,0X4F0
+[1462983924.402995] MIGInterpreter_parse:HEARTBEAT from 0XA4602D5,0X4F0
+COMMENDSrReaderService_onSubmessage:[1462983924,1730849536] reader oid 0x3c7 received HB for sn (0000000000,00000001)-(0000000000,00000000), epoch(0) from writer 0xa4602d5.4f0.1.3c2
+[1462983924.402995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983924.402995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 64 bytes
+[1462983924.402995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 64 bytes
+[1462983924.402995] RTINetioReceiver_receiveFast:rR0020617bc01 received 64 bytes
+[1462983924.402995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983924.402995] MIGInterpreter_parse:INFO_DST from 0XA4602D5,0X4F0
+[1462983924.402995] MIGInterpreter_parse:ACK from 0XA4602D5,0X4F0
+COMMENDSrWriterService_onSubmessage:[1462983924,1730849536] writer oid 0x4c2 receives ACKNACK from reader 0xa4602d5.4f0.1.4c7 for lead [(0000000000,00000000)] bitcount(0), epoch(0), isPureNack(0)
+COMMENDSrWriterService_sendSyncRepairData:[1462983924,1730849536] writer oid 0x4c2 sends piggyback HB for sn (0000000000,00000001)-(0000000000,00000000, epoch(2))
+[1462983924.402995] NDDS_Transport_Shmem_send:rR0020617bc01 signalling 0XE620
+[1462983924.402995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983924.402995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 64 bytes
+[1462983924.402995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 64 bytes
+[1462983924.402995] RTINetioReceiver_receiveFast:rR0020617bc01 received 64 bytes
+[1462983924.402995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983924.402995] MIGInterpreter_parse:INFO_DST from 0XA4602D5,0X4F0
+[1462983924.402995] MIGInterpreter_parse:ACK from 0XA4602D5,0X4F0
+COMMENDSrWriterService_onSubmessage:[1462983924,1730849536] writer oid 0x3c2 receives ACKNACK from reader 0xa4602d5.4f0.1.3c7 for lead [(0000000000,00000000)] bitcount(0), epoch(0), isPureNack(0)
+COMMENDSrWriterService_sendSyncRepairData:[1462983924,1730849536] writer oid 0x3c2 sends piggyback HB for sn (0000000000,00000001)-(0000000000,00000001, epoch(2))
+[1462983924.402995] NDDS_Transport_Shmem_send:rR0020617bc01 signalling 0XE620
+[1462983924.402995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983924.402995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 656 bytes
+[1462983924.402995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 656 bytes
+[1462983924.402995] RTINetioReceiver_receiveFast:rR0020617bc01 received 656 bytes
+[1462983924.402995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983924.402995] MIGInterpreter_parse:INFO_TS from 0XA4602D5,0X4F0
+[1462983924.402995] MIGInterpreter_parse:INFO_DST from 0XA4602D5,0X4F0
+[1462983924.402995] MIGInterpreter_parse:DATA from 0XA4602D5,0X4F0
+COMMENDSrReaderService_onSubmessage:[1462983924,1730849536] reader oid 0x4c7 received DATA of sn(0000000000,00000001), vSn(0000000000,00000001) from writer 0xa4602d5.4f0.1.4c2
+[1462983924.403995] DISCSimpleEndpointDiscoveryPlugin_subscriptionReaderListenerOnDataAvailable:discovered subscription: 0XA4602D5,0X4F0,0X1,0X80000004
+[1462983924.403995] DISCSimpleEndpointDiscoveryPlugin_subscriptionReaderListenerOnDataAvailable:at {57335cf4,676C3400}
+[1462983924.403995] DISCEndpointDiscoveryPlugin_assertRemoteEndpoint:plugin discovered/updated remote endpoint: 0XA4602D5,0X4F0,0X1,0X80000004
+[1462983924.403995] DISCEndpointDiscoveryPlugin_assertRemoteEndpoint:at {57335cf4,676C3400}
+PRESPsService_assertRemoteEndpoint:TypeObject succesfully stored (topic: 'N/A', type: 'N/A')
+COMMENDSrReaderService_onSubmessage:	 accepted sn(0000000000,00000001), dataRcvd.lead(0,1), nextRelSn(0,2), reservedCount(1)
+[1462983924.403995] MIGInterpreter_parse:HEARTBEAT from 0XA4602D5,0X4F0
+[1462983924.403995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+COMMENDSrReaderService_onSubmessage:[1462983924,1735144448] reader oid 0x4c7 received HB for sn (0000000000,00000001)-(0000000000,00000001), epoch(2) from writer 0xa4602d5.4f0.1.4c2
+[1462983924.403995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+COMMENDSrReaderService_onSubmessage:[1462983924,1735144448] reader oid 0x4c7 sent ACK of bitmap lead(0000000000,00000002), bitcount(0), epoch(3) to writer 0xa4602d5.4f0.1.4c2
+[1462983924.403995] NDDS_Transport_Shmem_send:rR0020617bc01 signalling 0XE620
+[1462983924.403995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983924.403995] RTIOsapiSharedMemoryMutex_attach:attached key 0XB0E621
+[1462983924.403995] RTIOsapiSharedMemorySegment_attach:attached key 0X40E621
+[1462983924.403995] RTIOsapiSharedMemoryBinarySemaphore_attach:attached key 0X80E621
+COMMENDSrWriterService_assertRemoteReader: writer oid 0x80000003 sends preemptive HB for sn (0000000000,00000031)-(0000000000,00000030)
+[1462983924.403995] NDDS_Transport_Shmem_send:rEvt20617bc01 signalling 0XE621
+[1462983924.403995] PRESPsService_linkToLocalWriter:assert remote 0XA4602D5,0X4F0,0X1,0X80000004, local 0x80000003 in reliable writer service
+[1462983924.403995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983924.403995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 64 bytes
+[1462983924.403995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,FE76CA00}
+[1462983924.403995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 64 bytes
+[1462983924.403995] RTINetioReceiver_receiveFast:rR0020617bc01 received 64 bytes
+[1462983924.403995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983924.403995] MIGInterpreter_parse:INFO_DST from 0XA4602D5,0X4F0
+[1462983924.403995] MIGInterpreter_parse:ACK from 0XA4602D5,0X4F0
+COMMENDSrWriterService_onSubmessage:[1462983924,1735144448] writer oid 0x4c2 receives ACKNACK from reader 0xa4602d5.4f0.1.4c7 for lead [(0000000000,00000001)] bitcount(0), epoch(2), isPureNack(0)
+[1462983924.403995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983924.403995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 68 bytes
+[1462983924.403995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 68 bytes
+[1462983924.403995] RTINetioReceiver_receiveFast:rR0020617bc01 received 68 bytes
+[1462983924.403995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983924.403995] MIGInterpreter_parse:INFO_DST from 0XA4602D5,0X4F0
+[1462983924.403995] MIGInterpreter_parse:ACK from 0XA4602D5,0X4F0
+COMMENDSrWriterService_onSubmessage:[1462983924,1735144448] writer oid 0x3c2 receives ACKNACK from reader 0xa4602d5.4f0.1.3c7 for lead [(0000000000,00000001)] bitcount(1), epoch(2), isPureNack(0)
+COMMENDSrWriterService_sendSyncRepairData:[1462983924,1735144448] writer oid 0x3c2 resends DATA to reader (0xA4602D5,0x4F0,0x1,0x3C7), sn [(0000000000,00000001)]
+COMMENDSrWriterService_sendSyncRepairData:[1462983924,1735144448] writer oid 0x3c2 sends piggyback HB for sn (0000000000,00000001)-(0000000000,00000001, epoch(3))
+[1462983924.403995] NDDS_Transport_Shmem_send:rR0020617bc01 signalling 0XE620
+[1462983924.403995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983924.403995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 blocking on 0XE61E
+[1462983924.403995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 woke up
+[1462983924.403995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 blocking on 0XE61E
+[1462983924.404995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 woke up
+[1462983924.404995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 received 64 bytes
+[1462983924.404995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 received 64 bytes
+[1462983924.404995] RTINetioReceiver_receiveFast:rR0120617bc01 received 64 bytes
+[1462983924.404995] COMMENDActiveFacadeReceiver_loop:rR0120617bc01 parsing message
+[1462983924.404995] MIGInterpreter_parse:INFO_DST from 0XA4602D5,0X4F0
+[1462983924.404995] MIGInterpreter_parse:ACK from 0XA4602D5,0X4F0
+COMMENDSrWriterService_onSubmessage:[1462983924,1739439360] writer oid 0x80000003 receives ACKNACK from reader 0xa4602d5.4f0.1.80000004 for lead [(0000000000,00000000)] bitcount(0), epoch(0), isPureNack(0)
+[1462983924.404995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 woke up
+[1462983924.404995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 64 bytes
+[1462983924.404995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 64 bytes
+[1462983924.404995] RTINetioReceiver_receiveFast:rR0020617bc01 received 64 bytes
+[1462983924.404995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+COMMENDSrWriterService_onSubmessage:[1462983924,1739439360] writer oid 0x80000003 sends preemptive GAP to volatile reader (0xa4602d5,0x4f0,0x1,0x80000004)
+[1462983924.404995] MIGInterpreter_parse:INFO_DST from 0XA4602D5,0X4F0
+[1462983924.404995] MIGInterpreter_parse:ACK from 0XA4602D5,0X4F0
+COMMENDSrWriterService_onSubmessage:[1462983924,1739439360] writer oid 0x80000003 sends response HB for sn (0000000000,00000030)-(0000000000,00000030) epoch(2)
+COMMENDSrWriterService_onSubmessage:[1462983924,1739439360] writer oid 0x3c2 receives ACKNACK from reader 0xa4602d5.4f0.1.3c7 for lead [(0000000000,00000002)] bitcount(0), epoch(3), isPureNack(0)
+[1462983924.404995] NDDS_Transport_Shmem_send:rR0120617bc01 signalling 0XE621
+[1462983924.404995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983924.404995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 blocking on 0XE61E
+[1462983924.404995] COMMENDActiveFacadeReceiver_loop:rR0120617bc01 disowning receive resource
+[1462983924.404995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983924.404995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983924.404995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 blocking on 0XE61F
+[1462983924.404995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983924.404995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,FE354100}
+#Custom: Writing async, count 30
+[1462983924.414995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983924.414995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000031)
+[1462983924.414995] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2C50 scheduled at priority 1462983924
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983924.414995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983924.414995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,FBA5E700}
+#Custom: Writing async, count 31
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000032)
+[1462983924.514993] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2CA8 scheduled at priority 1462983924
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 32
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000033)
+[1462983924.614992] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2D00 scheduled at priority 1462983924
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 33
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000034)
+[1462983924.715991] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2D58 scheduled at priority 1462983924
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 34
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000035)
+[1462983924.816989] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2DB0 scheduled at priority 1462983924
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 35
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000036)
+[1462983924.916988] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2E08 scheduled at priority 1462983924
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 36
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000037)
+[1462983925.018000] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2E60 scheduled at priority 1462983925
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 37
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000038)
+[1462983925.117998] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2EB8 scheduled at priority 1462983925
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 38
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000039)
+[1462983925.218997] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2F10 scheduled at priority 1462983925
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 39
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000040)
+[1462983925.318996] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2F68 scheduled at priority 1462983925
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983925.336996] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 woke up
+[1462983925.336996] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 744 bytes
+[1462983925.336996] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 744 bytes
+[1462983925.336996] RTINetioReceiver_receiveFast:rR0020617bc01 received 744 bytes
+[1462983925.336996] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983925.336996] MIGInterpreter_parse:INFO_TS from 0XA4602D5,0X4F0
+[1462983925.336996] MIGInterpreter_parse:DATA from 0XA4602D5,0X4F0
+COMMENDBeReaderService_onSubmessage: reader oid 0x100c7 received DATA of sn(0000000000,00000001), vSn(0000000000,00000001) from writer 0xa4602d5.4f0.1.100c2
+[1462983925.337996] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983925.337996] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 blocking on 0XE61E
+[1462983925.398995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983925.398995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983925.398995] RTIEventJobDispatcher_updateAgentPriorities:agent:00EB8C88 priority set to 1462983924
+[1462983925.398995] RTIEventJobDispatcher_distributeTokens: 1 agents at priority 1462983924
+[1462983925.398995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983925.398995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,00C49B00}
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000031)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000032)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000033)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000034)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000035)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000036)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends piggyback HB (0000000000,00000031)-(0000000000,00000036)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000037)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000038)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000039)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000040)
+[1462983925.398995] NDDS_Transport_Shmem_send:rDsp signalling 0XE621
+[1462983925.400995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 woke up
+[1462983925.400995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 received 64 bytes
+[1462983925.400995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 received 64 bytes
+[1462983925.400995] RTINetioReceiver_receiveFast:rR0120617bc01 received 64 bytes
+[1462983925.400995] COMMENDActiveFacadeReceiver_loop:rR0120617bc01 parsing message
+[1462983925.400995] MIGInterpreter_parse:INFO_DST from 0XA4602D5,0X4F0
+[1462983925.400995] MIGInterpreter_parse:ACK from 0XA4602D5,0X4F0
+COMMENDSrWriterService_onSubmessage:[1462983925,1722259712] writer oid 0x80000003 receives ACKNACK from reader 0xa4602d5.4f0.1.80000004 for lead [(0000000000,00000038)] bitcount(0), epoch(2), isPureNack(0)
+[1462983925.400995] COMMENDActiveFacadeReceiver_loop:rR0120617bc01 disowning receive resource
+[1462983925.400995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 blocking on 0XE61F
+[1462983925.401995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983925.401995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983925.401995] PRESPsService_onWriterResendEvent:writer resend event: (a4602d5,17bc,1)
+[1462983925.401995] NDDS_Transport_Shmem_send:rEvt20617bc01 signalling 0XE61E
+[1462983925.401995] NDDS_Transport_Shmem_send:rEvt20617bc01 signalling 0XE620
+[1462983925.401995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 woke up
+[1462983925.401995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 740 bytes
+[1462983925.401995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 740 bytes
+send failed: 
+   [1462983925.401995] RTINetioReceiver_receiveFast:rR0020617bc01 received 740 bytes
+locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58914
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58916
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58918
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+[1462983925.402995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983925.402995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983925.402995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,FF3B6500}
+[1462983925.402995] MIGInterpreter_parse:INFO_TS from 0XA4602D5,0X17BC
+[1462983925.402995] MIGInterpreter_parse:DATA from 0XA4602D5,0X17BC
+[1462983925.402995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983925.402995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 blocking on 0XE61E
+#Custom: Writing async, count 40
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000041)
+[1462983925.419995] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2F68 scheduled at priority 1462983925
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 41
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000042)
+[1462983925.519993] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2F10 scheduled at priority 1462983925
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 42
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000043)
+[1462983925.619992] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2EB8 scheduled at priority 1462983925
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 43
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000044)
+[1462983925.719991] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2E60 scheduled at priority 1462983925
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 44
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000045)
+[1462983925.820989] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2E08 scheduled at priority 1462983925
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 45
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000046)
+[1462983925.920988] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2DB0 scheduled at priority 1462983925
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 46
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000047)
+[1462983926.022000] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2D58 scheduled at priority 1462983926
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 47
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000048)
+[1462983926.121998] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2D00 scheduled at priority 1462983926
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 48
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000049)
+[1462983926.221997] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2CA8 scheduled at priority 1462983926
+RTIOsapiThread_sleep: Sleep(100 ms)
+#Custom: Writing async, count 49
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000050)
+[1462983926.322996] RTIEventJobDispatcher_scheduleJob:agent:00EB8C88 job:00EB2C50 scheduled at priority 1462983926
+RTIOsapiThread_sleep: Sleep(100 ms)
+[1462983926.336996] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 woke up
+[1462983926.336996] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 744 bytes
+[1462983926.336996] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 744 bytes
+[1462983926.336996] RTINetioReceiver_receiveFast:rR0020617bc01 received 744 bytes
+[1462983926.336996] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983926.336996] MIGInterpreter_parse:INFO_TS from 0XA4602D5,0X4F0
+[1462983926.336996] MIGInterpreter_parse:DATA from 0XA4602D5,0X4F0
+COMMENDBeReaderService_onSubmessage: reader oid 0x100c7 received DATA of sn(0000000000,00000001), vSn(0000000000,00000001) from writer 0xa4602d5.4f0.1.100c2
+[1462983926.336996] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983926.336996] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 blocking on 0XE61E
+[1462983926.399995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983926.399995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983926.399995] RTIEventJobDispatcher_updateAgentPriorities:agent:00EB8C88 priority set to 1462983925
+[1462983926.399995] RTIEventJobDispatcher_distributeTokens: 1 agents at priority 1462983925
+[1462983926.399995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983926.399995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,00831200}
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000041)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000042)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends piggyback HB (0000000000,00000039)-(0000000000,00000042)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000043)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000044)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000045)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000046)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000047)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000048)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends piggyback HB (0000000000,00000039)-(0000000000,00000048)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000049)
+COMMENDSrWriterService_agentFunction: writer oid 0x80000003 sends sn (0000000000,00000050)
+[1462983926.399995] NDDS_Transport_Shmem_send:rDsp signalling 0XE621
+[1462983926.399995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 woke up
+[1462983926.399995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 received 64 bytes
+[1462983926.399995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 received 64 bytes
+[1462983926.399995] RTINetioReceiver_receiveFast:rR0120617bc01 received 64 bytes
+[1462983926.399995] COMMENDActiveFacadeReceiver_loop:rR0120617bc01 parsing message
+[1462983926.399995] MIGInterpreter_parse:INFO_DST from 0XA4602D5,0X4F0
+[1462983926.399995] MIGInterpreter_parse:ACK from 0XA4602D5,0X4F0
+COMMENDSrWriterService_onSubmessage:[1462983926,1717964800] writer oid 0x80000003 receives ACKNACK from reader 0xa4602d5.4f0.1.80000004 for lead [(0000000000,00000044)] bitcount(0), epoch(3), isPureNack(0)
+[1462983926.399995] COMMENDActiveFacadeReceiver_loop:rR0120617bc01 disowning receive resource
+[1462983926.399995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 blocking on 0XE61F
+[1462983926.400995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 woke up
+[1462983926.400995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 received 64 bytes
+[1462983926.400995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 received 64 bytes
+[1462983926.400995] RTINetioReceiver_receiveFast:rR0120617bc01 received 64 bytes
+[1462983926.400995] COMMENDActiveFacadeReceiver_loop:rR0120617bc01 parsing message
+[1462983926.400995] MIGInterpreter_parse:INFO_DST from 0XA4602D5,0X4F0
+[1462983926.400995] MIGInterpreter_parse:ACK from 0XA4602D5,0X4F0
+COMMENDSrWriterService_onSubmessage:[1462983926,1722259712] writer oid 0x80000003 receives ACKNACK from reader 0xa4602d5.4f0.1.80000004 for lead [(0000000000,00000050)] bitcount(0), epoch(4), isPureNack(0)
+[1462983926.400995] COMMENDActiveFacadeReceiver_loop:rR0120617bc01 disowning receive resource
+[1462983926.400995] NDDS_Transport_Shmem_receive_rEA:rR0120617bc01 blocking on 0XE61F
+[1462983926.401995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 gathering events
+[1462983926.401995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 firing events
+[1462983926.401995] PRESPsService_onWriterResendEvent:writer resend event: (a4602d5,17bc,1)
+[1462983926.401995] NDDS_Transport_Shmem_send:rEvt20617bc01 signalling 0XE61E
+[1462983926.401995] NDDS_Transport_Shmem_send:rEvt20617bc01 signalling 0XE620
+[1462983926.401995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 woke up
+send failed: 
+   locator: 
+ [1462983926.401995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 740 bytes
+     [1462983926.401995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 received 740 bytes
+transport: 16777216
+      [1462983926.401995] RTINetioReceiver_receiveFast:rR0020617bc01 received 740 bytes
+address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58914
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58916
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+send failed: 
+   locator: 
+      transport: 16777216
+      address: 0000:0103:0205:0000:0000:0000:0000:0000
+      port: 58918
+      encapsulation:
+   transport_priority: 0
+   aliasList: ""
+[1462983926.401995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 rescheduling events
+[1462983926.401995] RTIEventActiveGeneratorThread_loop:rEvt20617bc01 sleeping {00000000,EF1AAE00}
+[1462983926.401995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 parsing message
+[1462983926.401995] MIGInterpreter_parse:INFO_TS from 0XA4602D5,0X17BC
+[1462983926.401995] MIGInterpreter_parse:DATA from 0XA4602D5,0X17BC
+[1462983926.401995] COMMENDActiveFacadeReceiver_loop:rR0020617bc01 disowning receive resource
+[1462983926.401995] NDDS_Transport_Shmem_receive_rEA:rR0020617bc01 blocking on 0XE61E
+#Custom: Writing async, count 50
+COMMENDSrWriterService_write: writer oid 0x80000003 schedules job for sn (0000000000,00000051)

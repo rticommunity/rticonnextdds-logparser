@@ -1,0 +1,40 @@
+#Custom: transport warnings and errors
+NDDS_Transport_UDPv4_newI: Reducing message_size_max from 65530 to 65507, for protocol_overhead_max 28
+[D0201|ENABLE]NDDS_Transport_UDPv4_SocketFactory_create_receive_socket:The specified recv_socket_buffer_size, 1048576, was not set. The actual receive socket buffer size is 425984
+PRESPsService_isRemoteWriterLocalReaderCompatible:incompatible durability: writer 0 reader 1
+
+#Custom: Clock jump
+[1463068052.516251] RTIEventJobDispatcher_scheduleJob:agent:0x1eaad58 job:0x1ea0590 scheduled at priority 1463068052
+[1463064450.333420] RTIEventJobDispatcher_scheduleJob:agent:0x1eaab30 job:0x1ea0620 reprioritize priority 1463064450
+...
+[1463064462.262664] RTIEventJobDispatcher_scheduleJob:agent:0x1eaad58 job:0x1ea4910 scheduled at priority 1463064462
+[1463068060.531821] RTIEventJobDispatcher_scheduleJob:agent:0x1eaab30 job:0x1ea49a0 scheduled at priority 1463068060
+
+#Custom: Missing samples
+COMMENDSrReaderService_onSubmessage:[1484571004,3507893055] reader oid 0x80000004 received DATA of sn(0000000000,00001346), vSn(0000000000,00001346) from writer 0xffffffff.49e6.1.80000003
+COMMENDSrReaderService_onSubmessage:     accepted sn(0000000000,00001346), dataRcvd.lead(0,1346), nextRelSn(0,1347), reservedCount(1)
+COMMENDSrReaderService_onSubmessage:[1484571004,3577888137] reader oid 0x80000004 received DATA of sn(0000000000,00001348), vSn(0000000000,00001348) from writer 0xffffffff.49e6.1.80000003
+COMMENDSrReaderService_onSubmessage:     accepted sn(0000000000,00001348), dataRcvd.lead(0,1347), nextRelSn(0,1347), reservedCount(2)
+MIGInterpreter_parse:HEARTBEAT from 0xffffffff,0X49E6
+COMMENDSrReaderService_onSubmessage:[1484571004,3578261799] reader oid 0x80000004 received HB for sn (0000000000,00001345)-(0000000000,00001348), epoch(347) from writer 0xffffffff.49e6.1.80000003
+COMMENDSrReaderService_sendAckNacks:[1484571004,3578261799] reader oid 0x80000004 sent NACK of bitmap lead(0000000000,00001347), bitcount(2), epoch(353) to writer 0xffffffff.49e6.1.80000003
+COMMENDSrReaderService_onSubmessage:[1484571004,3578751425] reader oid 0x80000004 received DATA of sn(0000000000,00001347), vSn(0000000000,00001347) from writer 0xffffffff.49e6.1.80000003
+COMMENDSrReaderService_onSubmessage:     accepted sn(0000000000,00001347), dataRcvd.lead(0,1347), nextRelSn(0,1349), reservedCount(-1)
+MIGInterpreter_parse:HEARTBEAT from 0xffffffff,0X49E6
+COMMENDSrReaderService_onSubmessage:[1484571004,3579107907] reader oid 0x80000004 received HB for sn (0000000000,00001347)-(0000000000,00001348), epoch(348) from writer 0xffffffff.49e6.1.80000003
+COMMENDSrReaderService_onSubmessage:[1484571004,3579107907] reader oid 0x80000004 sent ACK of bitmap lead(0000000000,00001349), bitcount(0), epoch(354) to writer 0xffffffff.49e6.1.80000003
+
+#Custom: API warning and errors
+PRESParticipant_createTopic:name 'MyTopic' is not unique
+PRESWriterHistoryDriver_initializeSample:!serialize
+WriterHistoryMemoryPlugin_dropFullyAckedUnregisteredInstance:unregistered instances not fully acked
+PRESCstReaderCollator_addEntryToInstance:exceeded max entriesPerInstance
+DISCEndpointDiscoveryPlugin_unregisterRemoteReader:remote endpoint not previously asserted by plugin: 0X99999999,0X999,0X1,0X80000004
+COMMENDBeReaderService_onSubmessage:!get ber remoteWriter
+RTINetioSender_addDestination:no transport for destination request shmem://0001:0001:0001:0000:0000:0000:0000:0000:00001
+WriterHistoryMemoryPlugin_addEntryToInstance:exceeded max entries
+PRESPsWriter_writeInternal:max blocking time expired
+DDS_DataReader_get_key_value_untypedI:get key for unkeyed type
+PRESPsWriter_writeInternal:pres psWriter already destroyed
+DISCSimpleEndpointDiscoveryPlugin_publicationOnSampleLost: 3c7; total 2, delta 2
+WriterHistoryMemoryPlugin_addSample:instance not found
