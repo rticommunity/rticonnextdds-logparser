@@ -182,3 +182,23 @@ The second part covers how to leverage RTI LogParser to validate the usage of th
 2. Most of the errors have an ID code associated, for instance: **LP-21**. This means that there is more information about this specific message like _why it happened?_ and _how to fix it?_ in the file [_MessageCodes.md_](https://github.com/rticommunity/rticonnextdds-logparser/blob/master/MessageCodes.md) at the top-level of this repository. In the case of **LP-21** the detailed info is:
 
     >The transport X reduced the value for the property message_size_max from Y to Z. The reason is that the property is greater than the maximum payload possible for the transport. For instance, consider the UDPv4 protocol, the maximum payload is 65535 - 8 (UDP header) - 20 (min IP header) = 65507. The middleware gets the protocols overheads from the property protocol_overhead_max.
+
+
+### Part 3 - Reviewing RTI Connext DDS Micro logs
+RTI Connext DDS Micro can be configured to print any Info, Warning or Error message. These messages, although useful, can be tricky to interpretate since the information is given by numbers that needs to be search in the User Manual. You can read how to interpretate Micro logs in the following [link](https://community.rti.com/static/documentation/connext-micro/2.4.10/doc/html/group__LoggingModule.html).
+Luckily, RTI LogParser is able to show directly the information from the documentation. For instance, given the following log:
+
+```
+[943921909.645099999]ERROR: ModuleID=7 Errcode=200 X=1 E=0 T=1
+dds_c/DomainFactory.c:163/DDS_DomainParticipantFactory_get_instance: kind=19
+```
+
+RTI LogParser will show:
+```
+Error: [DDSC_LOG_OBJECT_INITIALIZE_EC] Out of resources to initialize object of the specified kind.
+```
+which is the same information from the User Manual going to the Module 7 and searching for the error code 200 ([link](https://community.rti.com/static/documentation/connext-micro/2.4.10/doc/html/group__DDSCLogCodesClass.html#gab5de32d63df00454a623e3721f021855)).
+
+Support for *trace* logs is on the road-map (see #41 for more information).
+
+
