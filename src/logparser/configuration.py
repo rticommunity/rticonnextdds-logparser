@@ -19,7 +19,7 @@ The module contains the class containing the configuration for pasing logs.
 """
 
 
-class ApplicationInformation(object):
+class Configuration(object):
     """Class containing the configuration for pasing logs."""
 
     def __init__(self):

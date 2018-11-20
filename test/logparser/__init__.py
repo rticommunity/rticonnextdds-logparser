@@ -15,9 +15,5 @@
 #   limitations under the License.
 """LogParser package."""
 
-__version__ = "2.0a"
-__license__ = "Apache"
-__copyright__ = "Copyright 2016 Real-Time Innovations, Inc."
 # pylint: disable=E0603
-__all__ = ("devices", "configuration", "countset", "logger", "logparser",
-           "logs", "utils")
+__all__ = ("test_configuration")

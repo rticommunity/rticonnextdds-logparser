@@ -13,11 +13,22 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-"""LogParser package."""
+"""Tests for the configuration class."""
+from __future__ import absolute_import
 
-__version__ = "2.0a"
-__license__ = "Apache"
-__copyright__ = "Copyright 2016 Real-Time Innovations, Inc."
-# pylint: disable=E0603
-__all__ = ("devices", "configuration", "countset", "logger", "logparser",
-           "logs", "utils")
+import os
+import sys
+from unittest import TestCase
+
+filepath = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(filepath + "/../../src/logparser")
+from configuration import Configuration
+
+
+class ConfigurationTest(TestCase):
+    """Test class for configuration."""
+
+    def testDefaultValues(self):
+        """Test default values."""
+        config = Configuration()
+        self.assertTrue(config.verbosity == 0)
