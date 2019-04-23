@@ -1,6 +1,6 @@
 # RTI Log Parser for Connext DDS [<img alt="License Apache" src="https://img.shields.io/badge/license-Apache-blue.svg?style=flat" align="right" />](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-**RTI Log Parser** is a command-line tool that processes and enhances RTI Connext DDS log messages making it easier to debug applications.
+**RTI® Log Parser** is a command-line tool that processes and enhances RTI Connext® DDS log messages, making it easier to debug applications.
 You can find a quick-start guide in the [tutorial](tutorial/README.md) folder.
 
 ## Features
@@ -12,7 +12,7 @@ You can find a quick-start guide in the [tutorial](tutorial/README.md) folder.
 
 
 ## Requirements
-You will need **[Python](https://www.python.org/) 2.7 or 3.x**. It works in any OS that supports Python including Linux, Mac OS and Windows.
+You will need **[Python](https://www.python.org/) 2.7 or 3.x**. Log Parser works in any OS that supports Python including Linux, Mac OS and Windows.
 
 
 ## Usage
@@ -20,7 +20,7 @@ You will need **[Python](https://www.python.org/) 2.7 or 3.x**. It works in any 
 python rtilogparser -i <log_file>
 ```
 
-The output is generated in Markdown format which is easy to read in raw format, but it also allows to convert into HTML using viewers like [Atom](https://atom.io/) or [dillinger](http://dillinger.io/).
+The output is generated in Markdown format, which is easy to read in raw format while also allowing you to convert the output into HTML using viewers like [Atom](https://atom.io/) or [dillinger](http://dillinger.io/).
 
 Additional features can be enabled or disabled with the following arguments:
 * `--input FILE, -i FILE`: log file path, by default read from the standard input.
@@ -40,15 +40,15 @@ Additional features can be enabled or disabled with the following arguments:
 * `--no-network`: do not show the network related logs.
 * `--no-inline`: do not show warnings and errors in network logs.
 * `--no-stats`: do not show the network and packet statistics.
-* `--no-progress`: do not show the interative info at the bottom.
+* `--no-progress`: do not show the interative information at the bottom.
 * `--debug`: export the unmatched log messages.
 * `--version`: show the program version.
 * `--help, -h`: show the arguments help.
 
 ### Enable Connext DDS logs
-By default, any application built with RTI Connext DDS will print the errors from the middleware to the standard output. In order to take advantage of this tool, we recommend to enable the higher log verbosity and redirect the output into a file. There are several ways to increase the log verbosity:
+By default, any application built with Connext DDS will print the errors from the middleware to the standard output. In order to take advantage of Log Parser, we recommend enabling the higher log verbosity and redirecting the output into a file. There are several ways to increase the log verbosity:
 
-* QoS XML (like *USER_QOS_PROFILES.xml*):
+* QoS XML (such as *USER_QOS_PROFILES.xml*):
 ```xml
 <participant_factory_qos>
     <logging>
@@ -111,17 +111,17 @@ set NDDS_QOS_PROFILES=str://"<dds><qos_library name="myLoggingLib"><qos_profile 
 
 
 ## Compilation
-It is not necessary to compile the tool since it uses Python. Optionally, the source code can be zipped into a single file with `create_redist.sh` to simplify the distribution. The zip file can be executed as .py file, e.g.: `python rtilogparser -i log.txt`
+It is not necessary to compile Log Parser since it uses Python. Optionally, the source code can be zipped into a single file with `create_redist.sh` to simplify the distribution. The zip file can be executed as a .py file. For example: `python rtilogparser -i log.txt`.
 
 
 ## Adding new logs
-The tool can be extended to parse custom log messages from an application. This can be done by adding a prefix to the log message or adding a new regular expression to the tool.
+Log Parser can be extended to parse custom log messages from an application. This can be done by adding a prefix to the log message or adding a new regular expression to Log Parser.
 
 ### Log prefixes
-Any log message starting with `#Custom: ` is parsed and it will appear in the output with the prefix `[APP]`.
+Any log message starting with `#Custom: ` is parsed and will appear in the output with the prefix `[APP]`.
 
 ### Adding a parser
-The tool can be extended to implement custom parsers by following these steps:
+Log Parser can be extended to implement custom parsers, by following these steps:
 
 1. Add the regular expression for the log message. Open *logparser/logs/custom/logs.py* and append a new *tuple* with the following format to the `regex` variable:
 ```
